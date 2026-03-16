@@ -18,25 +18,59 @@ Web dashboard for the ecosystem. Browse and search agent memories, explore knowl
 
 ## How They Connect
 
+```mermaid
+graph TD
+    Cap["<b>Cap</b><br/>Web Dashboard<br/><i>React + Hono</i>"]
+    Hyphae["<b>Hyphae</b><br/>Agent Memory<br/><i>SQLite + FTS5 + sqlite-vec</i>"]
+    Mycelium["<b>Mycelium</b><br/>Token Savings<br/><i>SQLite</i>"]
+    Rhizome["<b>Rhizome</b><br/>Code Intelligence<br/><i>Tree-sitter + LSP</i>"]
+    Agent["AI Coding Agent"]
+
+    Agent -- "commands" --> Mycelium
+    Mycelium -- "filtered output<br/>60-90% fewer tokens" --> Agent
+    Agent -- "MCP tools" --> Hyphae
+    Hyphae -- "memories &<br/>knowledge graphs" --> Agent
+    Agent -- "MCP tools" --> Rhizome
+    Rhizome -- "symbols, refs,<br/>definitions" --> Agent
+    Cap -- "reads" --> Hyphae
+    Cap -- "reads" --> Mycelium
+    Rhizome -. "future:<br/>code symbols → memoirs" .-> Hyphae
+
+    style Cap fill:#4c9aff,stroke:#2571cc,color:#fff
+    style Hyphae fill:#36b37e,stroke:#1f8a5a,color:#fff
+    style Mycelium fill:#ff7452,stroke:#de350b,color:#fff
+    style Rhizome fill:#6554c0,stroke:#403294,color:#fff
+    style Agent fill:#505f79,stroke:#344563,color:#fff
 ```
-                  ┌──────────────┐
-                  │     Cap      │  Web dashboard
-                  │  (React UI)  │
-                  └──────┬───────┘
-                         │ reads
-              ┌──────────┴──────────┐
-              ▼                     ▼
-     ┌────────────────┐   ┌────────────────┐
-     │    Hyphae      │   │   Mycelium     │
-     │ Agent Memory   │   │ Token Savings  │
-     │   (SQLite)     │   │   (SQLite)     │
-     └────────────────┘   └────────────────┘
-              ▲
-              │ future
-     ┌────────────────┐
-     │    Rhizome     │
-     │ Code Symbols   │
-     └────────────────┘
+
+## Agent Data Flow
+
+```mermaid
+sequenceDiagram
+    participant Agent as AI Coding Agent
+    participant M as Mycelium
+    participant H as Hyphae
+    participant R as Rhizome
+
+    Note over Agent,R: Typical agent session
+
+    Agent->>M: git log -20
+    M-->>Agent: 5 lines (was 200, 90% saved)
+
+    Agent->>H: recall "auth middleware"
+    H-->>Agent: 3 relevant memories
+
+    Agent->>R: get_symbols src/auth.rs
+    R-->>Agent: structs, fns, impls (no file reading needed)
+
+    Agent->>R: find_references AuthMiddleware
+    R-->>Agent: 4 locations across project
+
+    Agent->>H: store memory about refactor
+    H-->>Agent: stored with importance: high
+
+    Agent->>M: cargo test
+    M-->>Agent: 2 failures (was 500 lines, 99% saved)
 ```
 
 ## Built With
