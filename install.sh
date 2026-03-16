@@ -1,12 +1,18 @@
 #!/bin/sh
+# ─────────────────────────────────────────────────────────────────────────────
 # Basidiocarp Ecosystem Installer
+# ─────────────────────────────────────────────────────────────────────────────
 # POSIX sh compatible — no bashisms.
-# Usage: curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh
-#   or:  sh install.sh --tools mycelium,hyphae --prefix /usr/local/bin
+#
+# Usage:
+#   curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh
+#   sh install.sh --tools mycelium,hyphae --prefix /usr/local/bin
 
 set -e
 
-# --- Defaults ----------------------------------------------------------------
+# ─────────────────────────────────────────────────────────────────────────────
+# Defaults
+# ─────────────────────────────────────────────────────────────────────────────
 
 ALL_TOOLS="mycelium hyphae rhizome"
 TOOLS="$ALL_TOOLS"
@@ -16,7 +22,9 @@ VERSION=""
 UNINSTALL=0
 GH_ORG="basidiocarp"
 
-# --- Colors (disabled when not a terminal) ------------------------------------
+# ─────────────────────────────────────────────────────────────────────────────
+# Colors (disabled when not a terminal)
+# ─────────────────────────────────────────────────────────────────────────────
 
 if [ -t 1 ]; then
   GREEN='\033[32m' RED='\033[31m' YELLOW='\033[33m' BOLD='\033[1m' RESET='\033[0m'
@@ -29,7 +37,9 @@ ok()    { printf "${GREEN}✓${RESET} %s\n" "$*"; }
 warn()  { printf "${YELLOW}⚠${RESET} %s\n" "$*" >&2; }
 err()   { printf "${RED}✗${RESET} %s\n" "$*" >&2; }
 
-# --- Usage --------------------------------------------------------------------
+# ─────────────────────────────────────────────────────────────────────────────
+# Usage
+# ─────────────────────────────────────────────────────────────────────────────
 
 usage() {
   cat <<EOF
@@ -47,15 +57,18 @@ Options:
   --uninstall       Remove installed binaries and configuration
 
 Examples:
-  install.sh                              # install everything
-  install.sh --tools mycelium,hyphae      # install selected tools
-  install.sh --prefix /usr/local/bin      # custom directory
-  install.sh --uninstall                  # remove everything
+  curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh
+  install.sh --tools mycelium,hyphae
+  install.sh --prefix /usr/local/bin
+  install.sh --version 0.3.0
+  install.sh --uninstall
 EOF
   exit 0
 }
 
-# --- Argument parsing ---------------------------------------------------------
+# ─────────────────────────────────────────────────────────────────────────────
+# Argument parsing
+# ─────────────────────────────────────────────────────────────────────────────
 
 parse_args() {
   while [ $# -gt 0 ]; do
@@ -72,7 +85,9 @@ parse_args() {
   done
 }
 
-# --- Platform detection -------------------------------------------------------
+# ─────────────────────────────────────────────────────────────────────────────
+# Platform detection
+# ─────────────────────────────────────────────────────────────────────────────
 
 detect_target() {
   os=$(uname -s)
@@ -87,21 +102,22 @@ detect_target() {
       esac ;;
     Linux)
       case "$arch" in
-        x86_64) TARGET="x86_64-unknown-linux-gnu" ;;
-        *)      err "Unsupported Linux architecture: $arch"; exit 1 ;;
+        x86_64)  TARGET="x86_64-unknown-linux-musl" ;;
+        aarch64) TARGET="aarch64-unknown-linux-musl" ;;
+        *)       err "Unsupported Linux architecture: $arch"; exit 1 ;;
       esac ;;
     *)  err "Unsupported OS: $os"; exit 1 ;;
   esac
 }
 
-# --- HTTP fetcher detection ---------------------------------------------------
+# ─────────────────────────────────────────────────────────────────────────────
+# HTTP fetcher detection
+# ─────────────────────────────────────────────────────────────────────────────
 
 detect_fetcher() {
   if command -v curl >/dev/null 2>&1; then
-    FETCH="curl -fsSL"
     FETCH_OUT="curl -fsSL -o"
   elif command -v wget >/dev/null 2>&1; then
-    FETCH="wget -qO-"
     FETCH_OUT="wget -qO"
   else
     err "Neither curl nor wget found. Please install one and retry."
@@ -109,36 +125,52 @@ detect_fetcher() {
   fi
 }
 
-# --- Download & install a single tool ----------------------------------------
+# ─────────────────────────────────────────────────────────────────────────────
+# Download and install a single tool
+# ─────────────────────────────────────────────────────────────────────────────
+# Release assets are named: {tool}-{target}.tar.gz (no version in filename)
+# URLs:
+#   latest:  https://github.com/{org}/{tool}/releases/latest/download/{tool}-{target}.tar.gz
+#   pinned:  https://github.com/{org}/{tool}/releases/download/v{ver}/{tool}-{target}.tar.gz
 
 install_tool() {
   tool="$1"
+  asset="${tool}-${TARGET}.tar.gz"
 
   if [ -n "$VERSION" ]; then
-    url="https://github.com/${GH_ORG}/${tool}/releases/download/v${VERSION}/${tool}-${TARGET}.tar.gz"
+    url="https://github.com/${GH_ORG}/${tool}/releases/download/v${VERSION}/${asset}"
   else
-    url="https://github.com/${GH_ORG}/${tool}/releases/latest/download/${tool}-${TARGET}.tar.gz"
+    url="https://github.com/${GH_ORG}/${tool}/releases/latest/download/${asset}"
   fi
 
   tmpdir=$(mktemp -d)
-  trap "rm -rf '$tmpdir'" EXIT
 
-  info "Downloading ${tool}..."
-  if ! $FETCH_OUT "${tmpdir}/${tool}.tar.gz" "$url" 2>/dev/null; then
+  info "Downloading ${tool} (${TARGET})..."
+  if ! $FETCH_OUT "${tmpdir}/${asset}" "$url" 2>/dev/null; then
     err "Failed to download ${tool} from ${url}"
+    rm -rf "$tmpdir"
     return 1
   fi
 
-  tar -xzf "${tmpdir}/${tool}.tar.gz" -C "$tmpdir"
+  tar -xzf "${tmpdir}/${asset}" -C "$tmpdir"
+
+  if [ ! -f "${tmpdir}/${tool}" ]; then
+    err "Binary '${tool}' not found in archive"
+    rm -rf "$tmpdir"
+    return 1
+  fi
+
   chmod +x "${tmpdir}/${tool}"
   mv "${tmpdir}/${tool}" "${PREFIX}/${tool}"
-
   rm -rf "$tmpdir"
-  trap - EXIT
+
+  ok "${tool} installed to ${PREFIX}/${tool}"
   return 0
 }
 
-# --- Uninstall ----------------------------------------------------------------
+# ─────────────────────────────────────────────────────────────────────────────
+# Uninstall
+# ─────────────────────────────────────────────────────────────────────────────
 
 do_uninstall() {
   info "Uninstalling basidiocarp tools from ${PREFIX}..."
@@ -153,7 +185,8 @@ do_uninstall() {
 
   if [ $CONFIGURE -eq 1 ] && command -v claude >/dev/null 2>&1; then
     for tool in hyphae rhizome; do
-      claude mcp remove --scope user "$tool" 2>/dev/null && ok "Claude Code MCP server '${tool}' removed" || true
+      claude mcp remove --scope user "$tool" 2>/dev/null \
+        && ok "Claude Code MCP server '${tool}' removed" || true
     done
   fi
 
@@ -161,7 +194,9 @@ do_uninstall() {
   exit 0
 }
 
-# --- Configure Claude Code ----------------------------------------------------
+# ─────────────────────────────────────────────────────────────────────────────
+# Configure Claude Code
+# ─────────────────────────────────────────────────────────────────────────────
 
 configure_claude() {
   if ! command -v claude >/dev/null 2>&1; then
@@ -182,41 +217,48 @@ configure_claude() {
           && ok "MCP server 'rhizome' registered" \
           || warn "Failed to register MCP server 'rhizome'" ;;
       mycelium)
-        mycelium init --global 2>/dev/null \
-          && ok "Mycelium hooks configured" \
-          || warn "Failed to configure mycelium hooks" ;;
+        if [ -x "${PREFIX}/mycelium" ]; then
+          "${PREFIX}/mycelium" init --global 2>/dev/null \
+            && ok "Mycelium hooks configured" \
+            || warn "Failed to configure mycelium hooks"
+        fi ;;
     esac
   done
 }
 
-# --- Verify installations -----------------------------------------------------
+# ─────────────────────────────────────────────────────────────────────────────
+# Verify installations
+# ─────────────────────────────────────────────────────────────────────────────
 
 verify() {
-  info "Verifying installations..."
   for tool in $TOOLS; do
-    if ver=$("${PREFIX}/${tool}" --version 2>/dev/null); then
+    if [ -x "${PREFIX}/${tool}" ]; then
+      ver=$("${PREFIX}/${tool}" --version 2>&1 || echo "installed")
       ok "${ver}"
-    else
-      err "${tool} --version failed"
     fi
   done
 }
 
-# --- PATH check ---------------------------------------------------------------
+# ─────────────────────────────────────────────────────────────────────────────
+# PATH check
+# ─────────────────────────────────────────────────────────────────────────────
 
 check_path() {
   case ":${PATH}:" in
     *":${PREFIX}:"*) ;;
     *)
+      printf "\n"
       warn "${PREFIX} is not in your PATH."
       printf "  Add it with:\n"
       printf "    export PATH=\"%s:\$PATH\"\n" "$PREFIX"
-      printf "  Then add that line to your shell profile (~/.profile, ~/.zshrc, etc.)\n"
+      printf "  Then add that line to ~/.zshrc or ~/.bashrc\n"
       ;;
   esac
 }
 
-# --- Main ---------------------------------------------------------------------
+# ─────────────────────────────────────────────────────────────────────────────
+# Main
+# ─────────────────────────────────────────────────────────────────────────────
 
 main() {
   parse_args "$@"
@@ -229,11 +271,8 @@ main() {
 
   detect_target
   detect_fetcher
-
-  # Ensure prefix directory exists
   mkdir -p "$PREFIX"
 
-  # Install each tool, track failures
   failed=""
   succeeded=""
   for tool in $TOOLS; do
@@ -244,39 +283,26 @@ main() {
     fi
   done
 
-  # Configure Claude Code integration
   if [ $CONFIGURE -eq 1 ] && [ -n "$succeeded" ]; then
     configure_claude
   fi
 
-  # Verify installed tools
-  if [ -n "$succeeded" ]; then
-    verify
-  fi
-
-  # Summary
   printf "\n"
-  for tool in $succeeded; do
-    ver=$("${PREFIX}/${tool}" --version 2>/dev/null || echo "${tool} installed")
-    ok "$ver"
-  done
+  info "Summary"
+  verify
+
   for tool in $failed; do
     err "${tool} failed to install"
   done
-  if [ $CONFIGURE -eq 1 ] && [ -n "$succeeded" ] && command -v claude >/dev/null 2>&1; then
-    ok "Claude Code configured"
-  fi
 
-  # Next steps
   printf "\n${BOLD}Next steps:${RESET}\n"
   printf "  1. Restart Claude Code to pick up MCP servers\n"
   case "$succeeded" in *mycelium*)  printf "  2. Run: mycelium gain\n" ;; esac
-  case "$succeeded" in *hyphae*)   printf "  3. Run: hyphae store \"test memory\"\n" ;; esac
+  case "$succeeded" in *hyphae*)   printf "  3. Run: hyphae --help\n" ;; esac
   printf "\n"
 
   check_path
 
-  # Exit non-zero if anything failed
   [ -z "$failed" ] || exit 1
 }
 
