@@ -2,6 +2,33 @@
 
 Infrastructure for AI coding agents. Named after the fungal fruiting body — the visible structure that emerges from an underground mycelial network.
 
+## Install
+
+```bash
+# Install everything (mycelium, hyphae, rhizome)
+curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh
+
+# Install specific tools
+curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh -s -- --tools mycelium,hyphae
+
+# Custom install directory
+curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh -s -- --prefix /usr/local/bin
+
+# Pin a version
+curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh -s -- --version 0.3.0
+
+# Uninstall
+curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh -s -- --uninstall
+```
+
+The installer downloads pre-built binaries, configures Claude Code (MCP servers + hooks), and verifies the installation. Supports macOS (arm64/x86_64) and Linux (x86_64/aarch64).
+
+If you already have mycelium installed:
+
+```bash
+mycelium init --ecosystem
+```
+
 ## Projects
 
 ### [Mycelium](https://github.com/basidiocarp/mycelium)
@@ -11,10 +38,16 @@ Token-optimized CLI proxy. Intercepts command output and compresses it before it
 Persistent memory for AI agents. Two complementary models: **episodic memories** (temporal, decay-based, topic-organized) and **semantic memoirs** (permanent knowledge graphs with typed concept relations). MCP server with 18 tools + CLI with 29 commands. Rust, SQLite, FTS5, sqlite-vec.
 
 ### [Rhizome](https://github.com/basidiocarp/rhizome)
-Code intelligence MCP server. Gives agents symbol-level navigation — definitions, references, structure — instead of reading raw files. Dual backend: tree-sitter for instant offline parsing, LSP for cross-file intelligence when a language server is available. 9 languages, 12 tools. Rust.
+Code intelligence MCP server. Gives agents symbol-level navigation — definitions, references, structure — instead of reading raw files. Dual backend: tree-sitter for instant offline parsing, LSP for cross-file intelligence when a language server is available. 9 languages, 25 tools. Rust.
 
 ### [Cap](https://github.com/basidiocarp/cap)
-Web dashboard for the ecosystem. Browse and search agent memories, explore knowledge graphs, view token savings analytics. React, Mantine, Hono, Vite.
+Web dashboard for the ecosystem. Browse and search agent memories, explore knowledge graphs, view token savings analytics, inspect code intelligence. React, Mantine, Hono, Vite.
+
+### [Spore](https://github.com/basidiocarp/spore)
+Shared IPC library. Tool discovery, JSON-RPC 2.0 primitives, and subprocess MCP communication used by mycelium, hyphae, and rhizome. Rust.
+
+### [Lamella](https://github.com/basidiocarp/lamella)
+Plugin system for Claude Code. 230 curated skills, 175 agents, 213 commands across 20 plugins. Official Claude Code plugin format with marketplace support.
 
 ## How They Connect
 
@@ -24,6 +57,8 @@ graph TD
     Hyphae["<b>Hyphae</b><br/>Agent Memory<br/><i>SQLite + FTS5 + sqlite-vec</i>"]
     Mycelium["<b>Mycelium</b><br/>Token Savings<br/><i>SQLite</i>"]
     Rhizome["<b>Rhizome</b><br/>Code Intelligence<br/><i>Tree-sitter + LSP</i>"]
+    Spore["<b>Spore</b><br/>Shared IPC<br/><i>Discovery + JSON-RPC</i>"]
+    Lamella["<b>Lamella</b><br/>Skills & Agents<br/><i>230 skills, 20 plugins</i>"]
     Agent["AI Coding Agent"]
 
     Agent -- "commands" --> Mycelium
@@ -32,14 +67,19 @@ graph TD
     Hyphae -- "memories &<br/>knowledge graphs" --> Agent
     Agent -- "MCP tools" --> Rhizome
     Rhizome -- "symbols, refs,<br/>definitions" --> Agent
+    Lamella -. "skills &<br/>agents" .-> Agent
     Cap -- "reads" --> Hyphae
     Cap -- "reads" --> Mycelium
-    Rhizome -. "future:<br/>code symbols → memoirs" .-> Hyphae
+    Rhizome -- "code symbols → memoirs" --> Hyphae
+    Spore -. "discovery &<br/>IPC" .-> Mycelium
+    Spore -. "discovery &<br/>IPC" .-> Rhizome
 
     style Cap fill:#4c9aff,stroke:#2571cc,color:#fff
     style Hyphae fill:#36b37e,stroke:#1f8a5a,color:#fff
     style Mycelium fill:#ff7452,stroke:#de350b,color:#fff
     style Rhizome fill:#6554c0,stroke:#403294,color:#fff
+    style Spore fill:#ffab00,stroke:#ff8b00,color:#fff
+    style Lamella fill:#00b8d9,stroke:#0095b3,color:#fff
     style Agent fill:#505f79,stroke:#344563,color:#fff
 ```
 
@@ -75,4 +115,4 @@ sequenceDiagram
 
 ## Built With
 
-Rust (mycelium, hyphae, rhizome) and TypeScript (cap). All Rust projects target edition 2024, use clippy pedantic linting, and follow anyhow/thiserror error handling conventions.
+Rust (mycelium, hyphae, rhizome, spore) and TypeScript (cap). All Rust projects target edition 2024, use clippy pedantic linting, and follow anyhow/thiserror error handling conventions.
