@@ -32,19 +32,19 @@ mycelium init --ecosystem
 ## Projects
 
 ### [Mycelium](https://github.com/basidiocarp/mycelium)
-Token-optimized CLI proxy. Intercepts command output and compresses it before it reaches the LLM, cutting token usage by 60-90% on common dev operations (git, cargo, gh, docker, npm). Single Rust binary, integrates with Claude Code via hooks.
+Token-optimized CLI proxy. Intercepts command output and compresses it before it reaches the LLM, cutting token usage by 60-90% on common dev operations. Routes large outputs to Hyphae for chunked storage instead of destructive filtering. Single Rust binary, integrates with Claude Code via hooks.
 
 ### [Hyphae](https://github.com/basidiocarp/hyphae)
-Persistent memory for AI agents. Two complementary models: **episodic memories** (temporal, decay-based, topic-organized) and **semantic memoirs** (permanent knowledge graphs with typed concept relations). MCP server with 18 tools + CLI with 29 commands. Rust, SQLite, FTS5, sqlite-vec.
+Persistent memory for AI agents. Two complementary models: **episodic memories** (temporal, decay-based, topic-organized) and **semantic memoirs** (permanent knowledge graphs with typed concept relations). Code-aware recall expands search queries with Rhizome's symbol graph. MCP server with 20+ tools + CLI with 29 commands. Rust, SQLite, FTS5, sqlite-vec.
 
 ### [Rhizome](https://github.com/basidiocarp/rhizome)
-Code intelligence MCP server. Gives agents symbol-level navigation — definitions, references, structure — instead of reading raw files. Dual backend: tree-sitter for instant offline parsing, LSP for cross-file intelligence when a language server is available. 9 languages, 25 tools. Rust.
+Code intelligence MCP server. 26 tools across 32 programming languages. Dual backend: tree-sitter (instant offline parsing, zero setup) and LSP (cross-file references, rename, diagnostics — auto-installed). Backend auto-selected per tool call. Exports code symbol graphs to Hyphae as persistent knowledge. Rust.
 
 ### [Cap](https://github.com/basidiocarp/cap)
-Web dashboard for the ecosystem. Browse and search agent memories, explore knowledge graphs, view token savings analytics, inspect code intelligence. React, Mantine, Hono, Vite.
+Web dashboard for the ecosystem. Browse memories, explore knowledge graphs, view token savings analytics, navigate code with symbol outlines, annotations, and complexity metrics. 8 pages, 15+ API endpoints. React, Mantine, Hono, Vite.
 
 ### [Spore](https://github.com/basidiocarp/spore)
-Shared IPC library. Tool discovery, JSON-RPC 2.0 primitives, and subprocess MCP communication used by mycelium, hyphae, and rhizome. Rust.
+Shared IPC library. Tool discovery, JSON-RPC 2.0 primitives, and subprocess MCP communication used by mycelium and rhizome. Rust.
 
 ### [Lamella](https://github.com/basidiocarp/lamella)
 Plugin system for Claude Code. 230 curated skills, 175 agents, 213 commands across 20 plugins. Official Claude Code plugin format with marketplace support.
@@ -56,7 +56,7 @@ graph TD
     Cap["<b>Cap</b><br/>Web Dashboard<br/><i>React + Hono</i>"]
     Hyphae["<b>Hyphae</b><br/>Agent Memory<br/><i>SQLite + FTS5 + sqlite-vec</i>"]
     Mycelium["<b>Mycelium</b><br/>Token Savings<br/><i>SQLite</i>"]
-    Rhizome["<b>Rhizome</b><br/>Code Intelligence<br/><i>Tree-sitter + LSP</i>"]
+    Rhizome["<b>Rhizome</b><br/>Code Intelligence<br/><i>26 tools, 32 languages</i>"]
     Spore["<b>Spore</b><br/>Shared IPC<br/><i>Discovery + JSON-RPC</i>"]
     Lamella["<b>Lamella</b><br/>Skills & Agents<br/><i>230 skills, 20 plugins</i>"]
     Agent["AI Coding Agent"]
@@ -70,7 +70,9 @@ graph TD
     Lamella -. "skills &<br/>agents" .-> Agent
     Cap -- "reads" --> Hyphae
     Cap -- "reads" --> Mycelium
+    Cap -- "MCP" --> Rhizome
     Rhizome -- "code symbols → memoirs" --> Hyphae
+    Mycelium -- "large outputs → chunks" --> Hyphae
     Spore -. "discovery &<br/>IPC" .-> Mycelium
     Spore -. "discovery &<br/>IPC" .-> Rhizome
 
@@ -98,13 +100,16 @@ sequenceDiagram
     M-->>Agent: 5 lines (was 200, 90% saved)
 
     Agent->>H: recall "auth middleware"
-    H-->>Agent: 3 relevant memories
+    H-->>Agent: 3 memories (code-aware: expanded via Rhizome symbol graph)
 
     Agent->>R: get_symbols src/auth.rs
     R-->>Agent: structs, fns, impls (no file reading needed)
 
+    Agent->>R: get_complexity src/auth.rs
+    R-->>Agent: cyclomatic complexity per function
+
     Agent->>R: find_references AuthMiddleware
-    R-->>Agent: 4 locations across project
+    R-->>Agent: 4 locations across project (LSP auto-selected)
 
     Agent->>H: store memory about refactor
     H-->>Agent: stored with importance: high
