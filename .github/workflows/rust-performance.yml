@@ -1,0 +1,66 @@
+name: Rust Performance (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      binary:
+        description: 'Binary name to benchmark'
+        type: string
+        required: true
+      max-size-mb:
+        description: 'Maximum binary size in MB'
+        type: number
+        required: true
+      max-startup-ms:
+        description: 'Maximum startup time in ms'
+        type: number
+        default: 15
+      build-flags:
+        description: 'Additional cargo build flags'
+        type: string
+        default: ''
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-perf-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-perf-
+
+      - name: Build release
+        run: cargo build --release ${{ inputs.build-flags }}
+
+      - name: Check binary size
+        run: |
+          SIZE=$(stat -c%s "target/release/${{ inputs.binary }}" 2>/dev/null || stat -f%z "target/release/${{ inputs.binary }}")
+          SIZE_MB=$(echo "scale=2; $SIZE / 1048576" | bc)
+          echo "Binary size: ${SIZE_MB}MB (limit: ${{ inputs.max-size-mb }}MB)"
+          python3 -c "assert float('${SIZE_MB}') <= ${{ inputs.max-size-mb }}, f'Binary ${SIZE_MB}MB exceeds limit ${{ inputs.max-size-mb }}MB'"
+
+      - name: Install hyperfine
+        run: cargo install hyperfine --locked
+
+      - name: Benchmark startup
+        run: |
+          RESULT=$(hyperfine --warmup 5 --min-runs 20 \
+            '${{ github.workspace }}/target/release/${{ inputs.binary }} --version' \
+            --export-json /tmp/bench.json 2>&1)
+          echo "$RESULT"
+          MEAN_MS=$(python3 -c "
+          import json
+          with open('/tmp/bench.json') as f:
+              data = json.load(f)
+          mean_s = data['results'][0]['mean']
+          print(f'{mean_s * 1000:.1f}')
+          ")
+          echo "Startup time: ${MEAN_MS}ms (limit: ${{ inputs.max-startup-ms }}ms)"
+          python3 -c "assert float('${MEAN_MS}') <= ${{ inputs.max-startup-ms }}, f'Startup ${MEAN_MS}ms exceeds limit ${{ inputs.max-startup-ms }}ms'"

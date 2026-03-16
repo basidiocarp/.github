@@ -1,0 +1,62 @@
+name: Rust CI (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      workspace:
+        description: 'Use --workspace flag'
+        type: boolean
+        default: false
+      no-default-features:
+        description: 'Also test with --no-default-features'
+        type: boolean
+        default: false
+      audit:
+        description: 'Run cargo audit'
+        type: boolean
+        default: true
+
+jobs:
+  check:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Format check
+        run: cargo fmt --check
+
+      - name: Clippy
+        run: cargo clippy ${{ inputs.workspace && '--workspace' || '' }} -- -D warnings
+
+      - name: Test
+        run: cargo test ${{ inputs.workspace && '--workspace' || '' }}
+
+      - name: Test (no default features)
+        if: inputs.no-default-features
+        run: cargo test ${{ inputs.workspace && '--workspace' || '' }} --no-default-features
+
+      - name: Build release
+        run: cargo build --release ${{ inputs.workspace && '--workspace' || '' }}
+
+  audit:
+    if: inputs.audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: rustsec/audit-check@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
