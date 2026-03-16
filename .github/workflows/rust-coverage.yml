@@ -1,0 +1,52 @@
+name: Rust Coverage (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      threshold:
+        description: 'Minimum coverage percentage'
+        type: number
+        default: 60
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: llvm-tools-preview
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-coverage-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-coverage-
+
+      - name: Install cargo-llvm-cov
+        run: cargo install cargo-llvm-cov --locked
+
+      - name: Generate coverage
+        run: cargo llvm-cov --all-features --workspace --lcov --output-path lcov.info --json --output-path coverage.json
+
+      - name: Check threshold
+        run: |
+          COVERAGE=$(python3 -c "
+          import json
+          with open('coverage.json') as f:
+              data = json.load(f)
+          totals = data.get('data', [{}])[0].get('totals', {}).get('lines', {})
+          print(f\"{totals.get('percent', 0):.1f}\")
+          ")
+          echo "Coverage: ${COVERAGE}%"
+          python3 -c "assert float('${COVERAGE}') >= ${{ inputs.threshold }}, f'Coverage {${COVERAGE}}% below threshold ${{ inputs.threshold }}%'"
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: lcov.info
+          retention-days: 30
