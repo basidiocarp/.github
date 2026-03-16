@@ -128,10 +128,6 @@ detect_fetcher() {
 # ─────────────────────────────────────────────────────────────────────────────
 # Download and install a single tool
 # ─────────────────────────────────────────────────────────────────────────────
-# Release assets are named: {tool}-{target}.tar.gz (no version in filename)
-# URLs:
-#   latest:  https://github.com/{org}/{tool}/releases/latest/download/{tool}-{target}.tar.gz
-#   pinned:  https://github.com/{org}/{tool}/releases/download/v{ver}/{tool}-{target}.tar.gz
 
 install_tool() {
   tool="$1"
@@ -195,6 +191,14 @@ do_uninstall() {
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Check if an MCP server is already registered
+# ─────────────────────────────────────────────────────────────────────────────
+
+mcp_exists() {
+  claude mcp list 2>/dev/null | grep -q "^${1}:" 2>/dev/null
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Configure Claude Code
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -209,13 +213,21 @@ configure_claude() {
   for tool in $TOOLS; do
     case "$tool" in
       hyphae)
-        claude mcp add --scope user hyphae -- hyphae serve 2>/dev/null \
-          && ok "MCP server 'hyphae' registered" \
-          || warn "Failed to register MCP server 'hyphae'" ;;
+        if mcp_exists hyphae; then
+          ok "MCP server 'hyphae' already registered"
+        else
+          claude mcp add --scope user hyphae -- hyphae serve 2>/dev/null \
+            && ok "MCP server 'hyphae' registered" \
+            || warn "Failed to register MCP server 'hyphae'"
+        fi ;;
       rhizome)
-        claude mcp add --scope user rhizome -- rhizome serve --expanded 2>/dev/null \
-          && ok "MCP server 'rhizome' registered" \
-          || warn "Failed to register MCP server 'rhizome'" ;;
+        if mcp_exists rhizome; then
+          ok "MCP server 'rhizome' already registered"
+        else
+          claude mcp add --scope user rhizome -- rhizome serve --expanded 2>/dev/null \
+            && ok "MCP server 'rhizome' registered" \
+            || warn "Failed to register MCP server 'rhizome'"
+        fi ;;
       mycelium)
         if [ -x "${PREFIX}/mycelium" ]; then
           "${PREFIX}/mycelium" init --global 2>/dev/null \
