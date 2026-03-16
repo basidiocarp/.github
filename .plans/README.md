@@ -7,7 +7,7 @@ Ecosystem-level plans that span multiple repositories. Project-specific plans li
 | Plan | Description | Status |
 |------|-------------|--------|
 | [unified-installer.md](unified-installer.md) | Single install command + CI/CD for all repos | Not started |
-| [shared-ipc.md](shared-ipc.md) | Shared Rust crate for tool discovery and IPC | Not started |
+| [shared-ipc.md](shared-ipc.md) | Spore: shared Rust crate for tool discovery and IPC | Phase 1 complete |
 
 ## Plans by Repository
 
@@ -36,6 +36,9 @@ Ecosystem-level plans that span multiple repositories. Project-specific plans li
 | `rhizome-integration` | Code Explorer, Symbol Search, Diagnostics, Status pages |
 | `cross-tool-analytics` | Unified analytics across all ecosystem tools |
 
+### [spore](https://github.com/basidiocarp/spore)
+Shared IPC crate. Plan tracked in [shared-ipc.md](shared-ipc.md).
+
 ## Dependency Chain
 
 ```
@@ -57,7 +60,7 @@ Ecosystem-level plans that span multiple repositories. Project-specific plans li
       │
 6. Cross-tool analytics               (cap/cross-tool-analytics)
       │
-7. Shared IPC crate                   (.github/shared-ipc)
+7. Adopt spore across repos           (.github/shared-ipc)
       │
 8. Unified installer + CI             (.github/unified-installer)
 ```
