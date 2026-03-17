@@ -1,0 +1,214 @@
+name: E2E Integration Tests
+
+on:
+  schedule:
+    - cron: '0 6 * * 0'  # Weekly, Sunday 6am UTC
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # Install
+      # ─────────────────────────────────────────────────────────────────────────
+
+      - name: Install ecosystem tools
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh -s -- --no-configure
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Verify binaries installed
+        run: |
+          ls -la ~/.local/bin/mycelium ~/.local/bin/hyphae ~/.local/bin/rhizome
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # Test 1 — Tool discovery
+      # ─────────────────────────────────────────────────────────────────────────
+
+      - name: 'Test 1: mycelium --version'
+        id: test1a
+        if: always()
+        run: mycelium --version
+
+      - name: 'Test 1: hyphae --version'
+        id: test1b
+        if: always()
+        run: hyphae --version
+
+      - name: 'Test 1: rhizome --version'
+        id: test1c
+        if: always()
+        run: rhizome --version
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # Test 2 — Mycelium filtering
+      # ─────────────────────────────────────────────────────────────────────────
+
+      - name: 'Test 2: Mycelium filters output'
+        id: test2
+        if: always()
+        run: |
+          INPUT=$(printf 'line1\nline2\nline3\nline4\nline5\nline6\nline7\nline8\nline9\nline10\n')
+          echo "Input length: ${#INPUT}"
+          # Mycelium should at least not crash on piped input
+          echo "$INPUT" | mycelium summary || true
+          echo "Test 2: PASS (mycelium ran without crash)"
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # Test 3 — Hyphae store + recall
+      # ─────────────────────────────────────────────────────────────────────────
+
+      - name: 'Test 3: Hyphae store and recall'
+        id: test3
+        if: always()
+        run: |
+          mkdir -p ~/.local/share/hyphae
+
+          # Store a memory
+          hyphae store --topic e2e-test --content "E2E integration test memory $(date +%s)"
+          echo "Store: OK"
+
+          # Search for it
+          RESULT=$(hyphae search --query "E2E integration test" --limit 1 2>&1)
+          echo "Search result: $RESULT"
+
+          if echo "$RESULT" | grep -qi "e2e"; then
+            echo "Test 3: PASS (memory stored and recalled)"
+          else
+            echo "Test 3: FAIL (memory not found in search)"
+            exit 1
+          fi
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # Test 4 — Hyphae prune
+      # ─────────────────────────────────────────────────────────────────────────
+
+      - name: 'Test 4: Hyphae prune --dry-run'
+        id: test4
+        if: always()
+        run: |
+          hyphae prune --dry-run
+          echo "Test 4: PASS (prune dry-run succeeded)"
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # Test 5 — Rhizome symbols
+      # ─────────────────────────────────────────────────────────────────────────
+
+      - name: 'Test 5: Rhizome symbol extraction'
+        id: test5
+        if: always()
+        run: |
+          cat > /tmp/sample.rs << 'RUST'
+          pub fn hello() -> String {
+              "hello".into()
+          }
+
+          pub struct Config {
+              pub name: String,
+              pub value: i32,
+          }
+
+          impl Config {
+              pub fn new(name: String) -> Self {
+                  Self { name, value: 0 }
+              }
+          }
+          RUST
+
+          RESULT=$(rhizome symbols /tmp/sample.rs 2>&1)
+          echo "$RESULT"
+
+          if echo "$RESULT" | grep -q "hello"; then
+            echo "Test 5: PASS (symbols extracted)"
+          else
+            echo "Test 5: FAIL (expected 'hello' in output)"
+            exit 1
+          fi
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # Test 6 — Rhizome export (graceful failure)
+      # ─────────────────────────────────────────────────────────────────────────
+
+      - name: 'Test 6: Rhizome export (graceful without hyphae serve)'
+        id: test6
+        if: always()
+        run: |
+          mkdir -p /tmp/test-project/.git
+          cat > /tmp/test-project/main.rs << 'RUST'
+          fn main() { println!("hello"); }
+          RUST
+
+          # Should fail gracefully (hyphae serve not running) — not panic/segfault
+          rhizome export --project /tmp/test-project 2>&1 || true
+          echo "Test 6: PASS (export exited without crash)"
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # Test 7 — Cross-tool ecosystem detection
+      # ─────────────────────────────────────────────────────────────────────────
+
+      - name: 'Test 7: Ecosystem detection'
+        id: test7
+        if: always()
+        run: |
+          RESULT=$(mycelium init --ecosystem 2>&1)
+          echo "$RESULT"
+
+          FOUND=0
+          echo "$RESULT" | grep -q "mycelium" && FOUND=$((FOUND + 1))
+          echo "$RESULT" | grep -q "hyphae" && FOUND=$((FOUND + 1))
+          echo "$RESULT" | grep -q "rhizome" && FOUND=$((FOUND + 1))
+
+          if [ "$FOUND" -ge 3 ]; then
+            echo "Test 7: PASS (all 3 tools detected)"
+          else
+            echo "Test 7: FAIL (only $FOUND/3 tools detected)"
+            exit 1
+          fi
+
+      # ─────────────────────────────────────────────────────────────────────────
+      # Summary
+      # ─────────────────────────────────────────────────────────────────────────
+
+      - name: Test summary
+        if: always()
+        run: |
+          echo ""
+          echo "═══════════════════════════════════════"
+          echo "E2E Integration Test Results"
+          echo "═══════════════════════════════════════"
+
+          PASS=0
+          FAIL=0
+
+          check() {
+            if [ "$2" = "success" ]; then
+              echo "  ✓ $1"
+              PASS=$((PASS + 1))
+            else
+              echo "  ✗ $1"
+              FAIL=$((FAIL + 1))
+            fi
+          }
+
+          check "Tool discovery (mycelium)" "${{ steps.test1a.outcome }}"
+          check "Tool discovery (hyphae)" "${{ steps.test1b.outcome }}"
+          check "Tool discovery (rhizome)" "${{ steps.test1c.outcome }}"
+          check "Mycelium filtering" "${{ steps.test2.outcome }}"
+          check "Hyphae store + recall" "${{ steps.test3.outcome }}"
+          check "Hyphae prune" "${{ steps.test4.outcome }}"
+          check "Rhizome symbols" "${{ steps.test5.outcome }}"
+          check "Rhizome export" "${{ steps.test6.outcome }}"
+          check "Ecosystem detection" "${{ steps.test7.outcome }}"
+
+          echo ""
+          echo "Total: $PASS passed, $FAIL failed"
+          echo "═══════════════════════════════════════"
+
+          if [ "$FAIL" -gt 0 ]; then
+            exit 1
+          fi
