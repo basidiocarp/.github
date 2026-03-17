@@ -29,6 +29,27 @@ If you already have mycelium installed:
 mycelium init --ecosystem
 ```
 
+## Update
+
+```bash
+# Update all installed tools to latest
+curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/update.sh | sh
+
+# Check for updates without installing
+curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/update.sh | sh -s -- --check
+
+# Update a specific tool
+curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/update.sh | sh -s -- mycelium
+```
+
+Or update individual tools directly:
+
+```bash
+mycelium self-update
+hyphae self-update
+rhizome self-update
+```
+
 ## Projects
 
 ### [Mycelium](https://github.com/basidiocarp/mycelium)
