@@ -18,6 +18,7 @@ ALL_TOOLS="mycelium hyphae rhizome"
 TOOLS="$ALL_TOOLS"
 PREFIX="$HOME/.local/bin"
 CONFIGURE=1
+CLIENT=""
 VERSION=""
 UNINSTALL=0
 GH_ORG="basidiocarp"
@@ -27,9 +28,9 @@ GH_ORG="basidiocarp"
 # ─────────────────────────────────────────────────────────────────────────────
 
 if [ -t 1 ]; then
-  GREEN='\033[32m' RED='\033[31m' YELLOW='\033[33m' BOLD='\033[1m' RESET='\033[0m'
+  GREEN='\033[32m' RED='\033[31m' YELLOW='\033[33m' BOLD='\033[1m' DIM='\033[2m' RESET='\033[0m'
 else
-  GREEN='' RED='' YELLOW='' BOLD='' RESET=''
+  GREEN='' RED='' YELLOW='' BOLD='' DIM='' RESET=''
 fi
 
 info()  { printf "${BOLD}%s${RESET}\n" "$*"; }
@@ -52,13 +53,17 @@ Options:
   --tools LIST      Comma-separated tools to install (default: all)
                     Available: mycelium, hyphae, rhizome
   --prefix DIR      Install directory (default: ~/.local/bin)
-  --no-configure    Skip Claude Code configuration
+  --client NAME     Configure only this MCP client (default: all detected)
+                    Available: claude, cursor, windsurf, continue, claude-desktop, generic
+  --no-configure    Skip MCP client configuration
   --version VER     Install a specific version (default: latest)
   --uninstall       Remove installed binaries and configuration
 
 Examples:
   curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh
   install.sh --tools mycelium,hyphae
+  install.sh --client cursor
+  install.sh --client generic    # Print config JSON for manual setup
   install.sh --prefix /usr/local/bin
   install.sh --version 0.3.0
   install.sh --uninstall
@@ -76,6 +81,7 @@ parse_args() {
       --help)         usage ;;
       --tools)        shift; TOOLS=$(echo "$1" | tr ',' ' ') ;;
       --prefix)       shift; PREFIX="$1" ;;
+      --client)       shift; CLIENT="$1" ;;
       --no-configure) CONFIGURE=0 ;;
       --version)      shift; VERSION="$1" ;;
       --uninstall)    UNINSTALL=1 ;;
@@ -191,7 +197,26 @@ do_uninstall() {
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Check if an MCP server is already registered
+# MCP server JSON snippet (used by JSON-config clients)
+# ─────────────────────────────────────────────────────────────────────────────
+
+mcp_servers_json() {
+  cat <<MCPJSON
+{
+  "hyphae": {
+    "command": "hyphae",
+    "args": ["serve"]
+  },
+  "rhizome": {
+    "command": "rhizome",
+    "args": ["serve", "--expanded"]
+  }
+}
+MCPJSON
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Check if an MCP server is already registered (Claude Code)
 # ─────────────────────────────────────────────────────────────────────────────
 
 mcp_exists() {
@@ -199,43 +224,153 @@ mcp_exists() {
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Configure Claude Code
+# Write MCP config to a JSON file (Cursor, Windsurf, Continue, Claude Desktop)
+# Merges into existing mcpServers without overwriting other entries.
 # ─────────────────────────────────────────────────────────────────────────────
 
-configure_claude() {
-  if ! command -v claude >/dev/null 2>&1; then
-    warn "Claude Code CLI not found — skipping configuration."
+write_mcp_json() {
+  config_file="$1"
+  client_name="$2"
+
+  if [ ! -d "$(dirname "$config_file")" ]; then
+    warn "$client_name config directory not found — skipping"
+    return 1
+  fi
+
+  # Backup existing config
+  if [ -f "$config_file" ]; then
+    cp "$config_file" "${config_file}.bak" 2>/dev/null || true
+  fi
+
+  # Check if jq is available for proper JSON merging
+  if command -v jq >/dev/null 2>&1; then
+    if [ -f "$config_file" ]; then
+      # Merge into existing config
+      jq --argjson servers "$(mcp_servers_json)" '.mcpServers = (.mcpServers // {}) + $servers' "$config_file" > "${config_file}.tmp" \
+        && mv "${config_file}.tmp" "$config_file" \
+        && ok "$client_name: MCP servers added to $config_file" \
+        || { warn "Failed to update $client_name config"; return 1; }
+    else
+      # Create new config with just mcpServers
+      printf '{"mcpServers": %s}\n' "$(mcp_servers_json)" | jq '.' > "$config_file" \
+        && ok "$client_name: MCP config created at $config_file" \
+        || { warn "Failed to create $client_name config"; return 1; }
+    fi
+  else
+    # No jq — write simple config (may overwrite existing)
+    if [ -f "$config_file" ]; then
+      warn "$client_name: jq not installed — cannot safely merge config. Skipping."
+      warn "  Install jq and re-run, or manually add to $config_file:"
+      printf "  %s\n" "$(mcp_servers_json | head -8)"
+      return 1
+    else
+      printf '{"mcpServers": %s}\n' "$(mcp_servers_json)" > "$config_file" \
+        && ok "$client_name: MCP config created at $config_file" \
+        || { warn "Failed to create $client_name config"; return 1; }
+    fi
+  fi
+  return 0
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Configure MCP clients
+# ─────────────────────────────────────────────────────────────────────────────
+
+configure_clients() {
+  info "Configuring MCP clients..."
+
+  configured=0
+
+  # Generic mode — just print the config
+  if [ "$CLIENT" = "generic" ]; then
+    info "MCP server configuration (add to your client's config):"
+    printf "\n"
+    mcp_servers_json
+    printf "\n"
     return
   fi
 
-  info "Configuring Claude Code..."
+  # Claude Code
+  if [ -z "$CLIENT" ] || [ "$CLIENT" = "claude" ]; then
+    if command -v claude >/dev/null 2>&1; then
+      for tool in $TOOLS; do
+        case "$tool" in
+          hyphae)
+            if mcp_exists hyphae; then
+              ok "Claude Code: hyphae already registered"
+            else
+              claude mcp add --scope user hyphae -- hyphae serve 2>/dev/null \
+                && ok "Claude Code: hyphae MCP registered" \
+                || warn "Claude Code: failed to register hyphae"
+            fi ;;
+          rhizome)
+            if mcp_exists rhizome; then
+              ok "Claude Code: rhizome already registered"
+            else
+              claude mcp add --scope user rhizome -- rhizome serve --expanded 2>/dev/null \
+                && ok "Claude Code: rhizome MCP registered" \
+                || warn "Claude Code: failed to register rhizome"
+            fi ;;
+          mycelium)
+            if [ -x "${PREFIX}/mycelium" ]; then
+              "${PREFIX}/mycelium" init --global 2>/dev/null \
+                && ok "Claude Code: mycelium hooks configured" \
+                || warn "Claude Code: failed to configure mycelium"
+            fi ;;
+        esac
+      done
+      configured=$((configured + 1))
+    elif [ "$CLIENT" = "claude" ]; then
+      warn "Claude Code CLI not found"
+    fi
+  fi
 
-  for tool in $TOOLS; do
-    case "$tool" in
-      hyphae)
-        if mcp_exists hyphae; then
-          ok "MCP server 'hyphae' already registered"
-        else
-          claude mcp add --scope user hyphae -- hyphae serve 2>/dev/null \
-            && ok "MCP server 'hyphae' registered" \
-            || warn "Failed to register MCP server 'hyphae'"
-        fi ;;
-      rhizome)
-        if mcp_exists rhizome; then
-          ok "MCP server 'rhizome' already registered"
-        else
-          claude mcp add --scope user rhizome -- rhizome serve --expanded 2>/dev/null \
-            && ok "MCP server 'rhizome' registered" \
-            || warn "Failed to register MCP server 'rhizome'"
-        fi ;;
-      mycelium)
-        if [ -x "${PREFIX}/mycelium" ]; then
-          "${PREFIX}/mycelium" init --global 2>/dev/null \
-            && ok "Mycelium hooks configured" \
-            || warn "Failed to configure mycelium hooks"
-        fi ;;
+  # Cursor
+  if [ -z "$CLIENT" ] || [ "$CLIENT" = "cursor" ]; then
+    cursor_config="$HOME/.cursor/mcp.json"
+    if [ -d "$HOME/.cursor" ] || [ "$CLIENT" = "cursor" ]; then
+      mkdir -p "$HOME/.cursor"
+      write_mcp_json "$cursor_config" "Cursor" && configured=$((configured + 1))
+    fi
+  fi
+
+  # Windsurf
+  if [ -z "$CLIENT" ] || [ "$CLIENT" = "windsurf" ]; then
+    windsurf_config="$HOME/.windsurf/mcp.json"
+    if [ -d "$HOME/.windsurf" ] || [ "$CLIENT" = "windsurf" ]; then
+      mkdir -p "$HOME/.windsurf"
+      write_mcp_json "$windsurf_config" "Windsurf" && configured=$((configured + 1))
+    fi
+  fi
+
+  # Continue
+  if [ -z "$CLIENT" ] || [ "$CLIENT" = "continue" ]; then
+    continue_config="$HOME/.continue/config.json"
+    if [ -d "$HOME/.continue" ] || [ "$CLIENT" = "continue" ]; then
+      mkdir -p "$HOME/.continue"
+      write_mcp_json "$continue_config" "Continue" && configured=$((configured + 1))
+    fi
+  fi
+
+  # Claude Desktop
+  if [ -z "$CLIENT" ] || [ "$CLIENT" = "claude-desktop" ]; then
+    case "$(uname -s)" in
+      Darwin) desktop_config="$HOME/Library/Application Support/Claude/claude_desktop_config.json" ;;
+      Linux)  desktop_config="${XDG_CONFIG_HOME:-$HOME/.config}/Claude/claude_desktop_config.json" ;;
+      *)      desktop_config="" ;;
     esac
-  done
+    if [ -n "$desktop_config" ]; then
+      if [ -d "$(dirname "$desktop_config")" ] || [ "$CLIENT" = "claude-desktop" ]; then
+        mkdir -p "$(dirname "$desktop_config")"
+        write_mcp_json "$desktop_config" "Claude Desktop" && configured=$((configured + 1))
+      fi
+    fi
+  fi
+
+  if [ $configured -eq 0 ] && [ -z "$CLIENT" ]; then
+    warn "No MCP clients detected. Install one of: Claude Code, Cursor, Windsurf, Continue"
+    info "  Or run with --client generic to print config for manual setup"
+  fi
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -296,7 +431,7 @@ main() {
   done
 
   if [ $CONFIGURE -eq 1 ] && [ -n "$succeeded" ]; then
-    configure_claude
+    configure_clients
   fi
 
   printf "\n"
@@ -308,7 +443,7 @@ main() {
   done
 
   printf "\n${BOLD}Next steps:${RESET}\n"
-  printf "  1. Restart Claude Code to pick up MCP servers\n"
+  printf "  1. Restart your editor to pick up MCP servers\n"
   case "$succeeded" in *mycelium*)  printf "  2. Run: mycelium gain\n" ;; esac
   case "$succeeded" in *hyphae*)   printf "  3. Run: hyphae --help\n" ;; esac
   printf "\n"
