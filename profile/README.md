@@ -16,8 +16,8 @@ Downloads binaries, detects your MCP clients (Claude Code, Cursor, Windsurf, Con
 | Project | Purpose | Tools |
 |---------|---------|-------|
 | [Mycelium](https://github.com/basidiocarp/mycelium) | Token compression — 60-90% savings on 70+ commands | [Docs](https://github.com/basidiocarp/mycelium/tree/main/docs) |
-| [Hyphae](https://github.com/basidiocarp/hyphae) | Persistent memory, RAG, knowledge graphs — 35 MCP tools | [Docs](https://github.com/basidiocarp/hyphae/tree/main/docs) |
-| [Rhizome](https://github.com/basidiocarp/rhizome) | Code intelligence — 37 MCP tools, 32 languages | [Docs](https://github.com/basidiocarp/rhizome/tree/main/docs) |
+| [Hyphae](https://github.com/basidiocarp/hyphae) | Persistent memory, RAG, knowledge graphs, training data export — 39 MCP tools | [Docs](https://github.com/basidiocarp/hyphae/tree/main/docs) |
+| [Rhizome](https://github.com/basidiocarp/rhizome) | Code intelligence — 37 MCP tools, 32 languages, 17 with dedicated queries | [Docs](https://github.com/basidiocarp/rhizome/tree/main/docs) |
 | [Cap](https://github.com/basidiocarp/cap) | Web dashboard — 11 pages, 60+ API endpoints | [Docs](https://github.com/basidiocarp/cap/tree/main/docs) |
 | [Spore](https://github.com/basidiocarp/spore) | Shared IPC — tool discovery, JSON-RPC, subprocess MCP | — |
 | [Lamella](https://github.com/basidiocarp/lamella) | Hooks and feedback capture for Claude Code | [Docs](https://github.com/basidiocarp/lamella/blob/main/docs) |
@@ -107,17 +107,19 @@ flowchart LR
     Agent["Agent"] --> Hooks["Lamella hooks"]
     Hooks --> Hyphae["Hyphae"]
     Hyphae --> Lessons["extract_lessons"]
+    Hyphae --> Eval["evaluate"]
     Hyphae --> Export["Export JSONL"]
     Export --> FT["Fine-tune"]
     FT --> Ollama["Ollama"]
     Ollama --> Agent
     Lessons --> Agent
+    Eval --> Agent
 
     style Hyphae fill:#36b37e,stroke:#1f8a5a,color:#fff
     style FT fill:#6554c0,stroke:#403294,color:#fff
 ```
 
-Hooks capture corrections, errors, test failures, PR reviews. `extract_lessons` surfaces recurring patterns. Accumulated data exports as SFT/DPO pairs for fine-tuning. See the [AI Concepts](docs/AI-CONCEPTS.md) and [Training](docs/LLM-TRAINING.md) guides.
+Hooks capture corrections, errors, test failures, PR reviews. `extract_lessons` surfaces recurring patterns. `evaluate` measures agent improvement over time. Accumulated data exports as SFT/DPO pairs for fine-tuning. See the [AI Concepts](docs/AI-CONCEPTS.md) and [Training](docs/LLM-TRAINING.md) guides.
 
 ### Token Compression — [Mycelium](https://github.com/basidiocarp/mycelium)
 
