@@ -26,6 +26,7 @@ Downloads binaries, detects your MCP clients (Claude Code, Cursor, Windsurf, Con
 
 | Guide | What it covers |
 |-------|---------------|
+| [Integration Guide](docs/INTEGRATION.md) | Internal architecture, external data flow, protocols, failure modes |
 | [AI Concepts](docs/AI-CONCEPTS.md) | ML fundamentals, Bedrock comparison, RAG vs supervised vs unsupervised, DPO, self-hosting |
 | [LLM Training](docs/LLM-TRAINING.md) | Fine-tuning pipeline, data export, Axolotl/Together.ai, Ollama serving |
 | [Hyphae Training Data](https://github.com/basidiocarp/hyphae/blob/main/docs/TRAINING-DATA.md) | Data formats, volume estimates, SQL export |
