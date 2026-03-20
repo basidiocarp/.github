@@ -1,395 +1,261 @@
-# AI Concepts & How They Map to Basidiocarp
+# AI Concepts & Basidiocarp
 
-This guide covers the core AI/ML concepts behind modern LLM infrastructure, compares them to AWS Bedrock's offerings, and explains where Basidiocarp fits. Written for developers who build with AI tools but haven't trained models themselves.
+How ML and agent infrastructure relate, how they compare to AWS Bedrock, and where this ecosystem fits.
 
-## Two Fields, Not One
+## ML vs Agents
 
-**Machine Learning** and **AI Agents** are related but distinct:
+Machine learning trains models. AI agents use them. Different disciplines, different outputs.
 
-- **Machine Learning** is about training models. Supervised learning, unsupervised learning, reinforcement learning — these are techniques for teaching a neural network to do something. The output is a model file (weights).
-- **AI Agents** are applications built on top of trained models. They add planning, tool use, memory, and multi-step reasoning. The model is a component; the agent is the system.
+ML produces a model file — weights that encode knowledge. Agents wrap that model in a loop: observe, plan, act, observe again. The model is a component; the agent is the system.
 
-Basidiocarp is agent infrastructure. It doesn't train models — it makes trained models more effective by giving them memory, context, and compressed inputs.
+Basidiocarp is agent infrastructure. It gives trained models memory, context, code intelligence, and compressed inputs. It never touches model weights.
 
-## Machine Learning Fundamentals
+## How an LLM Gets Built
 
-Three learning paradigms. A single LLM uses all three at different stages of its creation.
+A single LLM goes through three training stages, each using a different ML paradigm.
 
 ```mermaid
-flowchart TD
-    subgraph Unsupervised["Stage 1: Pre-training (Unsupervised)"]
-        Raw["Internet-scale text<br/>(no labels)"]
-        Predict["Predict next token"]
-        Knowledge["Model learns language,<br/>facts, reasoning"]
-    end
+flowchart LR
+    Pre["Pre-training\n(unsupervised)"] --> Inst["Instruction tuning\n(supervised)"] --> Align["Alignment\n(reinforcement learning)"]
+    Pre -.- PreDesc["Reads internet text\nPredicts next token\nLearns language + facts"]
+    Inst -.- InstDesc["Trains on (instruction, response) pairs\nLearns to follow directions"]
+    Align -.- AlignDesc["Trains on (good, bad) response pairs\nLearns to be helpful"]
 
-    subgraph Supervised["Stage 2: Instruction Tuning (Supervised)"]
-        Pairs["(instruction, response) pairs<br/>(human-labeled)"]
-        SFT["Update weights on<br/>labeled examples"]
-        Follow["Model learns to<br/>follow instructions"]
-    end
-
-    subgraph RL["Stage 3: Alignment (Reinforcement Learning)"]
-        Prefs["(good response, bad response) pairs<br/>(human preferences)"]
-        RLHF["Train toward preferred outputs"]
-        Aligned["Model learns to be<br/>helpful, not harmful"]
-    end
-
-    Unsupervised --> Supervised --> RL
-
-    style Unsupervised fill:#505f79,stroke:#344563,color:#fff
-    style Supervised fill:#6554c0,stroke:#403294,color:#fff
-    style RL fill:#36b37e,stroke:#1f8a5a,color:#fff
+    style Pre fill:#505f79,stroke:#344563,color:#fff
+    style Inst fill:#6554c0,stroke:#403294,color:#fff
+    style Align fill:#36b37e,stroke:#1f8a5a,color:#fff
 ```
 
-### Unsupervised Learning
+### Unsupervised Learning (Stage 1)
 
-The model reads raw text and finds patterns on its own. No human labels. The training objective is next-token prediction: given "The cat sat on the," predict "mat." Scale this to trillions of tokens and the model learns grammar, facts, reasoning patterns, and code syntax.
+The model reads raw text and predicts the next token. No labels, no human curation. "The cat sat on the" → predict "mat." Scale to trillions of tokens and the model picks up grammar, facts, reasoning, code syntax.
 
-This is **pre-training** — the expensive part ($1M+, months on GPU clusters). Only done by large labs (Anthropic, OpenAI, Meta). You won't do this.
+This is pre-training. It costs $1M+, takes months on GPU clusters, and only happens at labs like Anthropic, OpenAI, and Meta. You won't do this.
 
-Unsupervised learning also appears in smaller contexts: clustering similar documents, detecting anomalies, dimensionality reduction. Hyphae's `extract_lessons` does a lightweight version — grouping memories by keyword overlap without predefined categories.
+Outside LLMs, unsupervised learning also covers clustering, anomaly detection, and dimensionality reduction. Hyphae's `extract_lessons` does a lightweight version: grouping memories by keyword overlap without predefined categories.
 
-### Supervised Learning
+### Supervised Learning (Stage 2)
 
-You give the model labeled examples: (input, correct output) pairs. The model updates its weights to minimize the difference between its output and the correct answer.
+You provide (input, correct output) pairs. The model adjusts weights to minimize the gap between what it produces and what you wanted.
 
-This paradigm is used in **two** places:
+Two contexts where this matters:
 
-1. **Pre-training** (partially supervised): some pre-training mixes next-token prediction with supervised objectives like "given this code, predict the docstring."
-2. **Fine-tuning**: you take a pre-trained model and train it further on your (instruction, response) pairs. This is the practical one. When people say "fine-tuning" in the context of Bedrock or Together.ai, they mean supervised learning applied to an already-trained model.
+1. Instruction tuning at the lab: the model learns to follow directions from curated (instruction, response) pairs.
+2. Your fine-tuning: you take a pre-trained model and train it on your (instruction, response) pairs to learn your conventions.
 
-Fine-tuning **is** supervised learning. It's not a separate technique — it's supervised learning applied to a model that's already been pre-trained instead of a fresh one.
+Fine-tuning is supervised learning. Not a separate technique — just supervised learning applied to an already-trained model.
 
-| What | Data | Cost | Who does it |
-|------|------|------|-------------|
-| Pre-training | Unlabeled internet text | $1M+ | Large labs |
-| Supervised fine-tuning (SFT) | Your (instruction, response) pairs | $10-100 | You, after 1000+ examples |
+| Stage | Data | Cost | Who |
+|-------|------|------|-----|
+| Pre-training | Unlabeled text | $1M+ | Large labs |
+| Your fine-tuning | Your (instruction, response) pairs | $10–100 | You, after 1000+ examples |
 
-### Reinforcement Learning (RL)
+### Reinforcement Learning (Stage 3)
 
-The model takes actions, receives a reward signal, and learns to maximize reward. In the LLM context, this means:
+The model generates responses, gets scored, and updates weights to score higher next time. In the LLM context:
 
-1. Model generates a response
-2. A reward signal scores it (human preference, or a trained reward model)
-3. Model weights update to produce higher-scoring responses
+1. Model produces a response
+2. A reward signal scores it
+3. Weights shift toward higher-scoring outputs
 
-This is **Stage 3** — alignment. It's how Claude and ChatGPT learned to be helpful rather than just coherent.
+Two approaches exist for alignment:
 
-Two approaches:
+RLHF (Reinforcement Learning from Human Feedback) trains a separate reward model on human preferences, then uses PPO to optimize the LLM against it. Two training loops, finicky to tune.
 
-**RLHF (Reinforcement Learning from Human Feedback):** Train a separate reward model on human preference data, then use PPO (Proximal Policy Optimization) to train the LLM against the reward model. Complex, unstable, requires careful tuning.
-
-**DPO (Direct Preference Optimization):** Skip the reward model entirely. DPO reformulates the RLHF objective as a classification problem: given a (prompt, good response, bad response) triple, train the model to increase the probability of the good response and decrease the probability of the bad one. One training loop instead of two. More stable. Same results in practice.
+DPO (Direct Preference Optimization) skips the reward model. Given a triple — (prompt, good response, bad response) — it directly trains the LLM to increase the probability of the good response and decrease the bad one. One loop, more stable, comparable results.
 
 ```mermaid
-flowchart TD
-    subgraph RLHF["RLHF (traditional)"]
-        HP1["Human preference data"] --> RM["Train reward model"]
-        RM --> PPO["PPO training<br/>(model + reward model)"]
-        PPO --> A1["Aligned model"]
+flowchart LR
+    subgraph RLHF
+        Prefs1["Preference data"] --> Reward["Train reward model"] --> PPO["PPO optimization"]
     end
-
-    subgraph DPO_Flow["DPO (simpler)"]
-        HP2["Human preference data<br/>(prompt, chosen, rejected)"] --> Direct["Direct optimization<br/>(single training step)"]
-        Direct --> A2["Aligned model"]
+    subgraph DPO
+        Prefs2["Preference triples\n(prompt, chosen, rejected)"] --> Direct["Single optimization step"]
     end
 
     style RLHF fill:#505f79,stroke:#344563,color:#fff
-    style DPO_Flow fill:#36b37e,stroke:#1f8a5a,color:#fff
+    style DPO fill:#36b37e,stroke:#1f8a5a,color:#fff
 ```
 
-DPO is the practical choice for fine-tuning with preference data. It needs (prompt, chosen_response, rejected_response) triples. Basidiocarp's correction hooks capture these naturally — every self-correction is a (rejected, chosen) pair.
+DPO is the practical choice when you have preference data. Basidiocarp's correction hooks produce natural DPO triples: every self-correction is a (rejected, chosen) pair.
 
-### How the Paradigms Relate to Each Other
-
-A common misconception: "supervised learning is for training, unsupervised is for something else." In reality, a single model goes through multiple paradigms:
+### The Full Lifecycle
 
 ```
-Llama 3 lifecycle:
-  1. Unsupervised pre-training     → learns language and knowledge
-  2. Supervised fine-tuning (SFT)  → learns to follow instructions
-  3. DPO alignment                 → learns to be helpful
+Meta builds Llama 3:
+  1. Unsupervised pre-training     → language, facts, reasoning
+  2. Supervised instruction tuning → follows directions
+  3. DPO alignment                 → helpful, not harmful
 
-Your fine-tuning:
-  4. Supervised fine-tuning (SFT)  → learns your conventions
-  5. DPO (optional)                → learns to avoid your common mistakes
+You customize it:
+  4. Supervised fine-tuning (SFT)  → your conventions
+  5. DPO (optional)                → avoids your common mistakes
 ```
 
-Steps 1-3 happen at Meta. Steps 4-5 happen on your data, using Basidiocarp's captured memories and corrections.
+Steps 1–3 cost millions and happen once. Steps 4–5 cost $10–100 and use data Basidiocarp captures.
 
 ---
 
-## The Bedrock Landscape
+## Bedrock Comparison
+
+AWS Bedrock is a platform: it hosts models, runs training, serves inference, enforces policy. Basidiocarp is infrastructure: it makes agents effective regardless of which platform serves the model. They're complementary.
 
 ```mermaid
 flowchart TD
-    subgraph Platform["AWS Bedrock"]
-        Models["Models<br/>Host & serve LLMs"]
-        Eval["Evaluations<br/>Benchmark quality"]
-        Infer["Inference Optimization<br/>Speed & cost"]
-        FT["Fine-tuning<br/>Adapt to your data"]
-        KB["Knowledge Bases<br/>RAG pipeline"]
-        Distill["Distillation<br/>Compress big → small"]
-        Guard["Guardrails<br/>Content filtering"]
-        DP["Data Protection<br/>PII, encryption"]
-        Gov["Governance<br/>Audit, access control"]
-        Halluc["Hallucination Controls<br/>Grounding checks"]
-        Agents["Agentic AI<br/>Multi-step workflows"]
+    subgraph Bedrock["AWS Bedrock (platform)"]
+        direction LR
+        BModels["Models"] ~~~ BEval["Evals"] ~~~ BInfer["Inference"] ~~~ BFT["Fine-tuning"]
+        BKB["Knowledge Bases"] ~~~ BDistill["Distillation"] ~~~ BGuard["Guardrails"] ~~~ BAgents["Agents"]
     end
 
-    subgraph Basidiocarp["Basidiocarp Ecosystem"]
-        Mycelium["Mycelium<br/>Token reduction"]
-        Hyphae["Hyphae<br/>Memory + RAG"]
-        Rhizome["Rhizome<br/>Code intelligence"]
-        Lamella["Lamella<br/>Feedback capture"]
-        Cap["Cap<br/>Dashboard"]
+    subgraph Eco["Basidiocarp (infrastructure)"]
+        direction LR
+        Mycelium["Mycelium"] ~~~ Hyphae["Hyphae"] ~~~ Rhizome["Rhizome"] ~~~ Lamella["Lamella"]
     end
 
-    KB -.->|"equivalent"| Hyphae
-    Infer -.->|"input-side"| Mycelium
-    FT -.->|"data source"| Hyphae
-    FT -.->|"data source"| Lamella
-    Agents -.->|"infrastructure"| Basidiocarp
-    Gov -.->|"partial"| Cap
+    BKB -.->|"≈"| Hyphae
+    BInfer -.->|"input side"| Mycelium
+    BFT -.->|"data from"| Hyphae
+    BAgents -.->|"tools from"| Eco
 
-    style Platform fill:#ff9900,stroke:#cc7a00,color:#fff
-    style Basidiocarp fill:#36b37e,stroke:#1f8a5a,color:#fff
+    style Bedrock fill:#ff9900,stroke:#cc7a00,color:#fff
+    style Eco fill:#36b37e,stroke:#1f8a5a,color:#fff
 ```
 
-### Models & Infrastructure
-
-**Models**: foundation neural networks (Claude, Llama, Mistral). Bedrock hosts them; you call an API. **Basidiocarp** doesn't provide models — it wraps around whatever model your MCP client uses.
-
-**Evaluations**: measuring model quality on your tasks. Automated scoring, human-judged quality, A/B comparisons. **Basidiocarp** has qualitative evaluation (`extract_lessons`, Cap analytics) but no structured benchmarking framework.
-
-**Inference Optimization**: making responses faster and cheaper (KV-cache, quantization, batching, speculative decoding). **Basidiocarp's Mycelium** reduces input tokens by 60-90%, which is inference optimization from the input side. They stack.
-
-### Customization
-
-**Fine-tuning**: supervised learning on your data. Bedrock handles GPUs and training loops. **Basidiocarp** captures the data (decisions, errors, corrections, session transcripts) but doesn't run training. See [LLM Training Guide](LLM-TRAINING.md).
-
-**Knowledge Bases (RAG)**: managed retrieval-augmented generation. Upload docs, Bedrock chunks/embeds/retrieves. **Hyphae** does this locally: 3 chunking strategies, fastembed or HTTP embeddings, sqlite-vec vector storage, hybrid FTS5+cosine search.
-
-**Model Distillation**: train a small model to mimic a large one. **Basidiocarp's** session transcripts are natural distillation data — every Claude session is a (task, expert_response) pair.
-
-### Guardrails & Policy
-
-**Responsible AI**: post-generation content filtering. **Basidiocarp** trusts the model's built-in safety.
-
-**Data Protection**: PII detection, encryption, VPC isolation. **Basidiocarp** is local-first by default — SQLite on disk, tree-sitter on your machine. No data leaves unless you call a cloud API. No PII detection built in.
-
-**Governance**: audit trails, access control, compliance. **Basidiocarp** has partial coverage: Mycelium tracks savings, Hyphae logs sessions, Cap shows telemetry. No IAM or compliance certification.
-
-**Hallucination Controls**: grounding checks, citation generation. **Basidiocarp's** RAG reduces hallucination by grounding responses in actual project data. No explicit detection or citation system.
-
-### Agentic AI
-
-Multi-step workflows with tools, knowledge bases, and state. **Basidiocarp** is built for this:
-
-| Agent capability | Basidiocarp |
-|-----------------|-------------|
-| Tool execution | Hyphae (35 tools) + Rhizome (37 tools) via MCP |
-| Knowledge retrieval | Hyphae RAG + auto-context injection |
-| Cross-session state | Hyphae memories + session tracking |
-| Error learning | Lamella hooks + extract_lessons |
-| Code understanding | Rhizome tree-sitter + LSP |
-| Cost reduction | Mycelium token compression |
-
-### Full Comparison
-
-| Bedrock capability | Basidiocarp | Gap |
-|-------------------|-------------|-----|
-| Model hosting | Not provided | Use cloud APIs or Ollama |
-| Evaluations | Partial (lessons, analytics) | No structured benchmarking |
-| Inference optimization | Mycelium (input reduction) | No output-side optimization |
-| Fine-tuning | Data capture only | Need external platform |
-| Knowledge Bases (RAG) | Hyphae (full pipeline) | Local-first vs managed |
-| Model distillation | Session data as source | Need external training |
-| Guardrails | None | Trust model's built-in safety |
+| Bedrock | Basidiocarp | Notes |
+|---------|-------------|-------|
+| Model hosting | — | Use cloud APIs or Ollama |
+| Evaluations | Partial (lessons, Cap analytics) | No structured benchmarks |
+| Inference optimization | Mycelium (60–90% input reduction) | Different mechanism, stacks with server-side |
+| Fine-tuning | Data capture (Hyphae + Lamella) | Export JSONL, train externally |
+| Knowledge Bases | Hyphae RAG pipeline | Local SQLite vs managed cloud |
+| Distillation | Session transcripts as source | Train externally |
+| Guardrails | — | Trusts model's built-in safety |
 | Data protection | Local-first by default | No PII detection |
-| Governance | Partial (telemetry, sessions) | No access control |
-| Hallucination control | RAG grounding | No explicit detection |
-| Agentic AI | Full infrastructure | Not an agent framework itself |
+| Governance | Partial (sessions, telemetry, Cap) | No IAM or compliance |
+| Hallucination control | RAG grounding | No explicit citation |
+| Agentic AI | Full tool infrastructure | Not an agent framework itself |
 
-Bedrock is a **platform** — it hosts models, runs training, serves inference, enforces policy. Basidiocarp is **infrastructure** — it makes agents more effective regardless of which platform hosts the model. They're complementary. You could use Bedrock to host a fine-tuned model trained on Basidiocarp's data.
+### Bedrock Concepts Explained
+
+Models: the neural networks themselves. Bedrock hosts Claude, Llama, Mistral behind a single API. Basidiocarp wraps around whichever model your client calls.
+
+Evaluations: structured benchmarking — run a model against test cases, score quality. Basidiocarp does qualitative feedback (lessons, analytics) but not formal benchmarking.
+
+Inference optimization: KV-cache, quantization, batching, speculative decoding. Mycelium achieves the same cost/latency reduction from the input side by compressing what goes into the model.
+
+Knowledge Bases: Bedrock's managed RAG. Hyphae does the same thing locally — chunk documents, embed, store in sqlite-vec, retrieve with hybrid FTS5 + cosine search.
+
+Distillation: training a small model to mimic a large one. Session transcripts from Basidiocarp are natural distillation data.
+
+Guardrails: content filtering, PII masking. Basidiocarp has none; everything runs local, which is its own form of data protection.
+
+Agentic AI: multi-step tool-using workflows. Basidiocarp provides the tools (Hyphae 35, Rhizome 37 via MCP), the memory, the code intelligence, and the token compression that agents need.
 
 ---
 
-## When to Use RAG vs Supervised Learning vs Unsupervised Learning
+## RAG vs Supervised vs Unsupervised
 
-These solve different problems. The choice depends on what kind of knowledge you're working with.
+Different techniques for different problems.
 
-### RAG (Retrieval-Augmented Generation)
+### RAG
 
-Finds relevant documents at query time, injects them into the prompt. The model's weights don't change. Knowledge stays external.
+Retrieves documents at query time, injects them into the prompt. Weights unchanged. Knowledge stays external and updatable.
 
-**Use when:**
-- Knowledge changes frequently (code, docs, wiki)
-- You need verifiable, sourced answers
-- You want results now (no training step)
-- You need to attribute claims to documents
+Use it when knowledge changes often, you need sourced answers, or you want results immediately. Hyphae provides this today.
 
-**Don't use when:**
-- The knowledge is behavioral ("write code in our style")
-- You need the model to deeply internalize patterns
+Don't use it when the knowledge is behavioral (coding style, conventions) rather than factual.
 
-```mermaid
-flowchart LR
-    Query["Query"] --> Retrieve["Retrieve docs"]
-    Retrieve --> Inject["Inject into prompt"]
-    Inject --> Model["Grounded response"]
-    DB[(Documents)] --> Retrieve
+### Supervised Fine-tuning
 
-    style Model fill:#36b37e,stroke:#1f8a5a,color:#fff
-    style DB fill:#ffab00,stroke:#ff8b00,color:#fff
-```
+Updates model weights on labeled (input, output) pairs. The model internalizes patterns.
 
-**Basidiocarp:** Hyphae provides the full pipeline.
+Use it when you want consistent behavior without prompting every time and you have 1,000+ examples. Knowledge gets baked into the weights, which means it doesn't change until you retrain.
 
-### Supervised Learning (SFT Fine-tuning)
+Don't use it when knowledge changes weekly or you have fewer than 500 examples.
 
-Updates model weights using labeled (input, correct output) pairs. The model internalizes patterns and conventions.
+### Unsupervised
 
-**Use when:**
-- You want consistent style without prompting every time
-- You have 1,000+ high-quality examples
-- You're deploying a smaller model and need it to punch above its weight
-- RAG alone isn't enough
+Finds patterns in unlabeled data. Discovers structure you didn't define. Pre-training is the big example; clustering and anomaly detection are smaller ones.
 
-**Don't use when:**
-- Knowledge changes weekly (model is frozen after training)
-- You have fewer than 500 examples
-- Information is factual and sourced (RAG is better)
+You won't use this directly unless you're building a foundation model.
 
-```mermaid
-flowchart LR
-    Data["Labeled pairs"] --> Train["Update weights"]
-    Base["Base model"] --> Train
-    Train --> Tuned["Tuned model"]
+### DPO
 
-    style Data fill:#ffab00,stroke:#ff8b00,color:#fff
-    style Tuned fill:#36b37e,stroke:#1f8a5a,color:#fff
-```
+Trains the model on preference triples: (prompt, chosen response, rejected response). The model learns to prefer the good output over the bad one. Simpler than RLHF because it skips the reward model — one training loop, one loss function.
 
-**Basidiocarp:** captures the training data. Hyphae memories become SFT pairs. Export and train externally.
+Use it after SFT when you have 500+ preference pairs and want to reduce specific failure modes. Basidiocarp's correction hooks produce these pairs automatically.
 
-### Unsupervised Learning
-
-Finds patterns in unlabeled data. No (input, output) pairs. The model discovers structure.
-
-**Use when:**
-- You have raw data but no labels
-- You want to discover structure you didn't define
-- Pre-training a foundation model (you're probably not)
-
-**Don't use when:**
-- You know what output you want (use supervised)
-- You need predictable, specific results
-
-**Basidiocarp:** `extract_lessons` does lightweight unsupervised grouping. Memory decay is unsupervised — frequency-based importance without explicit labels.
-
-### DPO (Direct Preference Optimization)
-
-A specific form of reinforcement learning. Instead of training a separate reward model (RLHF), DPO directly trains the LLM on preference pairs: (prompt, good_response, bad_response). The model learns to increase the probability of preferred outputs.
-
-**The math, simplified:** for each preference triple, DPO computes "how much more likely is the chosen response vs the rejected one?" and nudges the weights to increase that gap. One loss function, one training loop, no reward model.
-
-**Use when:**
-- You have preference data (chosen vs rejected responses)
-- You want to teach the model to avoid specific mistakes
-- SFT alone produces inconsistent quality
-
-**Basidiocarp's connection:** every self-correction captured by `capture-corrections.js` is a natural DPO triple. The original code is "rejected," the corrected code is "chosen." After 500+ corrections, you have a usable DPO dataset.
-
-### Decision Matrix
+### When to Use What
 
 ```mermaid
 flowchart TD
-    Start["I want better results"]
-    Q1{"Knowledge changes<br/>frequently?"}
-    Q2{"Do I have 1000+<br/>labeled examples?"}
-    Q3{"Behavioral (style)<br/>or factual (docs)?"}
-    Q4{"Do I have 500+<br/>preference pairs?"}
+    Start(["What do I need?"])
+    Q1{"Knowledge changes\nfrequently?"}
+    Q2{"Behavioral or\nfactual?"}
+    Q3{"1000+ labeled\nexamples?"}
+    Q4{"500+ preference\npairs?"}
 
     Start --> Q1
-    Q1 -->|"Yes"| RAG["RAG (Hyphae)<br/>Immediate, no training"]
-    Q1 -->|"No"| Q3
-    Q3 -->|"Factual"| RAG
-    Q3 -->|"Behavioral"| Q2
-    Q2 -->|"Yes"| SFT["SFT fine-tune<br/>+ keep RAG"]
-    Q2 -->|"No"| Collect["Use RAG now<br/>Collect data for later"]
+    Q1 -->|"Yes"| RAG["Use RAG"]
+    Q1 -->|"No"| Q2
+    Q2 -->|"Factual"| RAG
+    Q2 -->|"Behavioral"| Q3
+    Q3 -->|"No"| Collect["RAG now, collect data"]
+    Q3 -->|"Yes"| SFT["SFT + RAG"]
     SFT --> Q4
-    Q4 -->|"Yes"| DPOStep["Add DPO training<br/>for mistake avoidance"]
-    Q4 -->|"No"| Done["SFT + RAG<br/>is enough for now"]
+    Q4 -->|"Yes"| AddDPO["Add DPO"]
+    Q4 -->|"No"| Enough["SFT + RAG is enough"]
 
     style RAG fill:#36b37e,stroke:#1f8a5a,color:#fff
     style SFT fill:#6554c0,stroke:#403294,color:#fff
-    style DPOStep fill:#ff7452,stroke:#de350b,color:#fff
+    style AddDPO fill:#ff7452,stroke:#de350b,color:#fff
     style Collect fill:#ffab00,stroke:#ff8b00,color:#fff
 ```
 
-Start with RAG (Hyphae, works today). Collect training data passively (Lamella hooks). Fine-tune when you have enough data and RAG hits its limits.
+The practical path: start with RAG (Hyphae, works today), collect training data passively (Lamella hooks), fine-tune when you have enough examples and RAG alone isn't cutting it.
 
 ---
 
-## Self-Hosting Your Own Model
+## Self-Hosting
 
-Complete pipeline from Basidiocarp data to a self-hosted fine-tuned model. See the [LLM Training Guide](LLM-TRAINING.md) for step-by-step instructions.
+Run your own model instead of paying per token. The pipeline:
 
 ```mermaid
-flowchart TD
-    subgraph Capture["1. Capture"]
-        Sessions["Agent sessions"] --> Hyphae["Hyphae DB"]
-        Lamella["Lamella hooks"] --> Hyphae
-    end
-
-    subgraph Export["2. Export"]
-        Hyphae --> SFT["SFT pairs (JSONL)"]
-        Hyphae --> DPOData["DPO pairs (JSONL)"]
-    end
-
-    subgraph Train["3. Fine-tune"]
-        Base["Base model<br/>(Llama/Qwen/Mistral)"]
-        SFT --> Platform["Axolotl / Together.ai"]
-        DPOData --> Platform
-        Base --> Platform
-    end
-
-    subgraph Serve["4. Serve"]
-        Platform --> GGUF["Convert to GGUF"]
-        GGUF --> Ollama["Ollama"]
-        Ollama --> Agent["Agent + Basidiocarp"]
-    end
+flowchart LR
+    Capture["Capture data\n(Basidiocarp)"] --> Export["Export JSONL\n(SFT/DPO)"] --> Train["Fine-tune\n(Axolotl/Together.ai)"] --> Convert["GGUF"] --> Serve["Ollama\n(localhost)"] --> Agent["Agent +\nBasidiocarp tools"]
 
     style Capture fill:#36b37e,stroke:#1f8a5a,color:#fff
-    style Export fill:#ffab00,stroke:#ff8b00,color:#fff
     style Train fill:#6554c0,stroke:#403294,color:#fff
     style Serve fill:#ff7452,stroke:#de350b,color:#fff
 ```
 
-| Setup | GPU | Cost | Models |
-|-------|-----|------|--------|
-| Gaming PC | RTX 4090 (24GB) | $0 (owned) | Up to 32B quantized |
-| Workstation | 2x RTX 4090 (48GB) | $0 (owned) | 70B quantized |
-| Cloud spot | A100 80GB | ~$0.80/hr | Any size |
+Use Basidiocarp with a cloud model for months. Memories, corrections, error resolutions, and session summaries accumulate in Hyphae. Export as JSONL. Fine-tune a Llama or Qwen model. Convert to GGUF, load into Ollama. Your agent now runs locally with all Basidiocarp tools working exactly the same — they don't care which model generates the text.
 
-The fine-tuned model works with every Basidiocarp tool. Hyphae, Rhizome, Mycelium, Lamella don't care which model generates the text.
+| Hardware | VRAM | Models | Cost |
+|----------|------|--------|------|
+| RTX 4090 | 24GB | Up to 32B quantized | $1,600 one-time |
+| 2× RTX 4090 | 48GB | 70B quantized | $3,200 one-time |
+| A100 (cloud spot) | 80GB | Any size | ~$0.80/hr |
 
-### RAG-First vs Fine-Tuning-First vs Combined
+A single RTX 4090 running a fine-tuned 32B model handles most coding tasks and pays for itself in about 2 months vs Claude API costs at moderate usage.
 
-| Approach | Setup | Cost | Quality | Best for |
-|----------|-------|------|---------|----------|
-| RAG only (Hyphae) | Minutes | $0 | Good | Getting started, changing knowledge |
-| Fine-tuning only | Days | $10-50/run | Good | Static conventions, consistent style |
-| RAG + Fine-tuning | Days | $10-50 + $0 | Best | Production |
+See the [LLM Training Guide](LLM-TRAINING.md) for step-by-step instructions with config files and commands.
 
-Combined is what production teams do: fine-tune for behavior, RAG for facts. Basidiocarp supports both paths.
+### RAG vs Fine-tuning vs Both
+
+| Approach | Setup | Ongoing cost | Best for |
+|----------|-------|-------------|----------|
+| RAG only | Minutes | $0 | Getting started, changing knowledge |
+| Fine-tuning only | Days | $10–50/run | Static conventions |
+| Both | Days | $10–50 + $0 | Production |
+
+Production teams combine both: fine-tune for behavioral patterns, RAG for factual retrieval. Basidiocarp captures data for both paths.
 
 ## Related
 
-- [LLM Training Guide](LLM-TRAINING.md) — practical fine-tuning steps
-- [Hyphae: Training Data](https://github.com/basidiocarp/hyphae/blob/main/docs/TRAINING-DATA.md) — export formats, volume estimates
-- [Lamella: Feedback Capture](https://github.com/basidiocarp/lamella/blob/main/docs/FEEDBACK-CAPTURE.md) — correction/error data flow
-- [Hyphae: RAG Pipeline](https://github.com/basidiocarp/hyphae#rag-pipeline) — the RAG implementation
+- [LLM Training Guide](LLM-TRAINING.md) — step-by-step fine-tuning with Basidiocarp data
+- [Hyphae: Training Data](https://github.com/basidiocarp/hyphae/blob/main/docs/TRAINING-DATA.md) — export formats, volume estimates, SQL queries
+- [Lamella: Feedback Capture](https://github.com/basidiocarp/lamella/blob/main/docs/FEEDBACK-CAPTURE.md) — how correction/error data flows
+- [Hyphae: RAG Pipeline](https://github.com/basidiocarp/hyphae#rag-pipeline) — ingestion, search, auto-context
 - [Technical Overview](../profile/README.md#technical-overview) — ecosystem architecture
