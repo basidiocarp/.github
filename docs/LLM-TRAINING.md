@@ -81,20 +81,30 @@ Use Basidiocarp with a cloud model (Claude, GPT) for your normal work. Data accu
 
 ### Phase 2: Export and Train
 
-Until `hyphae export-training-data` is built, query SQLite directly:
+Export memories as training JSONL using the CLI:
 
 ```bash
 # SFT pairs from decisions
-sqlite3 ~/Library/Application\ Support/hyphae/hyphae.db \
-  "SELECT json_object('instruction', topic, 'response', summary) \
-   FROM memories WHERE topic LIKE 'decisions/%' AND weight > 0.3" \
-  > sft_decisions.jsonl
+hyphae export-training-data --format sft --topic "decisions-api" -o sft_decisions.jsonl
 
 # Error resolution pairs
+hyphae export-training-data --format sft --topic "errors/resolved" -o sft_errors.jsonl
+
+# DPO pairs from corrections (self-corrections)
+hyphae export-training-data --format dpo --topic "corrections" -o dpo_pairs.jsonl
+
+# Alpaca format (all memories)
+hyphae export-training-data --format alpaca -o full_training.jsonl
+```
+
+Or query SQLite directly for custom exports:
+
+```bash
+# Custom SFT from multiple topics
 sqlite3 ~/Library/Application\ Support/hyphae/hyphae.db \
-  "SELECT json_object('instruction', 'Fix: ' || substr(summary,1,80), 'response', summary) \
-   FROM memories WHERE topic = 'errors/resolved'" \
-  > sft_errors.jsonl
+  "SELECT json_object('instruction', topic, 'response', summary) \
+   FROM memories WHERE topic LIKE 'decisions/%' OR topic LIKE 'errors/resolved' AND weight > 0.3" \
+  > combined.jsonl
 ```
 
 Then fine-tune with one of:
