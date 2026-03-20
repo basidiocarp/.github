@@ -8,7 +8,7 @@ Infrastructure for AI coding agents. Named after the fungal fruiting body — th
 curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh
 ```
 
-The installer downloads pre-built binaries, auto-detects your MCP clients (Claude Code, Cursor, Windsurf, Continue, Claude Desktop), configures MCP servers and hooks, and verifies the installation.
+Auto-detects MCP clients (Claude Code, Cursor, Windsurf, Continue, Claude Desktop), configures servers and hooks.
 
 ```bash
 mycelium init --ecosystem    # Configure everything
@@ -20,8 +20,10 @@ mycelium doctor              # Verify installation
 | Guide | Description |
 |-------|------------|
 | [Technical Overview](#technical-overview) | Architecture, RAG, vector search, feedback loops |
+| [AI Concepts Guide](docs/AI-CONCEPTS.md) | Bedrock comparison, RAG vs supervised vs unsupervised learning, self-hosting your own model |
 | [LLM Training Guide](docs/LLM-TRAINING.md) | Fine-tuning, DPO, training data export from Basidiocarp |
-| [Install & Update](#install) | Binaries, configuration, verification |
+| [Hyphae: Training Data](https://github.com/basidiocarp/hyphae/blob/main/docs/TRAINING-DATA.md) | Data formats, volume estimates, SQL export queries |
+| [Lamella: Feedback Capture](https://github.com/basidiocarp/lamella/blob/main/docs/FEEDBACK-CAPTURE.md) | Hook architecture, correction/error data flow |
 
 ## Projects
 
@@ -32,7 +34,7 @@ mycelium doctor              # Verify installation
 | [Rhizome](https://github.com/basidiocarp/rhizome) | Code intelligence (37 tools, 32 languages, tree-sitter + LSP) | [Docs](https://github.com/basidiocarp/rhizome/tree/main/docs) |
 | [Cap](https://github.com/basidiocarp/cap) | Web dashboard (11 pages, 60+ API endpoints) | [Docs](https://github.com/basidiocarp/cap/tree/main/docs) |
 | [Spore](https://github.com/basidiocarp/spore) | Shared IPC library (discovery, JSON-RPC, subprocess MCP) | — |
-| [Lamella](https://github.com/basidiocarp/lamella) | Claude Code plugins (hooks, skills, feedback capture) | — |
+| [Lamella](https://github.com/basidiocarp/lamella) | Claude Code plugins (hooks, skills, feedback capture) | [Docs](https://github.com/basidiocarp/lamella/blob/main/docs/FEEDBACK-CAPTURE.md) |
 
 ## How They Connect
 
@@ -75,70 +77,51 @@ graph TD
 
 ### Vector Database & Hybrid Search → [Hyphae](https://github.com/basidiocarp/hyphae)
 
-SQLite + sqlite-vec + FTS5. Hybrid search pipeline: 30% BM25 full-text + 70% cosine vector similarity. Embeddings via fastembed (local) or HTTP API (Ollama/OpenAI).
+SQLite + sqlite-vec + FTS5. Hybrid pipeline: 30% BM25 full-text + 70% cosine vector. Embeddings via fastembed (local) or HTTP (Ollama/OpenAI).
 
 ### RAG Pipeline → [Hyphae](https://github.com/basidiocarp/hyphae) + [Lamella](https://github.com/basidiocarp/lamella)
 
 ```mermaid
 flowchart LR
-    Ingest["Ingest<br/>hyphae_ingest_file"] --> Chunk["Chunk<br/>(window/heading/function)"]
-    Chunk --> Embed["Embed<br/>(fastembed/Ollama)"]
-    Embed --> Store["Store<br/>(SQLite + sqlite-vec)"]
-    Store --> Search["Hybrid Search<br/>(FTS5 + vector)"]
-    Search --> Context["Auto-Context<br/>Injection"]
-    Context --> Agent["Agent Response"]
-
+    Ingest["Ingest"] --> Chunk["Chunk"] --> Embed["Embed"] --> Store["Store"] --> Search["Hybrid Search"] --> Context["Auto-Context"] --> Agent["Response"]
     style Ingest fill:#36b37e,stroke:#1f8a5a,color:#fff
     style Search fill:#6554c0,stroke:#403294,color:#fff
-    style Agent fill:#505f79,stroke:#344563,color:#fff
 ```
 
-Auto-indexing via Lamella hooks. Auto-context injection on MCP init.
+Auto-indexing via hooks. Auto-context injection on session start. See [AI Concepts: When to Use RAG](docs/AI-CONCEPTS.md#when-to-use-rag-vs-supervised-learning-vs-unsupervised-learning).
 
 ### Memory Decay → [Hyphae](https://github.com/basidiocarp/hyphae)
 
 `effective_rate = base_decay × importance_multiplier / (1 + access_count × 0.1)`
 
-Critical memories never decay. Frequently accessed memories decay slower. Auto-decay on recall.
-
 ### Knowledge Graphs → [Hyphae](https://github.com/basidiocarp/hyphae) + [Rhizome](https://github.com/basidiocarp/rhizome)
 
-Memoirs: permanent concept graphs with typed relations. Code graphs: auto-generated from tree-sitter analysis, exported to Hyphae.
+Memoirs: permanent concept graphs. Code graphs: auto-generated from tree-sitter, exported to Hyphae.
 
 ### Tree-sitter + LSP → [Rhizome](https://github.com/basidiocarp/rhizome)
 
-18 languages with tree-sitter grammars (10 with query patterns, 8 with generic fallback). 32 languages with LSP configs, 20+ with auto-install recipes. Backend auto-selected per tool call.
+18 languages with tree-sitter grammars. 32 with LSP configs. Backend auto-selected per tool call.
 
-### Feedback Loop → [Hyphae](https://github.com/basidiocarp/hyphae) + [Lamella](https://github.com/basidiocarp/lamella)
+### Feedback → Lessons → Training Data
 
 ```mermaid
 flowchart LR
-    Session["Agent Session"] --> Hooks["Lamella Hooks"]
-    Hooks --> |"corrections"| H["Hyphae"]
-    Hooks --> |"errors"| H
-    Hooks --> |"test results"| H
-    Hooks --> |"PR reviews"| H
-    H --> Lessons["extract_lessons"]
-    Lessons --> |"patterns"| Agent["Next Session"]
+    Session["Agent"] --> Hooks["Lamella"] --> H["Hyphae"]
+    H --> Lessons["extract_lessons<br/>(patterns)"]
+    H --> Export["export<br/>(SFT/DPO JSONL)"]
+    Export --> FT["Fine-tune<br/>(external)"]
+    FT --> Serve["Ollama<br/>(self-hosted)"]
+    Serve --> Session
 
-    style Session fill:#505f79,stroke:#344563,color:#fff
     style H fill:#36b37e,stroke:#1f8a5a,color:#fff
-    style Lessons fill:#6554c0,stroke:#403294,color:#fff
+    style FT fill:#6554c0,stroke:#403294,color:#fff
 ```
 
-Captures corrections, errors, test failures, PR reviews. `hyphae_extract_lessons` surfaces recurring patterns.
-
-### LLM Training Data → [Guide](docs/LLM-TRAINING.md)
-
-Basidiocarp captures data suitable for fine-tuning but doesn't train models. Memories become SFT instruction pairs. Corrections become DPO preference pairs. Export to JSONL, fine-tune with Together.ai or Axolotl, serve with Ollama.
+Captures corrections, errors, test failures. `extract_lessons` surfaces patterns. Data exports as SFT/DPO pairs for fine-tuning. See [AI Concepts](docs/AI-CONCEPTS.md) and [LLM Training Guide](docs/LLM-TRAINING.md).
 
 ### Token Optimization → [Mycelium](https://github.com/basidiocarp/mycelium)
 
-70+ regex-based filters. Adaptive compression. Hook-based interception. 60-90% savings.
-
-### MCP Protocol → All tools
-
-JSON-RPC 2.0 over stdio, line-delimited framing. Hyphae: 35 tools. Rhizome: 37 tools.
+70+ filters. Adaptive compression. 60-90% savings.
 
 ## Agent Data Flow
 
@@ -154,13 +137,8 @@ sequenceDiagram
     H-->>A: context (sessions, decisions, errors)
     A->>M: git log -20
     M-->>A: 5 lines (90% saved)
-    A->>R: get_symbols src/auth.rs
-    R-->>A: structs, fns, impls
-    A->>R: replace_symbol_body(...)
-    L->>H: track edit
-    A->>M: cargo test
-    M-->>A: 2 failures (99% saved)
-    L->>H: capture errors
+    A->>R: get_symbols + replace_symbol_body
+    L->>H: track edit + capture errors
     A->>H: extract_lessons
     H-->>A: "avoid X in Y"
     A->>H: session_end
