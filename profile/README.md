@@ -6,10 +6,10 @@ Infrastructure for AI coding agents.
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh
-mycelium init --ecosystem
+stipe init
 ```
 
-Downloads binaries, detects your MCP clients (Claude Code, Cursor, Windsurf, Continue, Claude Desktop), registers servers, installs hooks. Run `mycelium doctor` to verify.
+Downloads binaries, detects your MCP clients (Claude Code, Cursor, Windsurf, Continue, Claude Desktop), registers servers, installs hooks. Run `stipe doctor` to verify.
 
 ## Projects
 
@@ -19,8 +19,10 @@ Downloads binaries, detects your MCP clients (Claude Code, Cursor, Windsurf, Con
 | [Hyphae](https://github.com/basidiocarp/hyphae) | Persistent memory, RAG, knowledge graphs, training data export — 39 MCP tools | [Docs](https://github.com/basidiocarp/hyphae/tree/main/docs) |
 | [Rhizome](https://github.com/basidiocarp/rhizome) | Code intelligence — 37 MCP tools, 32 languages, 17 with dedicated queries | [Docs](https://github.com/basidiocarp/rhizome/tree/main/docs) |
 | [Cap](https://github.com/basidiocarp/cap) | Web dashboard — 11 pages, 60+ API endpoints | [Docs](https://github.com/basidiocarp/cap/tree/main/docs) |
-| [Spore](https://github.com/basidiocarp/spore) | Shared IPC — tool discovery, JSON-RPC, subprocess MCP | — |
-| [Lamella](https://github.com/basidiocarp/lamella) | Hooks and feedback capture for Claude Code | [Docs](https://github.com/basidiocarp/lamella/blob/main/docs) |
+| [Spore](https://github.com/basidiocarp/spore) | Shared infrastructure — discovery, JSON-RPC, config, self-update, paths | — |
+| [Stipe](https://github.com/basidiocarp/stipe) | Ecosystem installer/manager — install, init, doctor, update | — |
+| [Cortina](https://github.com/basidiocarp/cortina) | Hook runner — error/correction/change capture, session summary | — |
+| [Lamella](https://github.com/basidiocarp/lamella) | Plugin system — 230 skills, 175 agents for Claude Code | [Docs](https://github.com/basidiocarp/lamella/blob/main/docs) |
 
 ## Guides
 
@@ -30,7 +32,6 @@ Downloads binaries, detects your MCP clients (Claude Code, Cursor, Windsurf, Con
 | [AI Concepts](docs/AI-CONCEPTS.md) | ML fundamentals, Bedrock comparison, RAG vs supervised vs unsupervised, DPO, self-hosting |
 | [LLM Training](docs/LLM-TRAINING.md) | Fine-tuning pipeline, data export, Axolotl/Together.ai, Ollama serving |
 | [Hyphae Training Data](https://github.com/basidiocarp/hyphae/blob/main/docs/TRAINING-DATA.md) | Data formats, volume estimates, SQL export |
-| [Lamella Feedback Capture](https://github.com/basidiocarp/lamella/blob/main/docs/FEEDBACK-CAPTURE.md) | Hook data flow, correction/error capture |
 
 ## Architecture
 
@@ -41,8 +42,9 @@ graph TD
     Hyphae["Hyphae\nMemory + RAG"]
     Rhizome["Rhizome\nCode Intelligence"]
     Cap["Cap\nDashboard"]
-    Lamella["Lamella\nFeedback Hooks"]
-    Spore["Spore\nShared IPC"]
+    Cortina["Cortina\nHook Runner"]
+    Stipe["Stipe\nEcosystem Manager"]
+    Spore["Spore\nShared Infrastructure"]
 
     Agent -- "commands" --> Mycelium
     Mycelium -- "60-90% fewer tokens" --> Agent
@@ -50,21 +52,25 @@ graph TD
     Hyphae -- "memories, context, lessons" --> Agent
     Agent -- "MCP (37 tools)" --> Rhizome
     Rhizome -- "symbols, edits, analysis" --> Agent
-    Lamella -- "hooks" --> Agent
-    Lamella -- "errors, corrections, tests" --> Hyphae
+    Cortina -- "hooks" --> Agent
+    Cortina -- "errors, corrections, changes" --> Hyphae
     Rhizome -- "code graphs" --> Hyphae
     Mycelium -- "large outputs" --> Hyphae
     Cap -- "reads" --> Hyphae
     Cap -- "queries" --> Rhizome
-    Spore -. "IPC" .-> Mycelium
-    Spore -. "IPC" .-> Rhizome
-    Spore -. "IPC" .-> Hyphae
+    Stipe -. "installs + configures" .-> Mycelium
+    Stipe -. "installs + configures" .-> Hyphae
+    Stipe -. "installs + configures" .-> Rhizome
+    Spore -. "shared lib" .-> Mycelium
+    Spore -. "shared lib" .-> Rhizome
+    Spore -. "shared lib" .-> Hyphae
 
     style Hyphae fill:#36b37e,stroke:#1f8a5a,color:#fff
     style Mycelium fill:#ff7452,stroke:#de350b,color:#fff
     style Rhizome fill:#6554c0,stroke:#403294,color:#fff
     style Cap fill:#4c9aff,stroke:#2571cc,color:#fff
-    style Lamella fill:#00b8d9,stroke:#0095b3,color:#fff
+    style Cortina fill:#00b8d9,stroke:#0095b3,color:#fff
+    style Stipe fill:#97a0af,stroke:#6b778c,color:#fff
     style Spore fill:#ffab00,stroke:#ff8b00,color:#fff
     style Agent fill:#505f79,stroke:#344563,color:#fff
 ```
@@ -75,7 +81,7 @@ graph TD
 
 SQLite + sqlite-vec + FTS5. Query pipeline: 30% BM25 full-text + 70% cosine vector similarity. Embeddings via fastembed (local, 384-dim) or HTTP API (Ollama, OpenAI-compatible).
 
-### RAG — [Hyphae](https://github.com/basidiocarp/hyphae) + [Lamella](https://github.com/basidiocarp/lamella)
+### RAG — [Hyphae](https://github.com/basidiocarp/hyphae) + [Cortina](https://github.com/basidiocarp/cortina)
 
 ```mermaid
 flowchart LR
@@ -84,7 +90,7 @@ flowchart LR
     style Search fill:#6554c0,stroke:#403294,color:#fff
 ```
 
-Three chunking strategies (sliding window, by heading, by function). Auto-indexing via Lamella hooks when documents change. Auto-context injection on session start — recent sessions, decisions, and errors appended to MCP instructions.
+Three chunking strategies (sliding window, by heading, by function). Auto-indexing via Cortina hooks when documents change. Auto-context injection on session start — recent sessions, decisions, and errors appended to MCP instructions.
 
 ### Memory Decay — [Hyphae](https://github.com/basidiocarp/hyphae)
 
@@ -100,11 +106,11 @@ Memoirs store permanent concept graphs with typed relations. Rhizome auto-genera
 
 18 languages with tree-sitter grammars (10 with dedicated queries, 8 with generic fallback). 32 languages with LSP server configs, 20+ with auto-install. Backend auto-selected per tool call.
 
-### Feedback Loop — [Lamella](https://github.com/basidiocarp/lamella) → [Hyphae](https://github.com/basidiocarp/hyphae)
+### Feedback Loop — [Cortina](https://github.com/basidiocarp/cortina) → [Hyphae](https://github.com/basidiocarp/hyphae)
 
 ```mermaid
 flowchart LR
-    Agent["Agent"] --> Hooks["Lamella hooks"]
+    Agent["Agent"] --> Hooks["Cortina hooks"]
     Hooks --> Hyphae["Hyphae"]
     Hyphae --> Lessons["extract_lessons"]
     Hyphae --> Eval["evaluate"]
@@ -119,7 +125,7 @@ flowchart LR
     style FT fill:#6554c0,stroke:#403294,color:#fff
 ```
 
-Hooks capture corrections, errors, test failures, PR reviews. `extract_lessons` surfaces recurring patterns. `evaluate` measures agent improvement over time. Accumulated data exports as SFT/DPO pairs for fine-tuning. See the [AI Concepts](docs/AI-CONCEPTS.md) and [Training](docs/LLM-TRAINING.md) guides.
+Cortina hooks capture corrections, errors, test failures, code changes, and session summaries. `extract_lessons` surfaces recurring patterns. `evaluate` measures agent improvement over time. Accumulated data exports as SFT/DPO pairs for fine-tuning. See the [AI Concepts](docs/AI-CONCEPTS.md) and [Training](docs/LLM-TRAINING.md) guides.
 
 ### Token Compression — [Mycelium](https://github.com/basidiocarp/mycelium)
 
@@ -130,7 +136,7 @@ Hooks capture corrections, errors, test failures, PR reviews. `extract_lessons` 
 ```mermaid
 sequenceDiagram
     participant A as Agent
-    participant L as Lamella
+    participant C as Cortina
     participant M as Mycelium
     participant H as Hyphae
     participant R as Rhizome
@@ -140,9 +146,9 @@ sequenceDiagram
     A->>M: git log -20
     M-->>A: 5 lines (90% saved)
     A->>R: get_symbols + edit
-    L->>H: track edits, capture errors
+    C->>H: track edits, capture errors
     A->>H: extract_lessons
     H-->>A: patterns from past mistakes
     A->>H: session_end
-    L->>R: export code graph
+    C->>R: export code graph
 ```

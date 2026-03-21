@@ -112,19 +112,29 @@ The `RhizomeRegistry` holds up to 3 subprocesses (one per project). LRU eviction
 
 ### Spore
 
-Shared Rust library. Four modules: tool discovery (`OnceLock` cached), JSON-RPC encoding, project detection (git root + language heuristics), subprocess MCP client (line-delimited framing). Every Rust project in the ecosystem imports it.
+Shared Rust library. Nine modules: tool discovery (`OnceLock` cached), JSON-RPC encoding, project detection (git root + language heuristics), subprocess MCP client (line-delimited framing), TOML config loading, platform path resolution, token estimation, logging init, and self-update from GitHub releases. Every Rust project in the ecosystem imports it.
 
-### Lamella
+### Stipe
 
-JavaScript hooks that run as Claude Code PostToolUse handlers. Read tool results from stdin, detect patterns, store signals in Hyphae via CLI. Must never block; exit 0 regardless. Errors go to `/tmp/hyphae-hook-errors.log`.
+Ecosystem installer and manager. Downloads binaries from GitHub releases, registers MCP servers with supported editors (Claude Code, Cursor, Windsurf, Cline, Continue, Claude Desktop), initializes Hyphae databases, and runs health checks. Replaces `mycelium init --ecosystem`.
+
+### Cortina
+
+Rust hook runner replacing Lamella's JavaScript hooks. Three hook types: PreToolUse (command rewriting), PostToolUse (error/correction/change capture), and Stop (session summary). Reads hook events from stdin, stores signals in Hyphae via CLI.
 
 ```mermaid
 flowchart LR
-    Claude["Claude Code"] -->|"PostToolUse"| Hook["Hook"]
-    Hook -->|"error detected"| Store["hyphae store"]
-    Hook -->|"5+ edits + build"| Export["rhizome export"]
-    Hook -->|"3+ doc edits"| Ingest["hyphae ingest-file"]
+    Claude["Claude Code"] -->|"PostToolUse"| Cortina["Cortina"]
+    Cortina -->|"error detected"| Store["hyphae store"]
+    Cortina -->|"5+ edits + build"| Export["rhizome export"]
+    Cortina -->|"3+ doc edits"| Ingest["hyphae ingest-file"]
+    Claude -->|"Stop"| Cortina
+    Cortina -->|"session summary"| Store
 ```
+
+### Lamella
+
+Plugin system for Claude Code providing 230 skills, 175 agents, and 20 plugins. Previously also handled feedback hooks (now handled by Cortina).
 
 ---
 
@@ -138,28 +148,28 @@ sequenceDiagram
     participant M as Mycelium
     participant H as Hyphae
     participant R as Rhizome
-    participant L as Lamella
+    participant C as Cortina
 
-    Note over A,L: Session start
+    Note over A,C: Session start
     A->>H: initialize
     H-->>A: Auto-recalled context
 
-    Note over A,L: Work
+    Note over A,C: Work
     A->>M: git log -20
     M-->>A: 5 lines (90% saved)
     A->>R: get_symbols src/auth.rs
     R-->>A: Structs, fns, impls
     A->>R: replace_symbol_body(...)
-    L->>L: Track edit (count: 1)
+    C->>C: Track edit (count: 1)
     A->>M: cargo test
     M-->>A: 2 failures (99% saved)
-    L->>H: Store error
+    C->>H: Store error
     A->>H: Store decision
 
-    Note over A,L: Session end
-    L->>H: Session summary
-    L->>R: Export code graph
-    L->>H: Ingest changed docs
+    Note over A,C: Session end
+    C->>H: Session summary
+    C->>R: Export code graph
+    C->>H: Ingest changed docs
 ```
 
 ### Communication Protocols
@@ -169,8 +179,8 @@ sequenceDiagram
 | Agent → Hyphae | MCP (JSON-RPC, stdio) | Bidirectional |
 | Agent → Rhizome | MCP (JSON-RPC, stdio) | Bidirectional |
 | Agent → Mycelium | Shell (PreToolUse hook rewrites) | One-way |
-| Lamella → Hyphae | CLI (`hyphae store`) | Fire-and-forget |
-| Lamella → Rhizome | CLI (`rhizome export`) | Fire-and-forget |
+| Cortina → Hyphae | CLI (`hyphae store`) | Fire-and-forget |
+| Cortina → Rhizome | CLI (`rhizome export`) | Fire-and-forget |
 | Cap → Hyphae | SQLite (direct, read-only) | Read |
 | Cap → Rhizome | MCP (subprocess pool) | Bidirectional |
 | Cap → Mycelium | CLI (`mycelium gain`) | Read |
@@ -188,12 +198,12 @@ No single tool failure breaks the ecosystem.
 | Rhizome down | Agent loses code intel; Cap shows error | Cap restarts subprocess |
 | Hyphae DB missing | Cap shows empty; memories not persisted | `hyphae stats` creates it |
 | LSP not installed | Falls back to tree-sitter | `rhizome lsp install <lang>` |
-| Hook fails | Feedback not captured | Logged to `/tmp/hyphae-hook-errors.log` |
+| Cortina hook fails | Feedback not captured | Logged to `/tmp/hyphae-hook-errors.log` |
 | Mycelium gone | Commands run unfiltered | Agent works, uses more tokens |
 
 ### Discovery
 
-Mycelium, Hyphae, and Rhizome find each other through spore's `discover(Tool::X)`, which probes PATH and caches the result. Cap uses config constants from environment variables. Lamella hooks check `commandExists()` at runtime.
+Mycelium, Hyphae, and Rhizome find each other through spore's `discover(Tool::X)`, which probes PATH and caches the result. Cap uses config constants from environment variables. Cortina hooks check binary availability at runtime. Stipe discovers all tools for health checks and updates.
 
 No project requires any other. Every integration has a fallback.
 
@@ -202,7 +212,7 @@ No project requires any other. Every integration has a fallback.
 - [Technical Overview](../profile/README.md#technical-overview)
 - [AI Concepts](AI-CONCEPTS.md)
 - [LLM Training](LLM-TRAINING.md)
-- [Mycelium: Ecosystem Setup](https://github.com/basidiocarp/mycelium/blob/main/docs/ECOSYSTEM-SETUP.md)
+- [Stipe: Ecosystem Setup](https://github.com/basidiocarp/stipe)
+- [Cortina: Hook Runner](https://github.com/basidiocarp/cortina)
 - [Rhizome: Architecture](https://github.com/basidiocarp/rhizome/blob/main/docs/ARCHITECTURE.md)
 - [Cap: API Reference](https://github.com/basidiocarp/cap/blob/main/docs/API.md)
-- [Lamella: Feedback Capture](https://github.com/basidiocarp/lamella/blob/main/docs/FEEDBACK-CAPTURE.md)
