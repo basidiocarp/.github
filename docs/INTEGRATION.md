@@ -1,6 +1,6 @@
 # How the Projects Connect
 
-Each Basidiocarp project is a standalone tool. They work alone. They work better together. This doc covers both: what happens inside each project, and what happens between them.
+Each Basidiocarp project works on its own. Together they form a feedback loop: the agent works, the tools observe, memories accumulate, and future sessions start smarter. This doc covers what happens inside each project and what happens between them.
 
 ## Internal Architecture
 
@@ -14,7 +14,7 @@ flowchart LR
     Classify -->|"no filter"| Passthrough["Passthrough"] --> Track
 ```
 
-The registry maps commands to filters. `git status` hits `filters/git.rs`. `cargo test` hits `filters/cargo.rs`. Unrecognized commands pass through unchanged.
+The registry maps commands to filters. `git status` hits `filters/git.rs`; `cargo test` hits `filters/cargo.rs`. Unrecognized commands pass through unchanged.
 
 For large outputs (500+ lines), the pipeline forks:
 
@@ -29,7 +29,7 @@ flowchart TD
     Chunk --> Summary["Summary + document_id"]
 ```
 
-If Hyphae is available, the output gets chunked and stored for later retrieval. The agent receives a summary with a `document_id`. If Hyphae is down, local filtering handles it.
+When Hyphae is reachable, the output gets chunked and stored. The agent receives a summary with a `document_id` it can use to retrieve specific chunks later. When Hyphae is down, local filtering handles it.
 
 ### Hyphae
 
@@ -61,9 +61,9 @@ erDiagram
     }
 ```
 
-The MCP server reads JSON-RPC from stdin, dispatches to 35 tool handlers. On initialize, it queries the database and injects recent sessions, decisions, and errors into the instructions. The agent gets context before calling any tools.
+The MCP server reads JSON-RPC from stdin and dispatches to 35 tool handlers. On `initialize`, it queries the database and injects recent sessions, decisions, and errors into the instructions. The agent gets context before it calls a single tool.
 
-Search pipeline:
+Search runs through a three-tier pipeline:
 
 ```mermaid
 flowchart LR
@@ -77,6 +77,8 @@ flowchart LR
     Keyword --> Merge
     Merge --> Rank["Rank by weight"]
 ```
+
+FTS5 now includes a `project` column (UNINDEXED) so project-scoped searches skip the JOIN entirely.
 
 ### Rhizome
 
@@ -92,13 +94,13 @@ flowchart TD
     Check -->|"No"| TS
 ```
 
-Tree-sitter has two tiers: 10 languages with dedicated S-expression queries get precise extraction; 8 more fall through to a generic AST walker matching common node types.
+Tree-sitter has two tiers: 10 languages with dedicated S-expression queries get precise extraction; 8 more use a generic AST walker that matches common node types. Parsed trees are cached in a process-wide LRU (100 entries, invalidated by mtime) so repeated access to the same file doesn't re-parse.
 
 The LSP backend manages multiple server processes keyed by (language, project root). A Rust file in `/project-a` and one in `/project-b` get separate `rust-analyzer` instances. Servers auto-install to `~/.rhizome/bin/`.
 
 ### Cap
 
-React frontend → Hono backend. Backend reads Hyphae's SQLite directly (read-only) and manages a pool of Rhizome MCP subprocesses.
+React frontend, Hono backend. The backend reads Hyphae's SQLite directly (read-only) and manages a pool of Rhizome MCP subprocesses.
 
 ```mermaid
 flowchart LR
@@ -108,19 +110,19 @@ flowchart LR
     Hono -->|"shell"| CLI["mycelium/hyphae CLI"]
 ```
 
-The `RhizomeRegistry` holds up to 3 subprocesses (one per project). LRU eviction kills the oldest when a fourth is selected. Write operations shell out to the Hyphae CLI rather than touching SQLite directly.
+`RhizomeRegistry` holds up to 3 subprocesses, one per project. LRU eviction kills the oldest when a fourth project is selected. Write operations shell out to the Hyphae CLI rather than touching SQLite directly.
 
 ### Spore
 
-Shared Rust library. Nine modules: tool discovery (`OnceLock` cached), JSON-RPC encoding, project detection (git root + language heuristics), subprocess MCP client (line-delimited framing), TOML config loading, platform path resolution, token estimation, logging init, and self-update from GitHub releases. Every Rust project in the ecosystem imports it.
+Shared Rust library. Nine modules: tool discovery (`OnceLock` cached), JSON-RPC encoding, project detection (git root + language heuristics), subprocess MCP client with timeout enforcement, TOML config loading, platform path resolution, token estimation, tracing init, and self-update from GitHub releases. Every Rust project in the ecosystem imports it.
 
 ### Stipe
 
-Ecosystem installer and manager. Downloads binaries from GitHub releases, registers MCP servers with supported editors (Claude Code, Cursor, Windsurf, Cline, Continue, Claude Desktop), initializes Hyphae databases, and runs health checks. Replaces `mycelium init --ecosystem`.
+Ecosystem manager. Downloads binaries from GitHub releases, registers MCP servers with six editors, initializes the Hyphae database, and runs health checks. `stipe doctor` validates the full stack in one command.
 
 ### Cortina
 
-Rust hook runner replacing Lamella's JavaScript hooks. Three hook types: PreToolUse (command rewriting), PostToolUse (error/correction/change capture), and Stop (session summary). Reads hook events from stdin, stores signals in Hyphae via CLI.
+Rust hook runner. Three hook types: PreToolUse (command rewriting), PostToolUse (error, correction, and code change capture), Stop (session summary). Reads events from stdin, stores signals in Hyphae via CLI. Must never block the agent; exits 0 regardless of internal errors.
 
 ```mermaid
 flowchart LR
@@ -134,7 +136,7 @@ flowchart LR
 
 ### Lamella
 
-Plugin system for Claude Code providing 230 skills, 175 agents, and 20 plugins. Previously also handled feedback hooks (now handled by Cortina).
+Plugin system for Claude Code: 230 skills, 175 agents, 20 plugins. Feedback hooks moved to Cortina.
 
 ---
 
@@ -203,16 +205,16 @@ No single tool failure breaks the ecosystem.
 
 ### Discovery
 
-Mycelium, Hyphae, and Rhizome find each other through spore's `discover(Tool::X)`, which probes PATH and caches the result. Cap uses config constants from environment variables. Cortina hooks check binary availability at runtime. Stipe discovers all tools for health checks and updates.
+Tools find each other through spore's `discover(Tool::X)`, which probes PATH and caches the result for the process lifetime. Cap reads config constants from environment variables. Cortina checks binary availability at runtime before shelling out. Stipe discovers everything for health checks and updates.
 
 No project requires any other. Every integration has a fallback.
 
 ## Related
 
-- [Technical Overview](../profile/README.md#technical-overview)
+- [Technical Overview](../profile/README.md#how-it-works)
 - [AI Concepts](AI-CONCEPTS.md)
 - [LLM Training](LLM-TRAINING.md)
-- [Stipe: Ecosystem Setup](https://github.com/basidiocarp/stipe)
-- [Cortina: Hook Runner](https://github.com/basidiocarp/cortina)
-- [Rhizome: Architecture](https://github.com/basidiocarp/rhizome/blob/main/docs/ARCHITECTURE.md)
-- [Cap: API Reference](https://github.com/basidiocarp/cap/blob/main/docs/API.md)
+- [Stipe](https://github.com/basidiocarp/stipe)
+- [Cortina](https://github.com/basidiocarp/cortina)
+- [Rhizome Architecture](https://github.com/basidiocarp/rhizome/blob/main/docs/ARCHITECTURE.md)
+- [Cap API](https://github.com/basidiocarp/cap/blob/main/docs/API.md)

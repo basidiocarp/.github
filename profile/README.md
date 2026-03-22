@@ -1,6 +1,8 @@
 # Basidiocarp
 
-Infrastructure for AI coding agents.
+Tools that make AI coding agents better at their job. Memory that persists across sessions, token compression that cuts costs 60-90%, code intelligence across 32 languages, and feedback capture that turns mistakes into lessons.
+
+Everything runs locally. No cloud services, no API keys for the core stack. SQLite all the way down.
 
 ## Install
 
@@ -9,29 +11,29 @@ curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh
 stipe init
 ```
 
-Downloads binaries, detects your MCP clients (Claude Code, Cursor, Windsurf, Continue, Claude Desktop), registers servers, installs hooks. Run `stipe doctor` to verify.
+Two commands. Stipe downloads binaries, finds your editor (Claude Code, Cursor, Windsurf, Continue, Claude Desktop), registers the MCP servers, and wires up hooks. `stipe doctor` confirms everything landed.
 
 ## Projects
 
-| Project | Purpose | Tools |
-|---------|---------|-------|
-| [Mycelium](https://github.com/basidiocarp/mycelium) | Token compression — 60-90% savings on 70+ commands | [Docs](https://github.com/basidiocarp/mycelium/tree/main/docs) |
-| [Hyphae](https://github.com/basidiocarp/hyphae) | Persistent memory, RAG, knowledge graphs, training data export — 39 MCP tools | [Docs](https://github.com/basidiocarp/hyphae/tree/main/docs) |
-| [Rhizome](https://github.com/basidiocarp/rhizome) | Code intelligence — 37 MCP tools, 32 languages, 17 with dedicated queries | [Docs](https://github.com/basidiocarp/rhizome/tree/main/docs) |
-| [Cap](https://github.com/basidiocarp/cap) | Web dashboard — 11 pages, 60+ API endpoints | [Docs](https://github.com/basidiocarp/cap/tree/main/docs) |
-| [Spore](https://github.com/basidiocarp/spore) | Shared infrastructure — discovery, JSON-RPC, config, self-update, paths | — |
-| [Stipe](https://github.com/basidiocarp/stipe) | Ecosystem installer/manager — install, init, doctor, update | — |
-| [Cortina](https://github.com/basidiocarp/cortina) | Hook runner — error/correction/change capture, session summary | — |
-| [Lamella](https://github.com/basidiocarp/lamella) | Plugin system — 230 skills, 175 agents for Claude Code | [Docs](https://github.com/basidiocarp/lamella/blob/main/docs) |
+| Project | What it does |
+|---------|-------------|
+| [Mycelium](https://github.com/basidiocarp/mycelium) | CLI proxy. Rewrites command output before it reaches the agent. 70+ filters, 60-90% token savings. [Docs](https://github.com/basidiocarp/mycelium/tree/main/docs) |
+| [Hyphae](https://github.com/basidiocarp/hyphae) | Agent memory. Episodic recall, knowledge graphs, RAG with hybrid search, training data export. 39 MCP tools. [Docs](https://github.com/basidiocarp/hyphae/tree/main/docs) |
+| [Rhizome](https://github.com/basidiocarp/rhizome) | Code intelligence. Tree-sitter + LSP, symbol extraction, file editing, code graphs. 37 MCP tools, 32 languages. [Docs](https://github.com/basidiocarp/rhizome/tree/main/docs) |
+| [Cap](https://github.com/basidiocarp/cap) | Web dashboard. Browse memories, view token analytics, explore code with annotations. [Docs](https://github.com/basidiocarp/cap/tree/main/docs) |
+| [Spore](https://github.com/basidiocarp/spore) | Shared Rust library. Discovery, JSON-RPC, config, self-update, platform paths. |
+| [Stipe](https://github.com/basidiocarp/stipe) | Ecosystem manager. Install, init, doctor, update. |
+| [Cortina](https://github.com/basidiocarp/cortina) | Hook runner. Captures errors, corrections, code changes, session summaries in Rust. |
+| [Lamella](https://github.com/basidiocarp/lamella) | Plugin system. 230 skills and 175 agents for Claude Code. [Docs](https://github.com/basidiocarp/lamella/blob/main/docs) |
 
 ## Guides
 
-| Guide | What it covers |
-|-------|---------------|
-| [Integration Guide](docs/INTEGRATION.md) | Internal architecture, external data flow, protocols, failure modes |
-| [AI Concepts](docs/AI-CONCEPTS.md) | ML fundamentals, Bedrock comparison, RAG vs supervised vs unsupervised, DPO, self-hosting |
-| [LLM Training](docs/LLM-TRAINING.md) | Fine-tuning pipeline, data export, Axolotl/Together.ai, Ollama serving |
-| [Hyphae Training Data](https://github.com/basidiocarp/hyphae/blob/main/docs/TRAINING-DATA.md) | Data formats, volume estimates, SQL export |
+| Guide | Covers |
+|-------|--------|
+| [Integration](docs/INTEGRATION.md) | How the projects connect, protocols, failure modes |
+| [AI Concepts](docs/AI-CONCEPTS.md) | RAG, DPO, fine-tuning, self-hosting, Bedrock comparison |
+| [LLM Training](docs/LLM-TRAINING.md) | Data export, Axolotl, Together.ai, Ollama serving |
+| [Training Data](https://github.com/basidiocarp/hyphae/blob/main/docs/TRAINING-DATA.md) | Formats, volume estimates, SQL export |
 
 ## Architecture
 
@@ -75,13 +77,19 @@ graph TD
     style Agent fill:#505f79,stroke:#344563,color:#fff
 ```
 
-## Technical Overview
+## How It Works
 
-### Hybrid Search — [Hyphae](https://github.com/basidiocarp/hyphae)
+Hyphae stores two kinds of data in one SQLite database. Memories are episodic: they decay over time based on importance and access frequency. Memoirs are permanent knowledge graphs with typed relations between concepts. Search blends FTS5 full-text (30% weight) with cosine vector similarity (70%) using fastembed locally or any OpenAI-compatible endpoint.
 
-SQLite + sqlite-vec + FTS5. Query pipeline: 30% BM25 full-text + 70% cosine vector similarity. Embeddings via fastembed (local, 384-dim) or HTTP API (Ollama, OpenAI-compatible).
+`effective_decay = base_rate * importance_multiplier / (1 + access_count * 0.1)`
 
-### RAG — [Hyphae](https://github.com/basidiocarp/hyphae) + [Cortina](https://github.com/basidiocarp/cortina)
+Critical memories never decay. Frequently accessed ones slow down. The decay runs automatically on every recall.
+
+Rhizome parses code with tree-sitter (18 languages, 10 with dedicated queries) and fills gaps with LSP servers (32 languages, 20+ auto-installed). The `BackendSelector` picks the right backend per tool call: tree-sitter for symbol extraction, LSP for references and renames. It also exports code structure graphs into Hyphae memoirs so the agent can query "what calls this function?" from memory.
+
+Mycelium sits between the agent and the shell. `git log -20` returns 5 lines instead of 200. `cargo test` with 500 passing tests returns only the 2 failures. Small outputs pass through untouched; medium ones get filtered; large ones get chunked into Hyphae for later retrieval. 70+ filters cover git, cargo, npm, docker, kubectl, and more.
+
+Cortina runs as a Claude Code hook. After every tool use, it checks for errors, self-corrections, and code changes. On session end, it writes a summary to Hyphae and exports the code graph to Rhizome. Over time, `extract_lessons` surfaces patterns from these signals, and `evaluate` measures whether the agent is getting better. The accumulated data exports as SFT/DPO pairs for fine-tuning via Ollama. See the [AI Concepts](docs/AI-CONCEPTS.md) and [Training](docs/LLM-TRAINING.md) guides.
 
 ```mermaid
 flowchart LR
@@ -89,47 +97,6 @@ flowchart LR
     style Ingest fill:#36b37e,stroke:#1f8a5a,color:#fff
     style Search fill:#6554c0,stroke:#403294,color:#fff
 ```
-
-Three chunking strategies (sliding window, by heading, by function). Auto-indexing via Cortina hooks when documents change. Auto-context injection on session start — recent sessions, decisions, and errors appended to MCP instructions.
-
-### Memory Decay — [Hyphae](https://github.com/basidiocarp/hyphae)
-
-`effective_rate = base_decay × importance_multiplier / (1 + access_count × 0.1)`
-
-Critical memories never decay. Frequently accessed ones decay slower. Auto-runs on recall.
-
-### Knowledge Graphs — [Hyphae](https://github.com/basidiocarp/hyphae) + [Rhizome](https://github.com/basidiocarp/rhizome)
-
-Memoirs store permanent concept graphs with typed relations. Rhizome auto-generates code graphs from tree-sitter analysis and exports them to Hyphae memoirs.
-
-### Code Parsing — [Rhizome](https://github.com/basidiocarp/rhizome)
-
-18 languages with tree-sitter grammars (10 with dedicated queries, 8 with generic fallback). 32 languages with LSP server configs, 20+ with auto-install. Backend auto-selected per tool call.
-
-### Feedback Loop — [Cortina](https://github.com/basidiocarp/cortina) → [Hyphae](https://github.com/basidiocarp/hyphae)
-
-```mermaid
-flowchart LR
-    Agent["Agent"] --> Hooks["Cortina hooks"]
-    Hooks --> Hyphae["Hyphae"]
-    Hyphae --> Lessons["extract_lessons"]
-    Hyphae --> Eval["evaluate"]
-    Hyphae --> Export["Export JSONL"]
-    Export --> FT["Fine-tune"]
-    FT --> Ollama["Ollama"]
-    Ollama --> Agent
-    Lessons --> Agent
-    Eval --> Agent
-
-    style Hyphae fill:#36b37e,stroke:#1f8a5a,color:#fff
-    style FT fill:#6554c0,stroke:#403294,color:#fff
-```
-
-Cortina hooks capture corrections, errors, test failures, code changes, and session summaries. `extract_lessons` surfaces recurring patterns. `evaluate` measures agent improvement over time. Accumulated data exports as SFT/DPO pairs for fine-tuning. See the [AI Concepts](docs/AI-CONCEPTS.md) and [Training](docs/LLM-TRAINING.md) guides.
-
-### Token Compression — [Mycelium](https://github.com/basidiocarp/mycelium)
-
-70+ regex-based command filters. Adaptive: small outputs pass through, medium get filtered, large get chunked into Hyphae. 60-90% savings.
 
 ## Session Flow
 
