@@ -14,7 +14,7 @@ set -e
 # Defaults
 # ─────────────────────────────────────────────────────────────────────────────
 
-ALL_TOOLS="mycelium hyphae rhizome"
+ALL_TOOLS="stipe mycelium hyphae rhizome cortina"
 TOOLS="$ALL_TOOLS"
 PREFIX="$HOME/.local/bin"
 CONFIGURE=1
@@ -444,8 +444,8 @@ main() {
 
   printf "\n${BOLD}Next steps:${RESET}\n"
   printf "  1. Restart your editor to pick up MCP servers\n"
-  case "$succeeded" in *mycelium*)  printf "  2. Run: mycelium gain\n" ;; esac
-  case "$succeeded" in *hyphae*)   printf "  3. Run: hyphae --help\n" ;; esac
+  printf "  2. Run: stipe doctor        (verify ecosystem health)\n"
+  printf "  3. Run: stipe update --all  (update to latest versions)\n"
   printf "\n"
 
   check_path

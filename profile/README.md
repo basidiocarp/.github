@@ -8,10 +8,9 @@ Everything runs locally. No cloud services, no API keys for the core stack. SQLi
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh
-stipe init
 ```
 
-Two commands. Stipe downloads binaries, finds your editor (Claude Code, Cursor, Windsurf, Continue, Claude Desktop), registers the MCP servers, and wires up hooks. `stipe doctor` confirms everything landed.
+One command. Downloads all tools, finds your editor (Claude Code, Cursor, Windsurf, Continue, Claude Desktop), registers the MCP servers, and wires up hooks. Run `stipe doctor` to confirm everything landed.
 
 ## Projects
 
