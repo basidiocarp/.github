@@ -4,6 +4,8 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # POSIX sh compatible — no bashisms.
 #
+# Downloads binaries, then delegates editor configuration to stipe.
+#
 # Usage:
 #   curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh
 #   sh install.sh --tools mycelium,hyphae --prefix /usr/local/bin
@@ -18,7 +20,6 @@ ALL_TOOLS="stipe mycelium hyphae rhizome cortina"
 TOOLS="$ALL_TOOLS"
 PREFIX="$HOME/.local/bin"
 CONFIGURE=1
-CLIENT=""
 VERSION=""
 UNINSTALL=0
 GH_ORG="basidiocarp"
@@ -51,21 +52,17 @@ Usage: install.sh [OPTIONS]
 Options:
   --help            Show this help message
   --tools LIST      Comma-separated tools to install (default: all)
-                    Available: mycelium, hyphae, rhizome
+                    Available: stipe, mycelium, hyphae, rhizome, cortina
   --prefix DIR      Install directory (default: ~/.local/bin)
-  --client NAME     Configure only this MCP client (default: all detected)
-                    Available: claude, cursor, windsurf, continue, claude-desktop, generic
-  --no-configure    Skip MCP client configuration
+  --no-configure    Skip editor configuration (just download binaries)
   --version VER     Install a specific version (default: latest)
   --uninstall       Remove installed binaries and configuration
 
 Examples:
   curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh
   install.sh --tools mycelium,hyphae
-  install.sh --client cursor
-  install.sh --client generic    # Print config JSON for manual setup
   install.sh --prefix /usr/local/bin
-  install.sh --version 0.3.0
+  install.sh --no-configure
   install.sh --uninstall
 EOF
   exit 0
@@ -81,7 +78,6 @@ parse_args() {
       --help)         usage ;;
       --tools)        shift; TOOLS=$(echo "$1" | tr ',' ' ') ;;
       --prefix)       shift; PREFIX="$1" ;;
-      --client)       shift; CLIENT="$1" ;;
       --no-configure) CONFIGURE=0 ;;
       --version)      shift; VERSION="$1" ;;
       --uninstall)    UNINSTALL=1 ;;
@@ -176,7 +172,7 @@ install_tool() {
 
 do_uninstall() {
   info "Uninstalling basidiocarp tools from ${PREFIX}..."
-  for tool in $TOOLS; do
+  for tool in $ALL_TOOLS; do
     if [ -f "${PREFIX}/${tool}" ]; then
       rm -f "${PREFIX}/${tool}"
       ok "${tool} removed"
@@ -185,192 +181,10 @@ do_uninstall() {
     fi
   done
 
-  if [ $CONFIGURE -eq 1 ] && command -v claude >/dev/null 2>&1; then
-    for tool in hyphae rhizome; do
-      claude mcp remove --scope user "$tool" 2>/dev/null \
-        && ok "Claude Code MCP server '${tool}' removed" || true
-    done
-  fi
-
   info "Uninstall complete."
+  info "MCP server registrations may remain in your editor configs."
+  info "Run 'stipe uninstall --all' before removing stipe for full cleanup."
   exit 0
-}
-
-# ─────────────────────────────────────────────────────────────────────────────
-# MCP server JSON snippet (used by JSON-config clients)
-# ─────────────────────────────────────────────────────────────────────────────
-
-mcp_servers_json() {
-  cat <<MCPJSON
-{
-  "hyphae": {
-    "command": "hyphae",
-    "args": ["serve"]
-  },
-  "rhizome": {
-    "command": "rhizome",
-    "args": ["serve", "--expanded"]
-  }
-}
-MCPJSON
-}
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Check if an MCP server is already registered (Claude Code)
-# ─────────────────────────────────────────────────────────────────────────────
-
-mcp_exists() {
-  claude mcp list 2>/dev/null | grep -q "^${1}:" 2>/dev/null
-}
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Write MCP config to a JSON file (Cursor, Windsurf, Continue, Claude Desktop)
-# Merges into existing mcpServers without overwriting other entries.
-# ─────────────────────────────────────────────────────────────────────────────
-
-write_mcp_json() {
-  config_file="$1"
-  client_name="$2"
-
-  if [ ! -d "$(dirname "$config_file")" ]; then
-    warn "$client_name config directory not found — skipping"
-    return 1
-  fi
-
-  # Backup existing config
-  if [ -f "$config_file" ]; then
-    cp "$config_file" "${config_file}.bak" 2>/dev/null || true
-  fi
-
-  # Check if jq is available for proper JSON merging
-  if command -v jq >/dev/null 2>&1; then
-    if [ -f "$config_file" ]; then
-      # Merge into existing config
-      jq --argjson servers "$(mcp_servers_json)" '.mcpServers = (.mcpServers // {}) + $servers' "$config_file" > "${config_file}.tmp" \
-        && mv "${config_file}.tmp" "$config_file" \
-        && ok "$client_name: MCP servers added to $config_file" \
-        || { warn "Failed to update $client_name config"; return 1; }
-    else
-      # Create new config with just mcpServers
-      printf '{"mcpServers": %s}\n' "$(mcp_servers_json)" | jq '.' > "$config_file" \
-        && ok "$client_name: MCP config created at $config_file" \
-        || { warn "Failed to create $client_name config"; return 1; }
-    fi
-  else
-    # No jq — write simple config (may overwrite existing)
-    if [ -f "$config_file" ]; then
-      warn "$client_name: jq not installed — cannot safely merge config. Skipping."
-      warn "  Install jq and re-run, or manually add to $config_file:"
-      printf "  %s\n" "$(mcp_servers_json | head -8)"
-      return 1
-    else
-      printf '{"mcpServers": %s}\n' "$(mcp_servers_json)" > "$config_file" \
-        && ok "$client_name: MCP config created at $config_file" \
-        || { warn "Failed to create $client_name config"; return 1; }
-    fi
-  fi
-  return 0
-}
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Configure MCP clients
-# ─────────────────────────────────────────────────────────────────────────────
-
-configure_clients() {
-  info "Configuring MCP clients..."
-
-  configured=0
-
-  # Generic mode — just print the config
-  if [ "$CLIENT" = "generic" ]; then
-    info "MCP server configuration (add to your client's config):"
-    printf "\n"
-    mcp_servers_json
-    printf "\n"
-    return
-  fi
-
-  # Claude Code
-  if [ -z "$CLIENT" ] || [ "$CLIENT" = "claude" ]; then
-    if command -v claude >/dev/null 2>&1; then
-      for tool in $TOOLS; do
-        case "$tool" in
-          hyphae)
-            if mcp_exists hyphae; then
-              ok "Claude Code: hyphae already registered"
-            else
-              claude mcp add --scope user hyphae -- hyphae serve 2>/dev/null \
-                && ok "Claude Code: hyphae MCP registered" \
-                || warn "Claude Code: failed to register hyphae"
-            fi ;;
-          rhizome)
-            if mcp_exists rhizome; then
-              ok "Claude Code: rhizome already registered"
-            else
-              claude mcp add --scope user rhizome -- rhizome serve --expanded 2>/dev/null \
-                && ok "Claude Code: rhizome MCP registered" \
-                || warn "Claude Code: failed to register rhizome"
-            fi ;;
-          mycelium)
-            if [ -x "${PREFIX}/mycelium" ]; then
-              "${PREFIX}/mycelium" init --global 2>/dev/null \
-                && ok "Claude Code: mycelium hooks configured" \
-                || warn "Claude Code: failed to configure mycelium"
-            fi ;;
-        esac
-      done
-      configured=$((configured + 1))
-    elif [ "$CLIENT" = "claude" ]; then
-      warn "Claude Code CLI not found"
-    fi
-  fi
-
-  # Cursor
-  if [ -z "$CLIENT" ] || [ "$CLIENT" = "cursor" ]; then
-    cursor_config="$HOME/.cursor/mcp.json"
-    if [ -d "$HOME/.cursor" ] || [ "$CLIENT" = "cursor" ]; then
-      mkdir -p "$HOME/.cursor"
-      write_mcp_json "$cursor_config" "Cursor" && configured=$((configured + 1))
-    fi
-  fi
-
-  # Windsurf
-  if [ -z "$CLIENT" ] || [ "$CLIENT" = "windsurf" ]; then
-    windsurf_config="$HOME/.windsurf/mcp.json"
-    if [ -d "$HOME/.windsurf" ] || [ "$CLIENT" = "windsurf" ]; then
-      mkdir -p "$HOME/.windsurf"
-      write_mcp_json "$windsurf_config" "Windsurf" && configured=$((configured + 1))
-    fi
-  fi
-
-  # Continue
-  if [ -z "$CLIENT" ] || [ "$CLIENT" = "continue" ]; then
-    continue_config="$HOME/.continue/config.json"
-    if [ -d "$HOME/.continue" ] || [ "$CLIENT" = "continue" ]; then
-      mkdir -p "$HOME/.continue"
-      write_mcp_json "$continue_config" "Continue" && configured=$((configured + 1))
-    fi
-  fi
-
-  # Claude Desktop
-  if [ -z "$CLIENT" ] || [ "$CLIENT" = "claude-desktop" ]; then
-    case "$(uname -s)" in
-      Darwin) desktop_config="$HOME/Library/Application Support/Claude/claude_desktop_config.json" ;;
-      Linux)  desktop_config="${XDG_CONFIG_HOME:-$HOME/.config}/Claude/claude_desktop_config.json" ;;
-      *)      desktop_config="" ;;
-    esac
-    if [ -n "$desktop_config" ]; then
-      if [ -d "$(dirname "$desktop_config")" ] || [ "$CLIENT" = "claude-desktop" ]; then
-        mkdir -p "$(dirname "$desktop_config")"
-        write_mcp_json "$desktop_config" "Claude Desktop" && configured=$((configured + 1))
-      fi
-    fi
-  fi
-
-  if [ $configured -eq 0 ] && [ -z "$CLIENT" ]; then
-    warn "No MCP clients detected. Install one of: Claude Code, Cursor, Windsurf, Continue"
-    info "  Or run with --client generic to print config for manual setup"
-  fi
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -420,6 +234,7 @@ main() {
   detect_fetcher
   mkdir -p "$PREFIX"
 
+  # Install stipe first so it can configure editors afterward
   failed=""
   succeeded=""
   for tool in $TOOLS; do
@@ -430,8 +245,14 @@ main() {
     fi
   done
 
-  if [ $CONFIGURE -eq 1 ] && [ -n "$succeeded" ]; then
-    configure_clients
+  # Delegate editor configuration to stipe
+  if [ $CONFIGURE -eq 1 ] && [ -x "${PREFIX}/stipe" ]; then
+    printf "\n"
+    info "Configuring editors..."
+    "${PREFIX}/stipe" init 2>&1 || warn "stipe init had issues (run 'stipe doctor' to diagnose)"
+  elif [ $CONFIGURE -eq 1 ]; then
+    warn "stipe not installed — skipping editor configuration"
+    warn "Run 'stipe init' manually after installing stipe"
   fi
 
   printf "\n"
