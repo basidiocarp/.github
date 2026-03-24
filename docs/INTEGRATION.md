@@ -211,6 +211,7 @@ No project requires any other. Every integration has a fallback.
 
 ## Related
 
+- [Ecosystem Architecture](./ECOSYSTEM-ARCHITECTURE.md)
 - [Technical Overview](../profile/README.md#how-it-works)
 - [AI Concepts](AI-CONCEPTS.md)
 - [LLM Training](LLM-TRAINING.md)
