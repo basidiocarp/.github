@@ -200,7 +200,7 @@ No single tool failure breaks the ecosystem.
 | Rhizome down | Agent loses code intel; Cap shows error | Cap restarts subprocess |
 | Hyphae DB missing | Cap shows empty; memories not persisted | `hyphae stats` creates it |
 | LSP not installed | Falls back to tree-sitter | `rhizome lsp install <lang>` |
-| Cortina hook fails | Feedback not captured | Logged to `/tmp/hyphae-hook-errors.log` |
+| Cortina hook fails | Feedback not captured | Logged to the configured Hyphae hook error log in the system temp directory |
 | Mycelium gone | Commands run unfiltered | Agent works, uses more tokens |
 
 ### Discovery
