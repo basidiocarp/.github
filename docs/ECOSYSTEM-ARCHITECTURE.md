@@ -1,6 +1,10 @@
 # Basidiocarp Ecosystem Architecture
 
-This document describes the current role of each tool in the Basidiocarp ecosystem and how Claude Code and Codex flow through the stack.
+This page covers boundaries. Use it to answer "which tool owns this concern?" Use [How the Projects Connect](./INTEGRATION.md) for runtime flow, protocols, and failure modes.
+
+## Overview
+
+Basidiocarp splits the stack into a few clear layers. `mycelium` handles command shaping, `hyphae` handles memory, `rhizome` handles code intelligence, `stipe` handles installation and host policy, and `cap` surfaces the state of the system. The supporting tools stay narrower: `spore` is shared plumbing, `lamella` packages agent assets, and `cortina` runs host-side hooks.
 
 ## Core services
 
@@ -33,7 +37,7 @@ This document describes the current role of each tool in the Basidiocarp ecosyst
 
 ## Host adapters
 
-The ecosystem now treats hosts as adapters instead of assuming everything is Claude-shaped.
+The ecosystem treats hosts as adapters instead of assuming everything is Claude-shaped.
 
 - `Claude Code`
   - MCP + lifecycle hooks

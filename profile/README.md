@@ -29,6 +29,7 @@ One command. Downloads all tools, finds your editor (Claude Code, Cursor, Windsu
 
 | Guide | Covers |
 |-------|--------|
+| [Ecosystem Architecture](docs/ECOSYSTEM-ARCHITECTURE.md) | Ownership boundaries, host adapters, memory vs memoirs |
 | [Integration](docs/INTEGRATION.md) | How the projects connect, protocols, failure modes |
 | [AI Concepts](docs/AI-CONCEPTS.md) | RAG, DPO, fine-tuning, self-hosting, Bedrock comparison |
 | [LLM Training](docs/LLM-TRAINING.md) | Data export, Axolotl, Together.ai, Ollama serving |
