@@ -4,7 +4,7 @@ This page covers boundaries. Use it to answer "which tool owns this concern?" Us
 
 ## Overview
 
-Basidiocarp splits the stack into a few clear layers. `mycelium` handles command shaping, `hyphae` handles memory, `rhizome` handles code intelligence, `stipe` handles installation and host policy, and `cap` surfaces the state of the system. The supporting tools stay narrower: `spore` is shared plumbing, `lamella` packages agent assets, and `cortina` runs host-side hooks.
+Basidiocarp splits the stack into a few clear layers. `mycelium` handles command shaping, `hyphae` handles memory, `rhizome` handles code intelligence, `stipe` handles installation and host policy, and `cap` surfaces the state of the system. The supporting tools stay narrower: `spore` is shared plumbing, `lamella` packages agent assets, and `cortina` runs host-side lifecycle adapters.
 
 ## Core services
 
@@ -20,20 +20,21 @@ Basidiocarp splits the stack into a few clear layers. `mycelium` handles command
   - Provides symbol lookup, navigation, diagnostics, rename, copy-symbol, and move-symbol workflows.
 - `stipe`
   - Ecosystem installer, repair tool, and host-mode manager.
-  - Owns MCP registration, Claude hook setup, Codex notify setup, and host-aware repair guidance.
+  - Owns MCP registration, Claude hook setup, Codex notify setup, platform-aware config paths, and host-aware repair guidance.
 - `cap`
   - Dashboard and operational surface.
-  - Reads Hyphae, Rhizome, Mycelium, and runtime health to expose status, onboarding, memory review, and code workflows.
+  - Reads Hyphae, Rhizome, Mycelium, and runtime health to expose status, onboarding, memory review, code workflows, and resolved path provenance.
 
 ## Supporting tools
 
 - `spore`
-  - Shared low-level tool discovery, subprocess, and runtime plumbing.
+  - Shared low-level tool discovery, subprocess, editor config registration, and runtime plumbing.
   - Not the place for host orchestration or UI policy.
 - `lamella`
   - Packaging and export layer for commands, skills, prompts, hooks, and marketplace bundles.
 - `cortina`
-  - Local orchestration and session/runtime support within the ecosystem.
+  - Local lifecycle orchestration and session/runtime support within the ecosystem.
+  - Core events are host-neutral; host-specific envelopes belong in adapters.
 
 ## Host adapters
 
@@ -46,6 +47,18 @@ The ecosystem treats hosts as adapters instead of assuming everything is Claude-
   - MCP + `notify = ["hyphae", "codex-notify"]`
   - explicit runtime entry via `mycelium invoke`
   - narrower lifecycle than Claude hooks, but first-class enough for memory and tool workflows
+- `Cursor`, `Windsurf`, `Claude Desktop`, `Gemini CLI`, `Copilot CLI`
+  - MCP-first editor or CLI hosts
+  - setup and config registration are shared through `spore` and orchestrated by `stipe`
+
+## Platform paths
+
+Platform-aware config and data path resolution is now a first-class boundary:
+
+- `spore` owns reusable editor config paths and MCP registration mechanics.
+- `stipe` owns host inventory and platform-aware setup policy.
+- `mycelium`, `hyphae`, and `rhizome` resolve cache, config, and data paths through shared helpers rather than hardcoded Unix defaults.
+- `cap` consumes those resolved paths and shows the provenance of each value: config file, environment override, or platform default.
 
 ## Data flow
 
@@ -79,6 +92,7 @@ The ecosystem treats hosts as adapters instead of assuming everything is Claude-
 - Codex lifecycle normalization belongs in `hyphae`, not `cap`.
 - Session discovery and runtime-specific parsing belong in `mycelium`, split by source.
 - `cap` should consume shared presentation models rather than re-derive readiness state in each page.
+- Platform path discovery belongs in shared low-level helpers, not scattered through each CLI or UI surface.
 
 ## Related
 

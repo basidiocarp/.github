@@ -6,11 +6,15 @@ Everything runs locally. No cloud services, no API keys for the core stack. SQLi
 
 ## Install
 
+On macOS and Linux:
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh
 ```
 
-One command. Downloads all tools, finds your editor (Claude Code, Cursor, Windsurf, Continue, Claude Desktop), registers the MCP servers, and wires up hooks. Run `stipe doctor` to confirm everything landed.
+The bootstrap script installs the stack, detects supported hosts, registers MCP servers, and wires up host-specific lifecycle integrations. Run `stipe doctor` to confirm everything landed.
+
+Windows support is now a first-class goal across the Rust toolchain and dashboard surfaces. The one-command bootstrap path is still shell-first today, so use the per-project setup docs if you are bringing the stack up on Windows before the bootstrap script catches up.
 
 ## Projects
 
@@ -19,17 +23,17 @@ One command. Downloads all tools, finds your editor (Claude Code, Cursor, Windsu
 | [Mycelium](https://github.com/basidiocarp/mycelium) | CLI proxy. Rewrites command output before it reaches the agent. 70+ filters, 60-90% token savings. [Docs](https://github.com/basidiocarp/mycelium/tree/main/docs) |
 | [Hyphae](https://github.com/basidiocarp/hyphae) | Agent memory. Episodic recall, knowledge graphs, RAG with hybrid search, training data export. 39 MCP tools. [Docs](https://github.com/basidiocarp/hyphae/tree/main/docs) |
 | [Rhizome](https://github.com/basidiocarp/rhizome) | Code intelligence. Tree-sitter + LSP, symbol extraction, file editing, code graphs. 37 MCP tools, 32 languages. [Docs](https://github.com/basidiocarp/rhizome/tree/main/docs) |
-| [Cap](https://github.com/basidiocarp/cap) | Web dashboard. Browse memories, view token analytics, explore code with annotations. [Docs](https://github.com/basidiocarp/cap/tree/main/docs) |
-| [Spore](https://github.com/basidiocarp/spore) | Shared Rust library. Discovery, JSON-RPC, config, self-update, platform paths. |
-| [Stipe](https://github.com/basidiocarp/stipe) | Ecosystem manager. Install, init, doctor, update. |
-| [Cortina](https://github.com/basidiocarp/cortina) | Hook runner. Captures errors, corrections, code changes, session summaries in Rust. |
+| [Cap](https://github.com/basidiocarp/cap) | Web dashboard. Browse memories, view token analytics, inspect resolved config paths, and see why each path was chosen. [Docs](https://github.com/basidiocarp/cap/tree/main/docs) |
+| [Spore](https://github.com/basidiocarp/spore) | Shared Rust library. Discovery, JSON-RPC, editor config registration, self-update, platform paths. |
+| [Stipe](https://github.com/basidiocarp/stipe) | Ecosystem manager. Multi-host, platform-aware install, init, doctor, and update. |
+| [Cortina](https://github.com/basidiocarp/cortina) | Adapter-first lifecycle runner. Captures errors, corrections, code changes, and session summaries in Rust. |
 | [Lamella](https://github.com/basidiocarp/lamella) | Plugin system. 230 skills and 175 agents for Claude Code. [Docs](https://github.com/basidiocarp/lamella/blob/main/docs) |
 
 ## Guides
 
 | Guide | Covers |
 |-------|--------|
-| [Ecosystem Architecture](docs/ECOSYSTEM-ARCHITECTURE.md) | Ownership boundaries, host adapters, memory vs memoirs |
+| [Ecosystem Architecture](docs/ECOSYSTEM-ARCHITECTURE.md) | Ownership boundaries, host adapters, platform paths, memory vs memoirs |
 | [Integration](docs/INTEGRATION.md) | How the projects connect, protocols, failure modes |
 | [AI Concepts](docs/AI-CONCEPTS.md) | RAG, DPO, fine-tuning, self-hosting, Bedrock comparison |
 | [LLM Training](docs/LLM-TRAINING.md) | Data export, Axolotl, Together.ai, Ollama serving |
@@ -39,7 +43,7 @@ One command. Downloads all tools, finds your editor (Claude Code, Cursor, Windsu
 
 ```mermaid
 graph TD
-    Agent["AI Coding Agent"]
+    Agent["AI Coding Host"]
     Mycelium["Mycelium\nToken Compression"]
     Hyphae["Hyphae\nMemory + RAG"]
     Rhizome["Rhizome\nCode Intelligence"]
@@ -89,7 +93,18 @@ Rhizome parses code with tree-sitter (18 languages, 10 with dedicated queries) a
 
 Mycelium sits between the agent and the shell. `git log -20` returns 5 lines instead of 200. `cargo test` with 500 passing tests returns only the 2 failures. Small outputs pass through untouched; medium ones get filtered; large ones get chunked into Hyphae for later retrieval. 70+ filters cover git, cargo, npm, docker, kubectl, and more.
 
-Cortina runs as a Claude Code hook. After every tool use, it checks for errors, self-corrections, and code changes. On session end, it writes a summary to Hyphae and exports the code graph to Rhizome. Over time, `extract_lessons` surfaces patterns from these signals, and `evaluate` measures whether the agent is getting better. The accumulated data exports as SFT/DPO pairs for fine-tuning via Ollama. See the [AI Concepts](docs/AI-CONCEPTS.md) and [Training](docs/LLM-TRAINING.md) guides.
+Cortina now uses an adapter-first event model. Today the Claude Code adapter has the richest lifecycle coverage, but the core signal pipeline is no longer tied to one host envelope. On each event it checks for errors, self-corrections, and code changes. On session end, it writes a summary to Hyphae and exports the code graph to Rhizome. Over time, `extract_lessons` surfaces patterns from these signals, and `evaluate` measures whether the agent is getting better. The accumulated data exports as SFT/DPO pairs for fine-tuning via Ollama. See the [AI Concepts](docs/AI-CONCEPTS.md) and [Training](docs/LLM-TRAINING.md) guides.
+
+## Platform Status
+
+The core Rust services now centralize path resolution and host config handling instead of assuming one Unix shell layout:
+
+- `stipe` owns host inventory, repair guidance, and platform-aware setup policy.
+- `spore` owns shared editor detection and MCP config registration paths.
+- `mycelium`, `hyphae`, and `rhizome` now resolve config, cache, and data paths through shared platform-aware layers.
+- `cap` shows both the resolved path and the provenance for that path: config file, environment override, or platform default.
+
+The shared Rust CI now runs on Linux, macOS, and Windows so portability regressions show up earlier.
 
 ```mermaid
 flowchart LR

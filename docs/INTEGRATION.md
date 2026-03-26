@@ -14,7 +14,7 @@ flowchart LR
     Classify -->|"no filter"| Passthrough["Passthrough"] --> Track
 ```
 
-The registry maps commands to filters. `git status` hits `filters/git.rs`; `cargo test` hits `filters/cargo.rs`. Unrecognized commands pass through unchanged.
+The registry maps commands to filters. `git status` hits `filters/git.rs`; `cargo test` hits `filters/cargo.rs`. Unrecognized commands pass through unchanged. Runtime invocation and shell dispatch now go through a shared platform-aware layer instead of assuming one POSIX shell.
 
 For large outputs (500+ lines), the pipeline forks:
 
@@ -110,19 +110,19 @@ flowchart LR
     Hono -->|"shell"| CLI["mycelium/hyphae CLI"]
 ```
 
-`RhizomeRegistry` holds up to 3 subprocesses, one per project. LRU eviction kills the oldest when a fourth project is selected. Write operations shell out to the Hyphae CLI rather than touching SQLite directly.
+`RhizomeRegistry` holds up to 3 subprocesses, one per project. LRU eviction kills the oldest when a fourth project is selected. Write operations shell out to the Hyphae CLI rather than touching SQLite directly. The dashboard also surfaces resolved config and database paths with provenance so users can see which file is active and why.
 
 ### Spore
 
-Shared Rust library. Nine modules: tool discovery (`OnceLock` cached), JSON-RPC encoding, project detection (git root + language heuristics), subprocess MCP client with timeout enforcement, TOML config loading, platform path resolution, token estimation, tracing init, and self-update from GitHub releases. Every Rust project in the ecosystem imports it.
+Shared Rust library. Nine modules: tool discovery (`OnceLock` cached), JSON-RPC encoding, project detection (git root + language heuristics), subprocess MCP client with timeout enforcement, TOML config loading, platform path resolution, editor config registration, token estimation, tracing init, and self-update from GitHub releases. Every Rust project in the ecosystem imports it.
 
 ### Stipe
 
-Ecosystem manager. Downloads binaries from GitHub releases, registers MCP servers with six editors, initializes the Hyphae database, and runs health checks. `stipe doctor` validates the full stack in one command.
+Ecosystem manager. Downloads binaries from GitHub releases, registers MCP servers with multiple hosts, initializes the Hyphae database, and runs health checks. `stipe doctor` validates the full stack in one command and now treats host inventory and platform-aware repair paths as first-class concerns.
 
 ### Cortina
 
-Rust hook runner. Three hook types: PreToolUse (command rewriting), PostToolUse (error, correction, and code change capture), Stop (session summary). Reads events from stdin, stores signals in Hyphae via CLI. Must never block the agent; exits 0 regardless of internal errors.
+Rust lifecycle runner. The current Claude Code adapter exposes three hook types: PreToolUse (command rewriting), PostToolUse (error, correction, and code change capture), and Stop (session summary). Cortina now normalizes those host events behind an adapter boundary before the shared signal pipeline runs. It must never block the agent; exits 0 regardless of internal errors.
 
 ```mermaid
 flowchart LR
@@ -205,7 +205,7 @@ No single tool failure breaks the ecosystem.
 
 ### Discovery
 
-Tools find each other through spore's `discover(Tool::X)`, which probes PATH and caches the result for the process lifetime. Cap reads config constants from environment variables. Cortina checks binary availability at runtime before shelling out. Stipe discovers everything for health checks and updates.
+Tools find each other through spore's `discover(Tool::X)`, which probes PATH and caches the result for the process lifetime. Shared path helpers now resolve config, cache, and data locations in a platform-aware way instead of assuming Unix defaults. Cap surfaces the resulting paths and their provenance. Cortina checks binary availability at runtime before shelling out. Stipe discovers everything for health checks and updates.
 
 No project requires any other. Every integration has a fallback.
 
