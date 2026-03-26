@@ -12,9 +12,18 @@ On macOS and Linux:
 curl -fsSL https://raw.githubusercontent.com/basidiocarp/.github/main/install.sh | sh
 ```
 
-The bootstrap script installs the stack, detects supported hosts, registers MCP servers, and wires up host-specific lifecycle integrations. Run `stipe doctor` to confirm everything landed.
+On Windows PowerShell:
 
-Windows support is now a first-class goal across the Rust toolchain and dashboard surfaces. The one-command bootstrap path is still shell-first today, so use the per-project setup docs if you are bringing the stack up on Windows before the bootstrap script catches up.
+```powershell
+irm https://raw.githubusercontent.com/basidiocarp/.github/main/install.ps1 | iex
+```
+
+The bootstrap scripts install the stack, detect supported hosts, register MCP servers, and wire up host-specific lifecycle integrations. Run `stipe doctor` to confirm everything landed.
+
+Both scripts install into a local user bin directory by default:
+
+- macOS and Linux: `~/.local/bin`
+- Windows: `%LOCALAPPDATA%\Basidiocarp\bin`
 
 ## Projects
 
