@@ -1,0 +1,27 @@
+name: Docs Validation
+
+on:
+  pull_request:
+    paths:
+      - "docs/**"
+      - "profile/**"
+      - "scripts/validate-docs.py"
+      - ".github/workflows/docs-validation.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "docs/**"
+      - "profile/**"
+      - "scripts/validate-docs.py"
+      - ".github/workflows/docs-validation.yml"
+  workflow_dispatch:
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+
+      - name: Validate docs
+        run: python3 scripts/validate-docs.py

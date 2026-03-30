@@ -61,7 +61,7 @@ erDiagram
     }
 ```
 
-The MCP server reads JSON-RPC from stdin and dispatches to 35 tool handlers. On `initialize`, it queries the database and injects recent sessions, decisions, and errors into the instructions. The agent gets context before it calls a single tool.
+The MCP server reads JSON-RPC from stdin and dispatches to its tool handlers. On `initialize`, it queries the database and injects recent sessions, decisions, and errors into the instructions. The agent gets context before it calls a single tool.
 
 Search runs through a three-tier pipeline:
 
@@ -112,6 +112,10 @@ flowchart LR
 
 `RhizomeRegistry` holds up to 3 subprocesses, one per project. LRU eviction kills the oldest when a fourth project is selected. Write operations shell out to the Hyphae CLI rather than touching SQLite directly. The dashboard also surfaces resolved config and database paths with provenance so users can see which file is active and why.
 
+### Canopy
+
+Optional coordination runtime. Canopy does not replace Hyphae memory or Cortina lifecycle capture. It adds task-scoped multi-agent runtime state: active agents, task ownership, handoffs, and operator attention. Cap should consume Canopy through an explicit read surface when coordination views are needed instead of inferring that state from Hyphae alone.
+
 ### Spore
 
 Shared Rust library. Nine modules: tool discovery (`OnceLock` cached), JSON-RPC encoding, project detection (git root + language heuristics), subprocess MCP client with timeout enforcement, TOML config loading, platform path resolution, editor config registration, token estimation, tracing init, and self-update from GitHub releases. Every Rust project in the ecosystem imports it.
@@ -136,7 +140,7 @@ flowchart LR
 
 ### Lamella
 
-Plugin system for Claude Code: 230 skills, 175 agents, 20 plugins. Feedback hooks moved to Cortina.
+Plugin system for Claude Code: 230 skills, 175 agents, 20 plugins. Packaging, templates, wrappers, and fallback glue live here. Lifecycle runtime semantics moved to Cortina.
 
 ---
 

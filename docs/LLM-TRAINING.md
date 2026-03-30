@@ -24,16 +24,16 @@ Basidiocarp captures training data. Training and serving happen elsewhere.
 
 ## What Data Exists
 
-| Source | What it captures | Training use | Topic in Hyphae |
-|--------|-----------------|-------------|-----------------|
-| Hyphae memories | Decisions, patterns, conventions | SFT instruction pairs | `decisions/{project}` |
-| capture-errors.js | Error → resolution sequences | SFT debugging pairs | `errors/resolved` |
-| capture-corrections.js | Self-corrections (original → fixed) | DPO preference pairs | `corrections` |
-| capture-test-results.js | Test failure → fix sequences | SFT test-fix pairs | `tests/resolved` |
-| session-summary.sh | Task, files, tools, outcome | SFT workflow pairs | `session/{project}` |
+| Source | What it captures | Training use | Stored in |
+|--------|-----------------|-------------|-----------|
+| Hyphae memories and sessions | Decisions, patterns, conventions, summaries | SFT instruction pairs | Hyphae memories and structured sessions |
+| Cortina error and recovery capture | Error → resolution sequences | SFT debugging pairs | `errors/resolved` and feedback signals |
+| Cortina self-correction capture | Self-corrections (original → fixed) | DPO preference pairs | `corrections` and feedback signals |
+| Cortina validation capture | Test and build failures or recoveries | SFT test-fix and validation pairs | `tests/*` topics and feedback signals |
 | Rhizome export | Code symbols and call graphs | Code understanding | Memoirs |
+| Lamella templates and wrappers | Packaging and deployment of hook surfaces | Not a training source by itself | Export layer, not storage |
 
-Corrections deserve special attention. Every time the agent writes code then immediately revises it, the hook records both versions. That's a natural (rejected, chosen) pair for DPO training.
+Corrections deserve special attention. Every time the agent writes code then immediately revises it, Cortina records both versions as a natural `(rejected, chosen)` pair for DPO training.
 
 ## Training Formats
 
@@ -56,13 +56,17 @@ Three phases. Phase 1 happens automatically as you use Basidiocarp. Phases 2 and
 
 ```mermaid
 sequenceDiagram
+    participant C as Cortina
+    participant L as Lamella
     participant H as Hyphae DB
     participant E as Export
     participant P as Training
     participant O as Ollama
 
-    Note over H,E: Phase 1: Capture (automatic)
-    H->>H: Memories accumulate over sessions
+    Note over C,E: Phase 1: Capture (automatic)
+    L->>C: Ship templates and wrappers
+    C->>H: Store lifecycle signals and summaries
+    H->>H: Memories and sessions accumulate
     
     Note over E,P: Phase 2: Export + Fine-tune
     H->>E: Read memories, corrections
@@ -81,27 +85,29 @@ Use Basidiocarp with a cloud model (Claude, GPT) for your normal work. Data accu
 
 ### Phase 2: Export and Train
 
-Export memories as training JSONL using the CLI:
+Export memories and structured recall as training JSONL using the CLI:
 
 ```bash
 # SFT pairs from decisions
-hyphae export-training-data --format sft --topic "decisions-api" -o sft_decisions.jsonl
+hyphae export-training --format sft --topic "decisions-api" -o sft_decisions.jsonl
 
 # Error resolution pairs
-hyphae export-training-data --format sft --topic "errors/resolved" -o sft_errors.jsonl
+hyphae export-training --format sft --topic "errors/resolved" -o sft_errors.jsonl
 
 # DPO pairs from corrections (self-corrections)
-hyphae export-training-data --format dpo --topic "corrections" -o dpo_pairs.jsonl
+hyphae export-training --format dpo --topic "corrections" -o dpo_pairs.jsonl
 
 # Alpaca format (all memories)
-hyphae export-training-data --format alpaca -o full_training.jsonl
+hyphae export-training --format alpaca -o full_training.jsonl
 ```
 
-Or query SQLite directly for custom exports:
+`hyphae export-training-data` remains available as a compatibility alias, but `hyphae export-training` is the current command name.
+
+Or query SQLite directly for custom exports. First inspect the active database path with `hyphae stats`, then substitute that path in the query:
 
 ```bash
 # Custom SFT from multiple topics
-sqlite3 ~/Library/Application\ Support/hyphae/hyphae.db \
+sqlite3 /path/to/hyphae.db \
   "SELECT json_object('instruction', topic, 'response', summary) \
    FROM memories WHERE topic LIKE 'decisions/%' OR topic LIKE 'errors/resolved' AND weight > 0.3" \
   > combined.jsonl
@@ -151,7 +157,7 @@ ollama create myteam-coder -f Modelfile
 ollama run myteam-coder "How do we handle auth?"
 ```
 
-The fine-tuned model works with every Basidiocarp tool. Hyphae, Rhizome, Mycelium, Lamella don't care which model generates text.
+The fine-tuned model works with every Basidiocarp tool. Hyphae, Rhizome, Mycelium, Cortina, and Lamella do not care which model generates text.
 
 ## Hardware
 
@@ -167,7 +173,7 @@ A single RTX 4090 with a fine-tuned Qwen 32B handles most coding tasks. Pays for
 
 | Capability | Status |
 |-----------|--------|
-| Export training data | Planned (query SQLite manually for now) |
+| Export training data | Yes — `hyphae export-training` |
 | Run fine-tuning | No — use Axolotl, Together.ai, or Modal |
 | Train from scratch | No — requires $1M+ compute |
 | Serve models | No — use Ollama, vLLM, or TGI |
@@ -184,5 +190,6 @@ A single RTX 4090 with a fine-tuned Qwen 32B handles most coding tasks. Pays for
 
 - [AI Concepts](AI-CONCEPTS.md) — supervised vs unsupervised, DPO explained, Bedrock comparison
 - [Hyphae: Training Data](https://github.com/basidiocarp/hyphae/blob/main/docs/TRAINING-DATA.md) — data formats, volume estimates, SQL queries
-- [Lamella: Feedback Capture](https://github.com/basidiocarp/lamella/blob/main/docs/FEEDBACK-CAPTURE.md) — how correction/error hooks work
+- [Cortina](https://github.com/basidiocarp/cortina) — lifecycle capture runtime
+- [Lamella: Feedback Capture](https://github.com/basidiocarp/lamella/blob/main/docs/FEEDBACK-CAPTURE.md) — packaging and hook templates around the capture path
 - [Hyphae: Embeddings](https://github.com/basidiocarp/hyphae/blob/main/docs/GUIDE.md#configuring-embeddings) — local vs HTTP embedding config
