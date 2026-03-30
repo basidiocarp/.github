@@ -71,61 +71,61 @@ Use [Operator Quickstart](../docs/OPERATOR-QUICKSTART.md) for the task-oriented 
 ## Architecture
 
 ```mermaid
-graph TD
-    Agent["AI Coding Host"]
-    Mycelium["Mycelium\nToken Compression"]
-    Hyphae["Hyphae\nMemory + RAG"]
-    Rhizome["Rhizome\nCode Intelligence"]
-    Cap["Cap\nDashboard"]
-    Cortina["Cortina\nHook Runner"]
-    Canopy["Canopy\nCoordination Runtime"]
-    Stipe["Stipe\nEcosystem Manager"]
-    Spore["Spore\nShared Infrastructure"]
+flowchart LR
+    Agent["AI coding host"]
 
-    Agent -- "commands" --> Mycelium
-    Mycelium -- "60-90% fewer tokens" --> Agent
-    Agent -- "MCP tools" --> Hyphae
-    Hyphae -- "memories, context, lessons" --> Agent
-    Agent -- "MCP (37 tools)" --> Rhizome
-    Rhizome -- "symbols, edits, analysis" --> Agent
-    Cortina -- "hooks" --> Agent
-    Cortina -- "errors, corrections, changes" --> Hyphae
-    Rhizome -- "code graphs" --> Hyphae
-    Mycelium -- "large outputs" --> Hyphae
-    Cap -- "reads" --> Hyphae
-    Cap -- "queries" --> Rhizome
-    Cap -- "operator view" --> Canopy
-    Canopy -- "evidence refs" --> Hyphae
-    Canopy -- "runtime links" --> Cortina
-    Stipe -. "installs + configures" .-> Mycelium
-    Stipe -. "installs + configures" .-> Hyphae
-    Stipe -. "installs + configures" .-> Rhizome
-    Spore -. "shared lib" .-> Mycelium
-    Spore -. "shared lib" .-> Rhizome
-    Spore -. "shared lib" .-> Hyphae
+    subgraph Runtime["Core runtime"]
+        direction TB
+        Mycelium["mycelium\ncommand shaping"]
+        Hyphae["hyphae\nmemory + recall"]
+        Rhizome["rhizome\ncode intelligence"]
+        Cortina["cortina\nlifecycle capture"]
+    end
 
-    style Hyphae fill:#36b37e,stroke:#1f8a5a,color:#fff
-    style Mycelium fill:#ff7452,stroke:#de350b,color:#fff
-    style Rhizome fill:#6554c0,stroke:#403294,color:#fff
-    style Cap fill:#4c9aff,stroke:#2571cc,color:#fff
-    style Cortina fill:#00b8d9,stroke:#0095b3,color:#fff
-    style Canopy fill:#8777d9,stroke:#5e4db2,color:#fff
-    style Stipe fill:#97a0af,stroke:#6b778c,color:#fff
-    style Spore fill:#ffab00,stroke:#ff8b00,color:#fff
-    style Agent fill:#505f79,stroke:#344563,color:#fff
+    subgraph Operator["Operator surfaces"]
+        direction TB
+        Cap["cap\ndashboard"]
+        Canopy["canopy\ncoordination"]
+    end
+
+    subgraph Control["Control and packaging"]
+        direction TB
+        Stipe["stipe\ninstall + repair"]
+        Spore["spore\nshared primitives"]
+        Lamella["lamella\ntemplates + packaging"]
+    end
+
+    Agent --> Mycelium
+    Agent --> Hyphae
+    Agent --> Rhizome
+    Agent --> Cortina
+
+    Mycelium --> Hyphae
+    Rhizome --> Hyphae
+    Cortina --> Hyphae
+
+    Hyphae --> Cap
+    Rhizome --> Cap
+    Canopy --> Cap
+    Cortina -. runtime evidence .-> Canopy
+
+    Stipe -. manages .-> Runtime
+    Spore -. reused by .-> Runtime
+    Lamella -. ships wrappers for .-> Cortina
 ```
 
 ## Install and Runtime Surfaces
 
 ```mermaid
 flowchart TD
-    Bootstrap["Bootstrap install"] --> Default["stipe\nmycelium\nhyphae\nrhizome\ncortina"]
+    Bootstrap["Bootstrap install"] --> Default["Default runtime\nstipe, mycelium, hyphae, rhizome, cortina"]
     Default --> Init["stipe init"]
     Init --> Hosts["Host integrations"]
+
     Optional["Optional runtime"] --> Canopy["canopy"]
-    Source["Run separately"] --> Cap["cap"]
-    Packaging["Packaging layer"] --> Lamella["lamella"]
-    Shared["Shared library"] --> Spore["spore"]
+    Separate["Separate surfaces"] --> Cap["cap"]
+    Separate --> Lamella["lamella"]
+    Separate --> Spore["spore"]
 ```
 
 ## How It Works

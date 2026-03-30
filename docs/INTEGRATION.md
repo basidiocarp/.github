@@ -104,10 +104,10 @@ React frontend, Hono backend. The backend reads Hyphae's SQLite directly (read-o
 
 ```mermaid
 flowchart LR
-    Browser["React + TanStack Query"] -->|"/api/*"| Hono["Hono backend"]
-    Hono -->|"read-only"| SQLite["Hyphae DB"]
-    Hono -->|"MCP stdio"| Rhizome["Rhizome subprocess pool"]
-    Hono -->|"shell"| CLI["mycelium/hyphae CLI"]
+    Browser["Browser UI"] --> Hono["Cap backend"]
+    Hono --> SQLite["Hyphae DB\nread-only"]
+    Hono --> Rhizome["Rhizome pool"]
+    Hono --> CLI["CLI calls\nmycelium + hyphae"]
 ```
 
 `RhizomeRegistry` holds up to 3 subprocesses, one per project. LRU eviction kills the oldest when a fourth project is selected. Write operations shell out to the Hyphae CLI rather than touching SQLite directly. The dashboard also surfaces resolved config and database paths with provenance so users can see which file is active and why.
@@ -130,12 +130,10 @@ Rust lifecycle runner. The current Claude Code adapter exposes three hook types:
 
 ```mermaid
 flowchart LR
-    Claude["Claude Code"] -->|"PostToolUse"| Cortina["Cortina"]
-    Cortina -->|"error detected"| Store["hyphae store"]
-    Cortina -->|"5+ edits + build"| Export["rhizome export"]
-    Cortina -->|"3+ doc edits"| Ingest["hyphae ingest-file"]
-    Claude -->|"Stop"| Cortina
-    Cortina -->|"session summary"| Store
+    Claude["Claude Code"] --> Cortina["Cortina adapter"]
+    Cortina --> Store["Hyphae signals"]
+    Cortina --> Export["Rhizome export"]
+    Cortina --> Ingest["Hyphae ingest"]
 ```
 
 ### Lamella
@@ -149,33 +147,17 @@ Plugin system for Claude Code: 230 skills, 175 agents, 20 plugins. Packaging, te
 ### Session Lifecycle
 
 ```mermaid
-sequenceDiagram
-    participant A as Agent
-    participant M as Mycelium
-    participant H as Hyphae
-    participant R as Rhizome
-    participant C as Cortina
-
-    Note over A,C: Session start
-    A->>H: initialize
-    H-->>A: Auto-recalled context
-
-    Note over A,C: Work
-    A->>M: git log -20
-    M-->>A: 5 lines (90% saved)
-    A->>R: get_symbols src/auth.rs
-    R-->>A: Structs, fns, impls
-    A->>R: replace_symbol_body(...)
-    C->>C: Track edit (count: 1)
-    A->>M: cargo test
-    M-->>A: 2 failures (99% saved)
-    C->>H: Store error
-    A->>H: Store decision
-
-    Note over A,C: Session end
-    C->>H: Session summary
-    C->>R: Export code graph
-    C->>H: Ingest changed docs
+flowchart TD
+    Start["Session start"] --> Recall["Hyphae initialize\nand recall"]
+    Recall --> Work["Agent work"]
+    Work --> Shape["Mycelium shapes command output"]
+    Work --> Code["Rhizome provides code intelligence"]
+    Work --> Capture["Cortina captures errors, corrections, and changes"]
+    Capture --> Memory["Hyphae stores signals"]
+    Memory --> End["Session end"]
+    End --> Summary["Hyphae session summary"]
+    End --> Export["Rhizome code graph export"]
+    End --> Ingest["Hyphae doc ingest"]
 ```
 
 ### Communication Protocols
