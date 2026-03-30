@@ -71,61 +71,27 @@ Use [Operator Quickstart](../docs/OPERATOR-QUICKSTART.md) for the task-oriented 
 ## Architecture
 
 ```mermaid
-flowchart LR
-    Agent["AI coding host"]
+flowchart TD
+    Agent["AI coding host"] --> Runtime["Runtime layer\nmycelium, hyphae, rhizome, cortina"]
+    Runtime --> Memory["Memory and evidence\nHyphae + Rhizome exports"]
+    Runtime --> Coordination["Optional coordination\ncanopy"]
+    Memory --> Operator["Operator view\ncap"]
+    Coordination --> Operator
 
-    subgraph Runtime["Core runtime"]
-        direction TB
-        Mycelium["mycelium\ncommand shaping"]
-        Hyphae["hyphae\nmemory + recall"]
-        Rhizome["rhizome\ncode intelligence"]
-        Cortina["cortina\nlifecycle capture"]
-    end
-
-    subgraph Operator["Operator surfaces"]
-        direction TB
-        Cap["cap\ndashboard"]
-        Canopy["canopy\ncoordination"]
-    end
-
-    subgraph Control["Control and packaging"]
-        direction TB
-        Stipe["stipe\ninstall + repair"]
-        Spore["spore\nshared primitives"]
-        Lamella["lamella\ntemplates + packaging"]
-    end
-
-    Agent --> Mycelium
-    Agent --> Hyphae
-    Agent --> Rhizome
-    Agent --> Cortina
-
-    Mycelium --> Hyphae
-    Rhizome --> Hyphae
-    Cortina --> Hyphae
-
-    Hyphae --> Cap
-    Rhizome --> Cap
-    Canopy --> Cap
-    Cortina -. runtime evidence .-> Canopy
-
-    Stipe -. manages .-> Runtime
-    Spore -. reused by .-> Runtime
-    Lamella -. ships wrappers for .-> Cortina
+    Stipe["stipe\ninstall + repair"] -. manages .-> Runtime
+    Spore["spore\nshared primitives"] -. reused by .-> Runtime
+    Lamella["lamella\ntemplates + packaging"] -. wraps .-> Runtime
 ```
 
 ## Install and Runtime Surfaces
 
 ```mermaid
 flowchart TD
-    Bootstrap["Bootstrap install"] --> Default["Default runtime\nstipe, mycelium, hyphae, rhizome, cortina"]
-    Default --> Init["stipe init"]
+    Bootstrap["Bootstrap install"] --> Core["Core runtime\nstipe, mycelium, hyphae, rhizome, cortina"]
+    Core --> Init["stipe init"]
     Init --> Hosts["Host integrations"]
-
-    Optional["Optional runtime"] --> Canopy["canopy"]
-    Separate["Separate surfaces"] --> Cap["cap"]
-    Separate --> Lamella["lamella"]
-    Separate --> Spore["spore"]
+    Optional["Optional add-on"] --> Canopy["canopy"]
+    Separate["Separate surfaces"] --> Other["cap, lamella, spore"]
 ```
 
 ## How It Works
@@ -165,23 +131,12 @@ flowchart LR
 ## Session Flow
 
 ```mermaid
-sequenceDiagram
-    participant A as Agent
-    participant C as Cortina
-    participant M as Mycelium
-    participant H as Hyphae
-    participant R as Rhizome
-    participant P as Cap
-
-    A->>H: initialize
-    H-->>A: auto-recalled context
-    A->>M: git log -20
-    M-->>A: 5 lines (90% saved)
-    A->>R: get_symbols + edit
-    C->>H: track edits, capture errors
-    A->>H: extract_lessons
-    H-->>A: patterns from past mistakes
-    A->>H: session_end
-    C->>R: export code graph
-    P->>H: read status and memory
+flowchart TD
+    Start["Session start"] --> Recall["Hyphae recalls context"]
+    Recall --> Work["Agent works"]
+    Work --> Shape["Mycelium shapes command output"]
+    Work --> Code["Rhizome provides code intelligence"]
+    Work --> Capture["Cortina captures lifecycle signals"]
+    Capture --> Store["Hyphae stores outcomes"]
+    Store --> Review["Cap reads status and memory"]
 ```
