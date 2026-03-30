@@ -4,7 +4,7 @@ This page covers boundaries. Use it to answer "which tool owns this concern?" Us
 
 ## Overview
 
-Basidiocarp splits the stack into a few clear layers. `mycelium` handles command shaping, `hyphae` handles memory, `rhizome` handles code intelligence, `stipe` handles installation and host policy, and `cap` surfaces the state of the system. The supporting tools stay narrower: `spore` is shared plumbing, `lamella` packages agent assets, and `cortina` runs host-side lifecycle adapters.
+Basidiocarp splits the stack into a few clear layers. `mycelium` handles command shaping, `hyphae` handles memory, `rhizome` handles code intelligence, `stipe` handles installation and host policy, and `cap` surfaces the state of the system. The supporting tools stay narrower: `spore` is shared plumbing, `lamella` packages agent assets, `cortina` runs host-side lifecycle adapters, and `canopy` is the optional coordination runtime.
 
 ## Core services
 
@@ -24,6 +24,9 @@ Basidiocarp splits the stack into a few clear layers. `mycelium` handles command
 - `cap`
   - Dashboard and operational surface.
   - Reads Hyphae, Rhizome, Mycelium, and runtime health to expose status, onboarding, memory review, code workflows, and resolved path provenance.
+- `canopy`
+  - Optional coordination runtime for multi-agent work.
+  - Tracks active agents, task ownership, handoffs, attention, and evidence references.
 
 ## Supporting tools
 
@@ -35,21 +38,48 @@ Basidiocarp splits the stack into a few clear layers. `mycelium` handles command
 - `cortina`
   - Local lifecycle orchestration and session/runtime support within the ecosystem.
   - Core events are host-neutral; host-specific envelopes belong in adapters.
+- `canopy`
+  - Coordination runtime, not long-term memory.
+  - Should reference Hyphae sessions and Cortina events instead of replacing them.
+
+## Install scope
+
+The ecosystem repo contains more projects than the default bootstrap install.
+
+- bootstrap-installed by default
+  - `stipe`, `mycelium`, `hyphae`, `rhizome`, `cortina`
+- optional runtime install
+  - `canopy`
+- source or packaging surfaces
+  - `cap`, `lamella`, `spore`
+
+Use [What Gets Installed](./INSTALL-SCOPE.md) for the operator-facing matrix.
 
 ## Host adapters
 
 The ecosystem treats hosts as adapters instead of assuming everything is Claude-shaped.
 
+First-class host modes today:
+
 - `Claude Code`
   - MCP + lifecycle hooks
   - strongest automatic event coverage
-- `Codex`
+- `Codex CLI`
   - MCP + `notify = ["hyphae", "codex-notify"]`
   - explicit runtime entry via `mycelium invoke`
-  - narrower lifecycle than Claude hooks, but first-class enough for memory and tool workflows
-- `Cursor`, `Windsurf`, `Claude Desktop`, `Gemini CLI`, `Copilot CLI`
-  - MCP-first editor or CLI hosts
-  - setup and config registration are shared through `spore` and orchestrated by `stipe`
+- `Cursor`
+  - MCP-focused host mode
+
+Shared MCP client coverage today:
+
+- `Windsurf`
+- `Claude Desktop`
+- `Continue`
+- `Cline`
+- `Gemini CLI`
+- `Copilot CLI`
+
+Those shared clients use the same editor primitives through `spore` and shared registration flows in `stipe`, but they do not all get their own dedicated host-mode lifecycle path.
 
 ## Platform paths
 
@@ -59,6 +89,7 @@ Platform-aware config and data path resolution is now a first-class boundary:
 - `stipe` owns host inventory and platform-aware setup policy.
 - `mycelium`, `hyphae`, and `rhizome` resolve cache, config, and data paths through shared helpers rather than hardcoded Unix defaults.
 - `cap` consumes those resolved paths and shows the provenance of each value: config file, environment override, or platform default.
+- `canopy` should consume explicit runtime evidence and read surfaces rather than re-deriving session state from scratch.
 
 ## Data flow
 
@@ -90,13 +121,17 @@ Platform-aware config and data path resolution is now a first-class boundary:
 
 - Host-mode policy belongs in `stipe`, not `spore`.
 - Codex lifecycle normalization belongs in `hyphae`, not `cap`.
+- Lifecycle capture belongs in `cortina`, not `lamella`.
 - Session discovery and runtime-specific parsing belong in `mycelium`, split by source.
+- Coordination-runtime state belongs in `canopy`, not `hyphae`.
 - `cap` should consume shared presentation models rather than re-derive readiness state in each page.
 - Platform path discovery belongs in shared low-level helpers, not scattered through each CLI or UI surface.
 
 ## Related
 
 - [How the Projects Connect](./INTEGRATION.md)
+- [What Gets Installed](./INSTALL-SCOPE.md)
+- [Host Support](./HOST-SUPPORT.md)
 - [AI Concepts](./AI-CONCEPTS.md)
 - [LLM Training](./LLM-TRAINING.md)
 - [Local-First Design](./LOCAL-FIRST.md)

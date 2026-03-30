@@ -77,7 +77,7 @@ flowchart LR
     style DPO fill:#36b37e,stroke:#1f8a5a,color:#fff
 ```
 
-DPO is the practical choice when you have preference data. Basidiocarp's correction hooks produce natural DPO triples: every self-correction is a (rejected, chosen) pair.
+DPO is the practical choice when you have preference data. Basidiocarp's lifecycle capture path produces natural DPO triples: every self-correction is a `(rejected, chosen)` pair.
 
 ### The Full Lifecycle
 
@@ -110,7 +110,7 @@ flowchart TD
 
     subgraph Eco["Basidiocarp (infrastructure)"]
         direction LR
-        Mycelium["Mycelium"] ~~~ Hyphae["Hyphae"] ~~~ Rhizome["Rhizome"] ~~~ Lamella["Lamella"]
+        Mycelium["Mycelium"] ~~~ Hyphae["Hyphae"] ~~~ Rhizome["Rhizome"] ~~~ Cortina["Cortina"]
     end
 
     BKB -.->|"≈"| Hyphae
@@ -127,12 +127,12 @@ flowchart TD
 | Model hosting | — | Use cloud APIs or Ollama |
 | Evaluations | Partial (lessons, Cap analytics) | No structured benchmarks |
 | Inference optimization | Mycelium (60–90% input reduction) | Different mechanism, stacks with server-side |
-| Fine-tuning | Data capture (Hyphae + Lamella) | Export JSONL, train externally |
+| Fine-tuning | Data capture (Hyphae + Cortina) | Export JSONL, train externally |
 | Knowledge Bases | Hyphae RAG pipeline | Local SQLite vs managed cloud |
 | Distillation | Session transcripts as source | Train externally |
 | Guardrails | — | Trusts model's built-in safety |
 | Data protection | Local-first by default | No PII detection |
-| Governance | Partial (sessions, telemetry, Cap) | No IAM or compliance |
+| Governance | Partial (sessions, local operator review, Cap) | No IAM or compliance |
 | Hallucination control | RAG grounding | No explicit citation |
 | Agentic AI | Full tool infrastructure | Not an agent framework itself |
 
@@ -150,7 +150,7 @@ Distillation: training a small model to mimic a large one. Session transcripts f
 
 Guardrails: content filtering, PII masking. Basidiocarp has none; everything runs local, which is its own form of data protection.
 
-Agentic AI: multi-step tool-using workflows. Basidiocarp provides the tools (Hyphae 35, Rhizome 37 via MCP), the memory, the code intelligence, and the token compression that agents need.
+Agentic AI: multi-step tool-using workflows. Basidiocarp provides the tools, the memory, the code intelligence, the lifecycle capture, and the token compression that agents need.
 
 ---
 
@@ -184,7 +184,7 @@ You won't use this directly unless you're building a foundation model.
 
 Trains the model on preference triples: (prompt, chosen response, rejected response). The model learns to prefer the good output over the bad one. Simpler than RLHF because it skips the reward model — one training loop, one loss function.
 
-Use it after SFT when you have 500+ preference pairs and want to reduce specific failure modes. Basidiocarp's correction hooks produce these pairs automatically.
+Use it after SFT when you have 500+ preference pairs and want to reduce specific failure modes. Basidiocarp's Cortina-to-Hyphae capture path produces these pairs automatically.
 
 ### When to Use What
 
@@ -213,7 +213,7 @@ flowchart TD
     style Collect fill:#ffab00,stroke:#ff8b00,color:#fff
 ```
 
-The practical path: start with RAG (Hyphae, works today), collect training data passively (Lamella hooks), fine-tune when you have enough examples and RAG alone isn't cutting it.
+The practical path: start with RAG (Hyphae, works today), collect training data passively through Cortina and Hyphae, fine-tune when you have enough examples and RAG alone isn't cutting it.
 
 ---
 
@@ -256,6 +256,7 @@ Production teams combine both: fine-tune for behavioral patterns, RAG for factua
 
 - [LLM Training Guide](LLM-TRAINING.md) — step-by-step fine-tuning with Basidiocarp data
 - [Hyphae: Training Data](https://github.com/basidiocarp/hyphae/blob/main/docs/TRAINING-DATA.md) — export formats, volume estimates, SQL queries
-- [Lamella: Feedback Capture](https://github.com/basidiocarp/lamella/blob/main/docs/FEEDBACK-CAPTURE.md) — how correction/error data flows
+- [Cortina](https://github.com/basidiocarp/cortina) — lifecycle capture runtime
+- [Lamella: Feedback Capture](https://github.com/basidiocarp/lamella/blob/main/docs/FEEDBACK-CAPTURE.md) — packaging and hook template flow
 - [Hyphae: RAG Pipeline](https://github.com/basidiocarp/hyphae#rag-pipeline) — ingestion, search, auto-context
-- [Technical Overview](../profile/README.md#technical-overview) — ecosystem architecture
+- [Technical Overview](../profile/README.md#how-it-works) — ecosystem architecture
