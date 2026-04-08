@@ -5,6 +5,13 @@ on:
     - cron: '0 6 * * 0'  # Weekly, Sunday 6am UTC
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-integration-${{ github.ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   e2e:
     runs-on: ubuntu-latest

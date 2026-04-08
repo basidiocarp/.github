@@ -3,6 +3,10 @@ name: Rust Performance (Reusable)
 on:
   workflow_call:
     inputs:
+      rust-toolchain:
+        description: 'Rust toolchain to use'
+        type: string
+        default: stable
       binary:
         description: 'Binary name to benchmark'
         type: string
@@ -20,12 +24,18 @@ on:
         type: string
         default: ''
 
+permissions:
+  contents: read
+
 jobs:
   benchmark:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6.0.2
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: ${{ inputs.rust-toolchain }}
       - uses: actions/cache@v5.0.4
         with:
           path: |
@@ -47,7 +57,9 @@ jobs:
           python3 -c "assert float('${SIZE_MB}') <= ${{ inputs.max-size-mb }}, f'Binary ${SIZE_MB}MB exceeds limit ${{ inputs.max-size-mb }}MB'"
 
       - name: Install hyperfine
-        run: cargo install hyperfine --locked
+        uses: taiki-e/install-action@v2.69.7
+        with:
+          tool: hyperfine
 
       - name: Benchmark startup
         run: |

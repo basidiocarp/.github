@@ -3,6 +3,10 @@ name: Rust CI (Reusable)
 on:
   workflow_call:
     inputs:
+      rust-toolchain:
+        description: 'Rust toolchain to use'
+        type: string
+        default: stable
       workspace:
         description: 'Use --workspace flag'
         type: boolean
@@ -16,8 +20,12 @@ on:
         type: boolean
         default: true
 
+permissions:
+  contents: read
+
 jobs:
   check:
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
@@ -26,6 +34,8 @@ jobs:
     steps:
       - uses: actions/checkout@v6.0.2
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: ${{ inputs.rust-toolchain }}
       - uses: actions/cache@v5.0.4
         with:
           path: |
@@ -55,10 +65,15 @@ jobs:
   audit:
     if: inputs.audit
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v6.0.2
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: ${{ inputs.rust-toolchain }}
       - name: Install cargo-audit
-        run: cargo install cargo-audit --locked
+        uses: taiki-e/install-action@v2.69.7
+        with:
+          tool: cargo-audit
       - name: Audit dependencies
         run: cargo audit
