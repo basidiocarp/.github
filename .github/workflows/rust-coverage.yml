@@ -3,18 +3,27 @@ name: Rust Coverage (Reusable)
 on:
   workflow_call:
     inputs:
+      rust-toolchain:
+        description: 'Rust toolchain to use'
+        type: string
+        default: stable
       threshold:
         description: 'Minimum coverage percentage'
         type: number
         default: 60
 
+permissions:
+  contents: read
+
 jobs:
   coverage:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v6.0.2
       - uses: dtolnay/rust-toolchain@stable
         with:
+          toolchain: ${{ inputs.rust-toolchain }}
           components: llvm-tools-preview
       - uses: actions/cache@v5.0.4
         with:
@@ -27,7 +36,9 @@ jobs:
             ${{ runner.os }}-coverage-
 
       - name: Install cargo-llvm-cov
-        run: cargo install cargo-llvm-cov --locked
+        uses: taiki-e/install-action@v2.69.7
+        with:
+          tool: cargo-llvm-cov
 
       - name: Generate LCOV report
         run: cargo llvm-cov --all-features --workspace --lcov --output-path lcov.info

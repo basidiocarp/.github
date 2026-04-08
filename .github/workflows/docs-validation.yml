@@ -17,6 +17,13 @@ on:
       - ".github/workflows/docs-validation.yml"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-validation-${{ github.ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   docs:
     runs-on: ubuntu-latest
