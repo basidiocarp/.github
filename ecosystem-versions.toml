@@ -1,0 +1,55 @@
+# Ecosystem Dependency Versions
+#
+# Single source of truth for shared dependency versions across all Rust projects.
+# This file is informational — not mechanically enforced — but agents and
+# developers should check it before upgrading any shared dependency.
+#
+# To check for drift:
+#   grep -r 'spore.*tag' */Cargo.toml
+#   grep -r 'rusqlite' */Cargo.toml
+
+[spore]
+version = "0.4.9"
+git = "https://github.com/basidiocarp/spore"
+consumers = ["mycelium", "hyphae", "rhizome", "stipe", "cortina", "canopy", "volva"]
+pending = []
+note = "Version aligned across current Rust consumers; source refs may vary while repos catch up."
+
+[datetime]
+crate = "chrono"
+version = "0.4"
+rationale = "Canonical datetime crate for the ecosystem: already used by spore and hyphae, and lowest-risk to standardize across cross-project timestamps."
+
+[shared-deps]
+anyhow = "1"
+clap = "4"
+chrono = "0.4"       # canonical datetime crate
+regex = "1"
+rusqlite = "0.39"       # aligned: mycelium, hyphae, canopy, cortina all on 0.39
+serde = "1"
+serde_json = "1"
+thiserror = "2"
+toml = "1"              # aligned: spore, hyphae, stipe on 1.1; mycelium on 1
+tracing = "0.1"
+ulid = "1"
+which = "7"
+
+[tools]
+mycelium = "0.8.8"
+hyphae = "0.10.4"       # 5-crate workspace, version per crate
+rhizome = "0.7.5"       # 5-crate workspace, version per crate
+canopy = "0.5.7"
+cortina = "0.2.7"
+stipe = "0.5.8"
+volva = "0.1.0"
+cap = "0.11.0"
+spore = "0.4.9"
+
+[contracts]
+# Schema versions for cross-tool payloads.
+# Bump these when making backward-incompatible changes.
+code-graph = "1.0"
+command-output = "1.0"
+evidence-ref = "1.0"
+session-event = "1.0"
+handoff-context = "1.0"
