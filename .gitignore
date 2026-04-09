@@ -1,1 +1,290 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# OS / editor junk
+# ─────────────────────────────────────────────────────────────────────────────
 .DS_Store
+
+.vscode/
+.vscode-test/
+
+.idea/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+.idea/**/aws.xml
+.idea/**/contentModel.xml
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+.idea/**/gradle.xml
+.idea/**/libraries
+.idea/**/mongoSettings.xml
+.idea/replstate.xml
+.idea/sonarlint/
+.idea/sonarlint.xml
+.idea/httpRequests
+.idea/.cache/.Apifox_Helper
+.idea/ApifoxUploaderProjectSetting.xml
+.idea/**/copilot.data.migration.*.xml
+.idea/caches/build_file_checksums.ser
+
+*.iws
+.idea_modules/
+atlassian-ide-plugin.xml
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Logs / runtime / diagnostics
+# ─────────────────────────────────────────────────────────────────────────────
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+*.pid
+*.pid.lock
+*.seed
+
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Environment / local config / secrets
+# ─────────────────────────────────────────────────────────────────────────────
+.env
+.env.*
+.env*.local
+!.env.example
+
+.envrc
+.python-version
+.pypirc
+*.pem
+http-client.private.env.json
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Build outputs / caches / coverage
+# ─────────────────────────────────────────────────────────────────────────────
+build/
+dist/
+out/
+coverage/
+htmlcov/
+.cache/
+.parcel-cache/
+.nyc_output/
+.grunt/
+.fusebox/
+.dynamodb/
+.serverless/
+.firebase/
+.tern-port
+
+*.lcov
+.coverage
+.coverage.*
+*.cover
+*.py.cover
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Python
+# ─────────────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[codz]
+*$py.class
+*.so
+
+.Python
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+*.manifest
+*.spec
+
+pip-log.txt
+pip-delete-this-directory.txt
+
+.tox/
+.nox/
+.hypothesis/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+.pybuilder/
+cython_debug/
+
+.ipynb_checkpoints
+profile_default/
+ipython_config.py
+
+.pdm-python
+.pdm-build/
+.pixi/
+__pypackages__/
+
+celerybeat-schedule
+celerybeat.pid
+
+instance/
+.webassets-cache
+.scrapy
+docs/_build/
+site/
+
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+*.mo
+*.pot
+*.sage.py
+
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+.spyderproject
+.spyproject
+.ropeproject
+
+marimo/_static/
+marimo/_lsp/
+__marimo__/
+
+.streamlit/secrets.toml
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Node / JS / TS
+# ─────────────────────────────────────────────────────────────────────────────
+node_modules/
+jspm_packages/
+bower_components/
+web_modules/
+
+.pnp
+.pnp.js
+.pnp.*
+.pnpm-store
+.npm
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.yarn-integrity
+
+.eslintcache
+.stylelintcache
+.node_repl_history
+.lock-wscript
+*.tgz
+
+.next/
+.nuxt/
+.svelte-kit/
+.output/
+.vuepress/dist
+.temp
+**/.vitepress/dist
+**/.vitepress/cache
+.docusaurus
+.vite/
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+next-env.d.ts
+*.tsbuildinfo
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Rust
+# ─────────────────────────────────────────────────────────────────────────────
+target/
+debug/
+*.rs.bk
+*.pdb
+**/mutants.out*/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Java / JVM / native build leftovers
+# ─────────────────────────────────────────────────────────────────────────────
+cmake-build-*/
+build/Release
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Data stores / brokers
+# ─────────────────────────────────────────────────────────────────────────────
+*.rdb
+*.aof
+mnesia/
+rabbitmq/
+rabbitmq-data/
+activemq-data/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Tool / platform-specific
+# ─────────────────────────────────────────────────────────────────────────────
+.abstra/
+.vercel/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Agents
+# ─────────────────────────────────────────────────────────────────────────────
+# Track canonical workspace guidance and packaged skill definitions at the root.
+# Ignore tool-local runtime state and per-host config trees.
+/.claude/
+/.codex/
+/.handoffs/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Workspace-local scratch and generated state
+# ─────────────────────────────────────────────────────────────────────────────
+/.archive/
+/.audit/
+/.notes/
+/.playwright-mcp/
+/.scratch-pad/
+/.worktrees/
+/scripts/local/
+/docs/workspace/*
+diag-mcp.sh
+
+# Nested project repositories: owned and versioned inside their own repos.
+/canopy/
+/cap/
+/cortina/
+/hyphae/
+/lamella/
+/lamella-skills/
+/mycelium/
+/rhizome/
+/septa/
+/spore/
+/stipe/
+/volva/
+/scripts/audit-baseline.sh

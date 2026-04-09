@@ -4,62 +4,53 @@ Use this page as the entry point for the docs set.
 
 ## Start Here
 
-- [Operator Quickstart](./OPERATOR-QUICKSTART.md)
-  - install, init, doctor, and the first commands to run
-- [What Gets Installed](./INSTALL-SCOPE.md)
-  - default bootstrap binaries, optional tools, source-only surfaces
-- [Host Support](./HOST-SUPPORT.md)
-  - first-class host modes versus shared MCP clients
-- [Tool Selection](./TOOL-SELECTION.md)
-  - which tool to reach for when the problem is practical, not architectural
+- [Getting Started](./getting-started/README.md)
+  - operator quickstart, install scope, host support, and tool selection
 
 ## Operate the Stack
 
-- [Troubleshooting](./TROUBLESHOOTING.md)
-  - common failures and the right doctor path
-- [Data and State Locations](./STATE-LOCATIONS.md)
-  - which tool owns which state and how to inspect it
-- [Cap](./CAP.md)
-  - when to use the dashboard versus CLI tools
-- [Canopy](./CANOPY.md)
-  - when coordination runtime matters and when it does not
-- [Release and Install Matrix](./RELEASE-AND-INSTALL-MATRIX.md)
-  - platform and delivery-mode summary
+- [Operate](./operate/README.md)
+  - troubleshooting, state inspection, and install or release reference material
+- [Tools](./tools/README.md)
+  - short operator-facing guides for `cap` and `canopy`
 
 ## Understand the Boundaries
 
-- [Ecosystem Architecture](./ECOSYSTEM-ARCHITECTURE.md)
-  - ownership boundaries across the ecosystem
-- [How the Projects Connect](./INTEGRATION.md)
-  - runtime flow, protocols, and failure modes
-- [Local-First Design](./LOCAL-FIRST.md)
-  - what local-first means in practice
+- [Architecture](./architecture/README.md)
+  - ownership boundaries, harness composition, runtime flow, and local-first design
+
+## Workspace Guidance
+
+- [Foundations](./foundations/README.md)
+  - workspace Rust architecture standards, audit checklist, and report template
+- [Workspace Notes](./workspace/README.md)
+  - ADRs, roadmap material, remediation plans, and audit queue docs
 
 ## Training and AI Concepts
 
-- [AI Concepts](./AI-CONCEPTS.md)
-  - RAG, DPO, fine-tuning, and platform comparisons
-- [LLM Training](./LLM-TRAINING.md)
-  - how Basidiocarp data becomes training input
+- [Concepts](./concepts/README.md)
+  - harness concepts, repo-to-concept mapping, control surfaces, training context, and where Basidiocarp fits
 
 ## Reading Order
 
 If you are new:
 
-1. [Operator Quickstart](./OPERATOR-QUICKSTART.md)
-2. [What Gets Installed](./INSTALL-SCOPE.md)
-3. [Host Support](./HOST-SUPPORT.md)
-4. [Tool Selection](./TOOL-SELECTION.md)
+1. [Getting Started](./getting-started/README.md)
+2. [Harness Overview](./architecture/harness-overview.md)
+3. [Operate](./operate/README.md)
 
 If you are operating the stack:
 
-1. [Troubleshooting](./TROUBLESHOOTING.md)
-2. [Data and State Locations](./STATE-LOCATIONS.md)
-3. [Cap](./CAP.md)
-4. [Canopy](./CANOPY.md)
+1. [Operate](./operate/README.md)
+2. [Tools](./tools/README.md)
 
 If you are learning the design:
 
-1. [Ecosystem Architecture](./ECOSYSTEM-ARCHITECTURE.md)
-2. [How the Projects Connect](./INTEGRATION.md)
-3. [Local-First Design](./LOCAL-FIRST.md)
+1. [Harness Overview](./architecture/harness-overview.md)
+2. [Architecture](./architecture/README.md)
+3. [Workspace Notes](./workspace/README.md)
+
+If you are changing workspace structure or maintainer guidance:
+
+1. [Foundations](./foundations/README.md)
+2. [Workspace Notes](./workspace/README.md)
