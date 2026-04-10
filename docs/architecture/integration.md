@@ -227,8 +227,8 @@ No project requires any other. Every integration has a fallback.
 
 - [Ecosystem Architecture](./ecosystem-architecture.md)
 - [Harness Overview](./harness-overview.md)
-- [AI Concepts](./ai-concepts.md)
-- [LLM Training](./llm-training.md)
+- [AI Concepts](../concepts/ai-concepts.md)
+- [LLM Training](../concepts/llm-training.md)
 - [Stipe](https://github.com/basidiocarp/stipe)
 - [Cortina](https://github.com/basidiocarp/cortina)
 - [Rhizome Architecture](https://github.com/basidiocarp/rhizome/blob/main/docs/ARCHITECTURE.md)

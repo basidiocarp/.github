@@ -3,7 +3,7 @@
 Date: 2026-04-07
 Scope: `mycelium`, `hyphae`, `rhizome`, `stipe`, `cortina`, `spore`, `canopy`
 Companion
-doc: [docs/foundations/rust-workspace-architecture-standards.md](/Users/williamnewton/projects/basidiocarp/docs/foundations/rust-workspace-architecture-standards.md)
+doc: [docs/foundations/rust-workspace-architecture-standards.md](/docs/foundations/rust-workspace-architecture-standards.md)
 
 This document applies the workspace Rust architecture standards to the current repos. It is not a scorecard. It is a
 practical read on what each repo should preserve, what it should tighten, and what to watch as it grows.
@@ -11,8 +11,8 @@ practical read on what each repo should preserve, what it should tighten, and wh
 ## Mycelium
 
 Current shape: one package, one binary, one library surface, many internal modules.
-See [mycelium/Cargo.toml](/Users/williamnewton/projects/basidiocarp/mycelium/Cargo.toml)
-and [mycelium/CLAUDE.md](/Users/williamnewton/projects/basidiocarp/mycelium/CLAUDE.md).
+See [mycelium/Cargo.toml](/mycelium/Cargo.toml)
+and [mycelium/CLAUDE.md](/mycelium/CLAUDE.md).
 
 Keep:
 
@@ -37,8 +37,8 @@ Watch:
 ## Hyphae
 
 Current shape: five-crate workspace with a clean center.
-See [hyphae/Cargo.toml](/Users/williamnewton/projects/basidiocarp/hyphae/Cargo.toml)
-and [hyphae/CLAUDE.md](/Users/williamnewton/projects/basidiocarp/hyphae/CLAUDE.md).
+See [hyphae/Cargo.toml](/hyphae/Cargo.toml)
+and [hyphae/CLAUDE.md](/hyphae/CLAUDE.md).
 
 Keep:
 
@@ -63,8 +63,8 @@ Watch:
 ## Rhizome
 
 Current shape: five-crate workspace with backend separation.
-See [rhizome/Cargo.toml](/Users/williamnewton/projects/basidiocarp/rhizome/Cargo.toml)
-and [rhizome/CLAUDE.md](/Users/williamnewton/projects/basidiocarp/rhizome/CLAUDE.md).
+See [rhizome/Cargo.toml](/rhizome/Cargo.toml)
+and [rhizome/CLAUDE.md](/rhizome/CLAUDE.md).
 
 Keep:
 
@@ -90,8 +90,8 @@ Watch:
 ## Stipe
 
 Current shape: one package, one CLI, policy-heavy operator tool over shared Spore primitives.
-See [stipe/Cargo.toml](/Users/williamnewton/projects/basidiocarp/stipe/Cargo.toml)
-and [stipe/CLAUDE.md](/Users/williamnewton/projects/basidiocarp/stipe/CLAUDE.md).
+See [stipe/Cargo.toml](/stipe/Cargo.toml)
+and [stipe/CLAUDE.md](/stipe/CLAUDE.md).
 
 Keep:
 
@@ -115,8 +115,8 @@ Watch:
 ## Cortina
 
 Current shape: one binary with adapter-first lifecycle capture.
-See [cortina/Cargo.toml](/Users/williamnewton/projects/basidiocarp/cortina/Cargo.toml)
-and [cortina/CLAUDE.md](/Users/williamnewton/projects/basidiocarp/cortina/CLAUDE.md).
+See [cortina/Cargo.toml](/cortina/Cargo.toml)
+and [cortina/CLAUDE.md](/cortina/CLAUDE.md).
 
 Keep:
 
@@ -140,8 +140,8 @@ Watch:
 ## Spore
 
 Current shape: shared infrastructure library.
-See [spore/Cargo.toml](/Users/williamnewton/projects/basidiocarp/spore/Cargo.toml)
-and [spore/CLAUDE.md](/Users/williamnewton/projects/basidiocarp/spore/CLAUDE.md).
+See [spore/Cargo.toml](/spore/Cargo.toml)
+and [spore/CLAUDE.md](/spore/CLAUDE.md).
 
 Keep:
 
@@ -164,8 +164,8 @@ Watch:
 ## Canopy
 
 Current shape: one binary with SQLite store, transport-neutral tools, and MCP plus CLI surfaces.
-See [canopy/Cargo.toml](/Users/williamnewton/projects/basidiocarp/canopy/Cargo.toml)
-and [canopy/CLAUDE.md](/Users/williamnewton/projects/basidiocarp/canopy/CLAUDE.md).
+See [canopy/Cargo.toml](/canopy/Cargo.toml)
+and [canopy/CLAUDE.md](/canopy/CLAUDE.md).
 
 Keep:
 
