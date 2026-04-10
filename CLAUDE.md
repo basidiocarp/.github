@@ -4,18 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-`basidiocarp` is a workspace of related projects for AI coding agent infrastructure. It mixes Rust CLIs and libraries, a React and TypeScript dashboard, Markdown packaging content, and shared cross-project contracts. The workspace root owns conventions, contract governance, shared docs, and version pins. Most major subprojects are their own git repositories, but some directories such as `volva/`, `septa/`, and `docs/` are root-managed.
+`basidiocarp` is a workspace of related projects for AI coding agent infrastructure. It mixes Rust CLIs and libraries, a React and TypeScript dashboard, Markdown packaging content, and shared cross-project contracts. The root owns conventions, shared docs, contract governance, and version pins. Most major subprojects are their own git repositories.
 
 ---
 
-## What This Workspace Does NOT Do
+## Operating Model
 
-- Does not build or test from the root as one unified project: run commands inside the subproject you change.
-- Does not share one git history across all code: run git in the project that actually owns the files you changed.
-- Does not treat cross-tool payloads as informal: schema changes must go through `septa/`.
-- Does not keep dependency drift implicit: shared pins live in `ecosystem-versions.toml`.
-- Does not keep Rust architecture standards buried in examples: workspace guidance lives under `docs/foundations/`.
-- Does not treat the external audit corpus as source of truth: use `.audit/external/` to evaluate borrowed ideas, then land the real decisions in the owning repo, `septa/`, or `docs/foundations/`.
+- Do not build or test from the root as one unified project. Run commands inside the subproject you change.
+- Do not assume one shared git history. Use git in the repo that owns the files you changed.
+- Do not treat cross-tool payloads as informal. Schema changes go through `septa/`.
+- Do not let shared dependency drift hide in subrepos. Shared pins live in `ecosystem-versions.toml`.
+- Do not treat the external audit corpus as source of truth. Use `.audit/external/` to evaluate borrowed ideas, then land the real decisions in the owning repo, `septa/`, or `docs/foundations/`.
 
 ---
 
@@ -24,7 +23,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Wrong working directory**: Commands fail or hit the wrong repository. Change into the touched subproject before building, testing, or using git.
 - **Contract drift**: One tool changes a payload and another breaks later. Check `septa/README.md`, update the schema and fixture first, then update every producer and consumer in the same change.
 - **Version drift**: Shared libraries, especially `spore`, move out of sync across projects. Check `ecosystem-versions.toml` before changing shared dependencies.
-- **Workspace-level git assumptions**: The root is a small workspace meta-repo, but nested project repos still own their own code history. Use root git for workspace docs, shared config, and coordination assets; use git inside the specific subproject for code changes.
+- **Workspace-level git assumptions**: The root is a small workspace meta-repo. Nested project repos still own their own code history. Use root git for workspace docs, shared config, and coordination assets; use git inside the specific subproject for code changes.
 
 ---
 
@@ -63,7 +62,7 @@ basidiocarp/
 ├── lamella/    skills, hooks, and plugin packaging
 ├── canopy/     multi-agent coordination runtime
 ├── volva/      execution-host runtime layer
-├── septa/  shared schemas and fixtures
+├── septa/      shared schemas and fixtures
 └── docs/       workspace-level notes
 ```
 

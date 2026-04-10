@@ -2,13 +2,13 @@
 
 ## Purpose
 
-This workspace is a routing layer, not one big project. Most work here means finding the right subrepo, changing source in that repo, and validating there instead of pretending the root is the build system. Preserve the real repo boundaries; they are the main thing that keeps cross-tool work sane.
+This workspace is a routing layer, not one unified project. Most tasks mean finding the owning repo, changing source there, and validating there. Preserve repo boundaries; they are what keep cross-tool work sane.
 
 ---
 
 ## Source of Truth
 
-- `*/` top-level subprojects: the real source lives inside the repo you are changing.
+- top-level project dirs: the real source lives inside the repo you are changing.
 - `septa/`: authoritative cross-tool payload shapes and fixtures.
 - `ecosystem-versions.toml`: shared dependency pins across repos.
 - `docs/foundations/`: workspace Rust architecture standards, checklist, and audit template.
@@ -17,7 +17,7 @@ This workspace is a routing layer, not one big project. Most work here means fin
 - `lamella/resources/` and `lamella/manifests/`: source for Lamella content and packaging.
 - `dist/`, `target/`, and similar build output: generated output. Do not hand-edit unless the task is explicitly about generated artifacts.
 
-When the workspace root and a subproject disagree, the subproject wins. When code and `septa/` disagree on a cross-tool payload, update `septa/` first.
+If the workspace root and a subproject disagree, the subproject wins. If code and `septa/` disagree on a cross-tool payload, update `septa/` first.
 
 ---
 
@@ -25,13 +25,13 @@ When the workspace root and a subproject disagree, the subproject wins. When cod
 
 Before writing code, verify:
 
-1. **Owning repo**: identify which top-level project actually owns the change.
+1. **Owning repo**: identify which project actually owns the change.
 2. **Contracts**: if the task crosses a tool boundary, read `septa/README.md` first.
 3. **Versions**: check `ecosystem-versions.toml` before changing shared dependencies.
-4. **Foundation standards**: for Rust architecture or repo-boundary work, read `docs/foundations/` before editing repo guidance or alignment handoffs.
+4. **Foundation standards**: for Rust architecture or repo-boundary work, read `docs/foundations/`.
 5. **Build surface**: switch into the touched repo before running git, build, or test commands.
-6. **Lamella context**: for substantial Lamella work, read `lamella/docs/authoring/` before editing content or manifests.
-7. **External audit context**: when evaluating ideas borrowed from outside tools, read `.audit/external/SYNTHESIS.md` first and `.audit/external/AUDITING.md` if you are writing or refreshing an audit.
+6. **Lamella context**: for substantial Lamella work, read `lamella/docs/authoring/`.
+7. **External audit context**: when evaluating borrowed ideas, read `.audit/external/SYNTHESIS.md` first and `.audit/external/AUDITING.md` if you are writing or refreshing an audit.
 
 ---
 
@@ -56,7 +56,7 @@ cd lamella && make validate                        # Lamella content and packagi
 
 ## Repo Architecture
 
-This workspace is intentionally loose. Each top-level project owns its own code, tests, and git history; the root only holds shared docs, cross-project contracts, and coordination notes.
+Each top-level project owns its own code, tests, and git history. The root owns shared docs, cross-project contracts, version pins, and coordination notes.
 
 Key boundaries:
 
@@ -80,14 +80,14 @@ Current direction:
 - Use `rg` over `grep` and `fd` over `find`.
 - For Lamella audits, review manifests, docs, and source content together instead of only changed files.
 - When a task crosses tool boundaries, update schemas, fixtures, and all affected producers or consumers in the same change.
-- When a task changes Rust repo structure or maintainer guidance, keep `docs/foundations/` as the standards source of truth instead of pointing back into `.audit/external/`.
+- When a task changes Rust repo structure or maintainer guidance, keep `docs/foundations/` as the standards source of truth.
 - If validation was skipped in a touched repo, say so clearly in the final response.
 
 ---
 
 ## Multi-Agent Patterns
 
-For substantial workspace-spanning work, use at least two agents:
+For substantial workspace-spanning work, default to two agents:
 
 **1. Primary implementation worker**
 - Owns the actual write scope in the touched repo or repos
@@ -97,9 +97,7 @@ For substantial workspace-spanning work, use at least two agents:
 - Reviews the broader shape rather than redoing the implementation
 - Specifically looks for contract drift across repos, root-vs-subrepo confusion, missed validation in a touched project, and stale Lamella source-vs-generated output mistakes
 
-**3. Docs worker**
-- Use when README, CLAUDE, AGENTS, or authoring docs changed materially
-- Owns prose cleanup and cross-link consistency
+Add a docs worker when README, `CLAUDE.md`, `AGENTS.md`, or authoring docs changed materially.
 
 Sequencing: do not stop local work just because a validator is running. Wait only when the next edit depends on the review result.
 
@@ -110,7 +108,7 @@ Sequencing: do not stop local work just because a validator is running. Wait onl
 Use these for most work in this workspace:
 
 - `basidiocarp-workspace-router`: routes the task to the right repo and command set.
-- `writing-voice`: use when touching READMEs, CLAUDE files, AGENTS files, or authoring docs.
+- `writing-voice`: use when touching READMEs, `CLAUDE.md`, `AGENTS.md`, or authoring docs.
 - `systematic-debugging`: use before changing code in response to a failure you have not explained yet.
 
 Use these when the task needs them:
