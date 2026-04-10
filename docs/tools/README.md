@@ -5,7 +5,7 @@ surface matters.
 
 ## Guides
 
-- [cap.md](/docs/tools/cap.md)
+- [cap.md](./cap.md)
   When to use the dashboard instead of another CLI result.
-- [canopy.md](/docs/tools/canopy.md)
+- [canopy.md](./canopy.md)
   When coordination runtime matters and when it does not.

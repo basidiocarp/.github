@@ -2,12 +2,8 @@
 
 Date: 2026-04-07
 Scope: workspace-wide guidance for Rust repos in `basidiocarp`
-Basis: lessons extracted from the ForgeCode audit in:
-
-- [.audit/external/audits/forgecode/audit-initial.md](/.audit/external/audits/forgecode/audit-initial.md)
-- [.audit/external/audits/forgecode/borrow-matrix.md](/.audit/external/audits/forgecode/borrow-matrix.md)
-- [.audit/external/audits/forgecode/cleanup-map.md](/.audit/external/audits/forgecode/cleanup-map.md)
-- [.audit/external/audits/forgecode/feature-comparison.md](/.audit/external/audits/forgecode/feature-comparison.md)
+Basis: lessons extracted from the local ForgeCode audit set under
+`.audit/external/audits/forgecode/`.
 
 This is not a ForgeCode refactor plan. It is a set of standards for how Rust applications in this workspace should be
 structured, verified, and evolved.

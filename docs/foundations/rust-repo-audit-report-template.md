@@ -6,8 +6,8 @@ Auditor: `name`
 Scope: short description of what was reviewed
 Standards used:
 
-- [docs/foundations/rust-workspace-architecture-standards.md](/docs/foundations/rust-workspace-architecture-standards.md)
-- [docs/foundations/rust-repo-audit-checklist.md](/docs/foundations/rust-repo-audit-checklist.md)
+- [docs/foundations/rust-workspace-architecture-standards.md](./rust-workspace-architecture-standards.md)
+- [docs/foundations/rust-repo-audit-checklist.md](./rust-repo-audit-checklist.md)
 
 This template is for repo-specific audits in the `basidiocarp` ecosystem. Fill it in after running the checklist. Keep
 it concrete. Use file references where they matter.

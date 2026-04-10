@@ -12,12 +12,12 @@ Use these docs when:
 
 Core docs:
 
-- [rust-workspace-architecture-standards.md](/docs/foundations/rust-workspace-architecture-standards.md)
-- [rust-workspace-standards-applied.md](/docs/foundations/rust-workspace-standards-applied.md)
-- [repo-documentation-standards.md](/docs/foundations/repo-documentation-standards.md)
-- [internal-repo-audit-blueprint.md](/docs/foundations/internal-repo-audit-blueprint.md)
-- [rust-repo-audit-checklist.md](/docs/foundations/rust-repo-audit-checklist.md)
-- [rust-repo-audit-report-template.md](/docs/foundations/rust-repo-audit-report-template.md)
+- [rust-workspace-architecture-standards.md](./rust-workspace-architecture-standards.md)
+- [rust-workspace-standards-applied.md](./rust-workspace-standards-applied.md)
+- [repo-documentation-standards.md](./repo-documentation-standards.md)
+- [internal-repo-audit-blueprint.md](./internal-repo-audit-blueprint.md)
+- [rust-repo-audit-checklist.md](./rust-repo-audit-checklist.md)
+- [rust-repo-audit-report-template.md](./rust-repo-audit-report-template.md)
 
 The audit set under `.audit/external/audits/` holds example audits and
 synthesis only. It is not the source of truth for workspace standards.
