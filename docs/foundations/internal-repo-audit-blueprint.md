@@ -4,10 +4,10 @@ Date: 2026-04-09
 Scope: internal repos in the `basidiocarp` workspace
 Companion docs:
 
-- [docs/foundations/rust-workspace-architecture-standards.md](/docs/foundations/rust-workspace-architecture-standards.md)
-- [docs/foundations/rust-workspace-standards-applied.md](/docs/foundations/rust-workspace-standards-applied.md)
-- [docs/foundations/rust-repo-audit-checklist.md](/docs/foundations/rust-repo-audit-checklist.md)
-- [docs/foundations/rust-repo-audit-report-template.md](/docs/foundations/rust-repo-audit-report-template.md)
+- [docs/foundations/rust-workspace-architecture-standards.md](./rust-workspace-architecture-standards.md)
+- [docs/foundations/rust-workspace-standards-applied.md](./rust-workspace-standards-applied.md)
+- [docs/foundations/rust-repo-audit-checklist.md](./rust-repo-audit-checklist.md)
+- [docs/foundations/rust-repo-audit-report-template.md](./rust-repo-audit-report-template.md)
 
 This is the reusable part of the old global audit. It is the spec to use when auditing workspace repos now. The old campaign had useful structure, but too much of it was tied to one moment, one Canopy rollout, and one baseline file. This document keeps the repeatable method and drops the one-off orchestration.
 
@@ -85,7 +85,7 @@ Questions to answer:
 
 For Rust repos, use the checklist directly:
 
-- [rust-repo-audit-checklist.md](/docs/foundations/rust-repo-audit-checklist.md)
+- [rust-repo-audit-checklist.md](./rust-repo-audit-checklist.md)
 
 For non-Rust repos, use the same shape even if the crate-language wording does not apply exactly.
 
@@ -256,9 +256,9 @@ Use this sequence:
 
 These archived campaigns are still useful as source material:
 
-- [global-audit](/.handoffs/archive/campaigns/global-audit/README.md)
+- the archived `global-audit` campaign
   Use for the layer structure, baseline thinking, and boundary/doc-fidelity pass.
-- [logging-audit](/.handoffs/archive/campaigns/logging-audit/README.md)
+- the archived `logging-audit` campaign
   Use for the pattern of bounded per-repo audit notes plus one shared synthesis.
 
 Do not reuse their queue mechanics or one-off orchestration commands as the default method.

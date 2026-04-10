@@ -23,8 +23,8 @@ Use this page as the entry point for the docs set.
 
 - [Foundations](./foundations/README.md)
   - workspace Rust architecture standards, audit checklist, and report template
-- [Workspace Notes](./workspace/README.md)
-  - ADRs, roadmap material, remediation plans, and audit queue docs
+- Workspace notes live in `docs/workspace/` locally
+  - ADRs, roadmap material, and audit queue docs are maintained as local workspace notes and are not part of the published docs set
 
 ## Training and AI Concepts
 
@@ -48,9 +48,9 @@ If you are learning the design:
 
 1. [Harness Overview](./architecture/harness-overview.md)
 2. [Architecture](./architecture/README.md)
-3. [Workspace Notes](./workspace/README.md)
+3. [Foundations](./foundations/README.md)
 
 If you are changing workspace structure or maintainer guidance:
 
 1. [Foundations](./foundations/README.md)
-2. [Workspace Notes](./workspace/README.md)
+2. [Architecture](./architecture/README.md)
