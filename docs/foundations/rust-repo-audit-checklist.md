@@ -4,8 +4,8 @@ Date: 2026-04-07
 Scope: any current or future Rust repo in the `basidiocarp` ecosystem
 Companion docs:
 
-- [docs/foundations/rust-workspace-architecture-standards.md](/Users/williamnewton/projects/basidiocarp/docs/foundations/rust-workspace-architecture-standards.md)
-- [docs/foundations/rust-workspace-standards-applied.md](/Users/williamnewton/projects/basidiocarp/docs/foundations/rust-workspace-standards-applied.md)
+- [docs/foundations/rust-workspace-architecture-standards.md](/docs/foundations/rust-workspace-architecture-standards.md)
+- [docs/foundations/rust-workspace-standards-applied.md](/docs/foundations/rust-workspace-standards-applied.md)
 
 This is the checklist version. Use it when you want to audit a Rust repo quickly without rewriting the standards from
 scratch.

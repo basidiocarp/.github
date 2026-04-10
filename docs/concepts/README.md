@@ -8,9 +8,9 @@ than operator steps.
 Read these first if you want the shortest explanation of what Basidiocarp is
 building around the model:
 
-1. [agent-harness.md](/Users/williamnewton/projects/basidiocarp/docs/concepts/agent-harness.md)
-2. [context-and-memory.md](/Users/williamnewton/projects/basidiocarp/docs/concepts/context-and-memory.md)
-3. [tool-use-and-mcp.md](/Users/williamnewton/projects/basidiocarp/docs/concepts/tool-use-and-mcp.md)
+1. [agent-harness.md](/docs/concepts/agent-harness.md)
+2. [context-and-memory.md](/docs/concepts/context-and-memory.md)
+3. [tool-use-and-mcp.md](/docs/concepts/tool-use-and-mcp.md)
 
 ## Guides
 
@@ -26,7 +26,7 @@ building around the model:
   When to stay with prompting or a single agent, and when multiple agents are justified.
 - [repo-to-concept-map.md](./repo-to-concept-map.md)
   Which AI concepts each repo embodies and where the boundaries sit.
-- [ai-concepts.md](/Users/williamnewton/projects/basidiocarp/docs/concepts/ai-concepts.md)
+- [ai-concepts.md](/docs/concepts/ai-concepts.md)
   RAG, DPO, fine-tuning, and where Basidiocarp fits relative to model training.
-- [llm-training.md](/Users/williamnewton/projects/basidiocarp/docs/concepts/llm-training.md)
+- [llm-training.md](/docs/concepts/llm-training.md)
   How Basidiocarp data becomes training input for fine-tuning workflows.

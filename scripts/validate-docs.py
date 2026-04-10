@@ -44,7 +44,10 @@ def validate_relative_links(path: Path, text: str, errors: list[str]) -> None:
         target = raw_target.split("#", 1)[0]
         if not target:
             continue
-        resolved = (path.parent / target).resolve()
+        if target.startswith("/"):
+            resolved = (ROOT / target.lstrip("/")).resolve()
+        else:
+            resolved = (path.parent / target).resolve()
         if not resolved.exists():
             errors.append(f"{path.relative_to(ROOT)}: broken relative link target `{raw_target}`")
 

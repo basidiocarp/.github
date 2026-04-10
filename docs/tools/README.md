@@ -5,7 +5,7 @@ surface matters.
 
 ## Guides
 
-- [cap.md](/Users/williamnewton/projects/basidiocarp/docs/tools/cap.md)
+- [cap.md](/docs/tools/cap.md)
   When to use the dashboard instead of another CLI result.
-- [canopy.md](/Users/williamnewton/projects/basidiocarp/docs/tools/canopy.md)
+- [canopy.md](/docs/tools/canopy.md)
   When coordination runtime matters and when it does not.

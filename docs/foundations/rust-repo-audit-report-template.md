@@ -6,8 +6,8 @@ Auditor: `name`
 Scope: short description of what was reviewed
 Standards used:
 
-- [docs/foundations/rust-workspace-architecture-standards.md](/Users/williamnewton/projects/basidiocarp/docs/foundations/rust-workspace-architecture-standards.md)
-- [docs/foundations/rust-repo-audit-checklist.md](/Users/williamnewton/projects/basidiocarp/docs/foundations/rust-repo-audit-checklist.md)
+- [docs/foundations/rust-workspace-architecture-standards.md](/docs/foundations/rust-workspace-architecture-standards.md)
+- [docs/foundations/rust-repo-audit-checklist.md](/docs/foundations/rust-repo-audit-checklist.md)
 
 This template is for repo-specific audits in the `basidiocarp` ecosystem. Fill it in after running the checklist. Keep
 it concrete. Use file references where they matter.
@@ -51,7 +51,7 @@ What is structurally right? What is leaking?
 
 Evidence:
 
-- [file-or-doc](/absolute/path/to/file)
+- `path/to/file-or-doc`
 
 ### 2. Dependency direction
 
@@ -63,7 +63,7 @@ Are dependencies flowing the way the crate names imply?
 
 Evidence:
 
-- [file-or-doc](/absolute/path/to/file)
+- `path/to/file-or-doc`
 
 ### 3. Domain and shared types
 
@@ -75,7 +75,7 @@ Is the core narrow and coherent, or turning into a catch-all?
 
 Evidence:
 
-- [file-or-doc](/absolute/path/to/file)
+- `path/to/file-or-doc`
 
 ### 4. Composition and orchestration
 
@@ -87,7 +87,7 @@ Is wiring centralized, or bleeding through the repo?
 
 Evidence:
 
-- [file-or-doc](/absolute/path/to/file)
+- `path/to/file-or-doc`
 
 ### 5. Hotspots
 
@@ -103,7 +103,7 @@ Why they matter:
 
 Evidence:
 
-- [file-or-doc](/absolute/path/to/file)
+- `path/to/file-or-doc`
 
 ### 6. Config, policy, and operator UX
 
@@ -115,7 +115,7 @@ Is config a real product surface? Are permissions and runtime safety explicit wh
 
 Evidence:
 
-- [file-or-doc](/absolute/path/to/file)
+- `path/to/file-or-doc`
 
 ### 7. Contracts and ecosystem fit
 
@@ -127,7 +127,7 @@ How well does the repo behave as part of the larger ecosystem?
 
 Evidence:
 
-- [file-or-doc](/absolute/path/to/file)
+- `path/to/file-or-doc`
 
 ### 8. CI, tests, and verification
 
@@ -140,7 +140,7 @@ What does green mean here, and can you trust it?
 
 Evidence:
 
-- [file-or-doc](/absolute/path/to/file)
+- `path/to/file-or-doc`
 
 ## Severity summary
 
