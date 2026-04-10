@@ -14,6 +14,8 @@ Core docs:
 
 - [rust-workspace-architecture-standards.md](/Users/williamnewton/projects/basidiocarp/docs/foundations/rust-workspace-architecture-standards.md)
 - [rust-workspace-standards-applied.md](/Users/williamnewton/projects/basidiocarp/docs/foundations/rust-workspace-standards-applied.md)
+- [repo-documentation-standards.md](/Users/williamnewton/projects/basidiocarp/docs/foundations/repo-documentation-standards.md)
+- [internal-repo-audit-blueprint.md](/Users/williamnewton/projects/basidiocarp/docs/foundations/internal-repo-audit-blueprint.md)
 - [rust-repo-audit-checklist.md](/Users/williamnewton/projects/basidiocarp/docs/foundations/rust-repo-audit-checklist.md)
 - [rust-repo-audit-report-template.md](/Users/williamnewton/projects/basidiocarp/docs/foundations/rust-repo-audit-report-template.md)
 
