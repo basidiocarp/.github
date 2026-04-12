@@ -275,6 +275,7 @@ activemq-data/
 diag-mcp.sh
 
 # Nested project repositories: owned and versioned inside their own repos.
+/annulus/
 /canopy/
 /cap/
 /cortina/
