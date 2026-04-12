@@ -37,6 +37,7 @@ cd spore && cargo build && cargo test
 cd stipe && cargo build --release && cargo test
 cd cortina && cargo build --release && cargo test
 cd canopy && cargo build --release && cargo test
+cd hymenium && cargo build --release && cargo test
 cd volva && cargo check && cargo test
 
 cd cap && npm run dev:all
@@ -61,6 +62,7 @@ basidiocarp/
 ├── cortina/    lifecycle signal runner
 ├── lamella/    skills, hooks, and plugin packaging
 ├── canopy/     multi-agent coordination runtime
+├── hymenium/   workflow orchestration engine
 ├── volva/      execution-host runtime layer
 ├── septa/      shared schemas and fixtures
 └── docs/       workspace-level notes
@@ -75,6 +77,7 @@ basidiocarp/
 - **cortina**: Captures hook events and writes structured signals.
 - **lamella**: Packages shared content for Claude and Codex.
 - **canopy**: Tracks task ownership, handoffs, and evidence.
+- **hymenium**: Orchestrates workflow dispatch, phase gating, and retry/recovery.
 - **volva**: Hosts backend orchestration at the runtime seam.
 
 ---
@@ -109,7 +112,37 @@ The workspace root does not send or receive runtime payloads. It owns the shared
 
 - Update the schema and example fixture before changing any cross-tool payload.
 - Check downstream consumers before renaming tool names, fields, CLI flags, or SQLite tables.
+- Validate all contracts after schema changes: `cd septa && bash validate-all.sh`
 - Run `./scripts/test-integration.sh` when a change crosses a project boundary.
+
+---
+
+## Delegation Contract
+
+When the user asks for the implementer/auditor pattern, treat it as a strict workflow, not a loose preference.
+
+Start with one implementation agent on one concrete handoff or child handoff. That agent must stay inside the owning repo, do implementation only, inspect repo state and the named target files before editing, make the code changes, update the handoff when the handoff expects verification evidence, run the repo-local verification named in the handoff, and occasionally report progress back to the parent agent. Orchestration, decomposition, relaunch decisions, dashboard edits, and archive moves stay with the parent agent. Status chatter does not count as progress.
+
+Do not start the auditor until there is a real code diff in the target repo and the implementer has reported verification results. The auditor must be a separate agent. It reviews the changed code and the handoff together, checks for regressions, incomplete work, and newly introduced bugs, and reports findings first.
+
+If the auditor finds issues, fix them and rerun the relevant verification before treating the work as complete. Close the implementer when implementation is accepted. Close the auditor when the audit is accepted. Once the audit is clean and verification is green, update the handoff dashboard to reflect completion, and archive or remove the entry if the dashboard tracks active work only. Do not leave stalled or completed agents open.
+
+Parallel strict workflows are allowed when they target different concrete handoffs with disjoint write scopes. Parallel implementers for the same handoff, or overlapping ownership inside one repo, are not allowed.
+
+Use this naming convention for strict-workflow agents:
+
+`<role>/<repo>/<handoff-slug>/<run>`
+
+Examples:
+
+- `impl/spore/otel-foundation/1`
+- `audit/spore/otel-foundation/1`
+
+If a human nickname is available, keep it secondary:
+
+- `impl/spore/otel-foundation/1 (Dalton)`
+
+Triage strict workflows actively. Check early for a real repo diff. If a lane is still empty, treat it as at risk. If it produces an off-scope diff, close it immediately. Only lanes with an on-scope diff and repo-local verification output should advance to audit. Workflow summaries, relaunch notes, or other meta-status replies without a repo diff count as failure and should be closed immediately.
 
 ---
 

@@ -4,6 +4,16 @@
 <!-- Create verify script: .handoffs/<project>/verify-<topic>.sh -->
 <!-- Update index: .handoffs/HANDOFFS.md -->
 
+## Handoff Metadata
+
+- **Dispatch:** `direct`
+- **Owning repo:** `[repo-name]`
+- **Allowed write scope:** `[repo]/...`
+- **Cross-repo edits:** `none` | `[allowed repo paths only]`
+- **Non-goals:** [1 short sentence stating what this handoff does not include]
+- **Verification contract:** run the repo-local commands below and `bash .handoffs/<project>/verify-<topic>.sh`
+- **Completion update:** once audit is clean and verification is green, update `.handoffs/HANDOFFS.md` and archive or remove this handoff if the dashboard tracks active work only
+
 ## Problem
 
 [1-3 sentences: what's broken or missing, and why it matters]
@@ -16,6 +26,12 @@
 ## What needs doing (intent)
 
 [High-level description of the work]
+
+## Scope
+
+- **Primary seam:** [the one subsystem or boundary this handoff owns]
+- **Allowed files:** [specific paths or path prefixes]
+- **Explicit non-goals:** [bullets for nearby work that should not be folded into this handoff]
 
 ---
 
@@ -69,6 +85,8 @@ Do NOT mark this step complete until output is pasted.
 1. Every step above has verification output pasted between the markers
 2. The verification script passes: `bash .handoffs/<project>/verify-<topic>.sh`
 3. All checklist items are checked
+4. The active handoff dashboard is updated to reflect completion
+5. If `.handoffs/HANDOFFS.md` tracks active work only, this handoff is archived or removed from the active queue in the same close-out flow
 
 ### Final Verification
 
@@ -91,3 +109,9 @@ with failures.
 ## Context
 
 [Why this work exists, links to related handoffs or issues]
+
+## Style Notes
+
+- Prefer one repo, one primary seam, and one verification surface per handoff.
+- If the work spans multiple repos or phases, create an umbrella handoff and split it into child handoffs before dispatch.
+- Use `Dispatch: umbrella` only for decomposition or coordination notes. Umbrella handoffs should not be sent to implementers directly.
