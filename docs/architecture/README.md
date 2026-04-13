@@ -27,3 +27,5 @@ local-first means in practice.
   Deferred guardrails, AuthN/AuthZ, and compliance layer.
 - [token-optimization-design-note.md](./token-optimization-design-note.md)
   Token reduction strategies: structural parsing, progressive disclosure, and cache-friendly layout.
+- [unified-output-aggregation.md](./unified-output-aggregation.md)
+  One aggregation path (Annulus), many renderers (statusline, JSON, Cap). Data sources, consumers, and degradation strategy.
