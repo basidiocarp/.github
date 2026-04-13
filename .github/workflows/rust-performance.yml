@@ -57,7 +57,7 @@ jobs:
           python3 -c "assert float('${SIZE_MB}') <= ${{ inputs.max-size-mb }}, f'Binary ${SIZE_MB}MB exceeds limit ${{ inputs.max-size-mb }}MB'"
 
       - name: Install hyperfine
-        uses: taiki-e/install-action@v2.69.7
+        uses: taiki-e/install-action@v2.75.10
         with:
           tool: hyperfine
 
