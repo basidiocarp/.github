@@ -30,9 +30,14 @@ If a human nickname is available, keep it secondary:
 ## Workflow
 
 1. Pick one concrete handoff or child handoff. If the source handoff is broad, decompose it first and choose one child.
-2. Spawn exactly one implementation agent for that one scoped task.
+2. Before spawning, do a short local seam-finding pass:
+   - confirm the owning repo
+   - identify the likely files or modules to change
+   - identify the exact repo-local verification commands
+   If you cannot name the likely file set yet, keep the work local until the seam is clearer.
+3. Spawn exactly one implementation agent for that one scoped task.
    Name it with the stable workflow label for that handoff and run.
-3. Tell the implementation agent:
+4. Tell the implementation agent:
    - the owning repo and files it owns
    - not to drift into sibling repos or umbrella planning
    - that the parent agent owns orchestration, decomposition, relaunch decisions, dashboard edits, and archive moves
@@ -43,23 +48,23 @@ If a human nickname is available, keep it secondary:
    - to run the repo-local verification named in the handoff
    - to send occasional progress updates back to the parent agent
    - to return changed files, exact verification output, and blockers
-4. Wait for evidence of real progress:
+5. Wait for evidence of real progress:
    - code diff in the owning repo
    - verification output from the implementer
-5. Only then spawn a separate auditor agent.
+6. Only then spawn a separate auditor agent.
    Reuse the same repo, handoff slug, and run number, changing only `impl` to `audit`.
-6. Tell the auditor:
+7. Tell the auditor:
    - review the changed code and the handoff together
    - look for regressions, incomplete work, and new bugs
    - report findings first
    - send occasional progress updates back to the parent agent
-7. If the auditor finds issues:
+8. If the auditor finds issues:
    - fix them
    - rerun the relevant verification
    - do not mark the handoff complete until the fixes are reviewed
-8. Once the audit is clean and verification is green, update the handoff dashboard to reflect completion. If the dashboard tracks active work only, archive or remove the completed entry in the same close-out flow.
-9. Close the implementer after implementation is accepted.
-10. Close the auditor after the audit is accepted.
+9. Once the audit is clean and verification is green, update the handoff dashboard to reflect completion. If the dashboard tracks active work only, archive or remove the completed entry in the same close-out flow.
+10. Close the implementer after implementation is accepted.
+11. Close the auditor after the audit is accepted.
 
 ## Hard Gates
 
@@ -69,6 +74,7 @@ If a human nickname is available, keep it secondary:
 - Do not treat orchestration summaries, relaunch notes, or dashboard commentary as task completion.
 - Do not leave stalled or completed agents open.
 - Parallel strict workflows are allowed only when they target different concrete handoffs with disjoint write scopes.
+- Do not spawn an implementer before the likely file set and verification commands are known.
 
 ## Lane Triage
 
