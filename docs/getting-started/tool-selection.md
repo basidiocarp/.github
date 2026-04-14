@@ -14,6 +14,8 @@ Use this page when the question is not "how does the ecosystem work?" but "which
 | Capture lifecycle signals and session outcomes           | `cortina`  |
 | Review status and memory in a dashboard                  | `cap`      |
 | Coordinate multiple agents and handoffs                  | `canopy`   |
+| Orchestrate multi-step workflows with retry and recovery | `hymenium` |
+| Cross-ecosystem operator utilities and statusline        | `annulus`  |
 | Package templates, hooks, skills, commands, and wrappers | `lamella`  |
 | Define a shared payload, schema, or cross-tool fixture   | `septa`    |
 | Reuse shared editor and path primitives in Rust tools    | `spore`    |
@@ -32,6 +34,8 @@ flowchart TD
     Runtime -->|"Lifecycle capture"| Cortina["cortina"]
     Runtime -->|"Operator review"| Cap["cap"]
     Runtime -->|"Multi-agent coordination"| Canopy["canopy"]
+    Runtime -->|"Workflow orchestration / retry"| Hymenium["hymenium"]
+    Runtime -->|"Operator utilities / statusline"| Annulus["annulus"]
     Runtime -->|"Packaging / templates"| Lamella["lamella"]
     Runtime -->|"Shared contract / schema"| Septa["septa"]
 ```
@@ -75,6 +79,14 @@ Use `cap`.
 
 Use `canopy`.
 
+### "I need multi-step workflow dispatch, phase gating, or retry and recovery"
+
+Use `hymenium`.
+
+### "I need operator utilities or a statusline across the ecosystem"
+
+Use `annulus`.
+
 ### "I need to package or export shared prompts and hook templates"
 
 Use `lamella`.
@@ -95,6 +107,8 @@ Use `spore`.
 - `cortina` owns lifecycle runtime semantics.
 - `lamella` owns packaging and templates.
 - `canopy` owns coordination runtime state, not long-term memory.
+- `hymenium` owns workflow dispatch, phase gating, and retry and recovery.
+- `annulus` owns cross-ecosystem operator utilities and statusline.
 - `hyphae` owns long-term memory and structured recall.
 - `septa` owns shared payload contracts and fixtures.
 

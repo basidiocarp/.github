@@ -9,7 +9,8 @@ Basidiocarp splits the stack into a few clear layers. `volva` handles execution-
 `mycelium` handles command shaping, `hyphae` handles memory, `rhizome` handles code intelligence, `stipe` handles
 installation and host policy, and `cap` surfaces the state of the system. The supporting tools stay narrower: `spore`
 is shared plumbing, `lamella` packages agent assets, `cortina` runs host-side lifecycle adapters, `canopy` is the
-optional coordination runtime, and `septa` holds shared cross-tool contracts.
+optional coordination runtime, `hymenium` is the workflow orchestration engine, `annulus` provides cross-ecosystem
+operator utilities, and `septa` holds shared cross-tool contracts.
 
 ## Core services
 
@@ -37,9 +38,14 @@ optional coordination runtime, and `septa` holds shared cross-tool contracts.
 - `canopy`
   - Optional coordination runtime for multi-agent work.
   - Tracks active agents, task ownership, handoffs, attention, and evidence references.
+- `hymenium`
+  - Workflow orchestration engine.
+  - Owns workflow dispatch, phase gating, and retry and recovery across multi-step agent work.
 
 ## Supporting tools
 
+- `annulus`
+  - Cross-ecosystem operator utilities, statusline, and tiered operator tooling.
 - `spore`
   - Shared low-level tool discovery, subprocess, editor config registration, and runtime plumbing.
   - Not the place for host orchestration or UI policy.
@@ -61,7 +67,7 @@ The ecosystem repo contains more projects than the default bootstrap install.
 - bootstrap-installed by default
   - `stipe`, `mycelium`, `hyphae`, `rhizome`, `cortina`
 - optional runtime install
-  - `canopy`, `volva`
+  - `annulus`, `canopy`, `hymenium`, `volva`
 - source or packaging surfaces
   - `cap`, `lamella`, `spore`, `septa`
 

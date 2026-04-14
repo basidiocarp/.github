@@ -43,6 +43,8 @@ The important point is that these are cooperating pieces, not feature duplicates
 | Host installation and policy | `stipe`      | setup, doctor, registration, repair, host inventory                          | memory retrieval, code intelligence       |
 | Operator visibility          | `cap`        | read surfaces, dashboards, operational review                                | primary storage or lifecycle capture      |
 | Coordination runtime         | `canopy`     | active-agent coordination, handoffs, ownership                               | long-term memory, lifecycle normalization |
+| Workflow orchestration       | `hymenium`   | workflow dispatch, phase gating, retry and recovery                          | coordination ledger, memory storage       |
+| Operator utilities           | `annulus`    | cross-ecosystem statusline, tiered operator tooling                          | primary memory or lifecycle capture       |
 | Shared plumbing              | `spore`      | path resolution, tool discovery, subprocess and editor primitives            | top-level host policy                     |
 
 ## How the Pieces Connect

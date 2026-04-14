@@ -54,6 +54,8 @@ The host is where the model runs. The harness is everything that makes that mode
 | install and repair host integration           | host adaptation           | `stipe`      | setup, doctor, repair, registration                     |
 | review the stack as a human                   | operator visibility       | `cap`        | dashboard and state review                              |
 | coordinate multiple active agents             | coordination runtime      | `canopy`     | handoffs, ownership, attention                          |
+| orchestrate multi-step workflows with retry   | workflow orchestration     | `hymenium`   | workflow dispatch, phase gating, retry and recovery     |
+| cross-ecosystem operator utilities            | operator utilities         | `annulus`    | statusline, tiered operator tooling                     |
 | share low-level primitives across repos       | shared substrate          | `spore`      | internal plumbing rather than a direct operator surface |
 
 ## The Main Loop

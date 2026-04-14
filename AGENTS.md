@@ -63,6 +63,8 @@ Key boundaries:
 - `septa/`: owns cross-tool schemas and fixtures; do not treat payloads as informal.
 - `docs/`: workspace-level notes, not a substitute for project-local docs.
 - `lamella/`: packages shared content; generated output is not the source of truth.
+- `hymenium/`: owns workflow orchestration, dispatch, phase gating, and retry and recovery.
+- `annulus/`: owns cross-ecosystem operator utilities and statusline tooling.
 - top-level project dirs: build, test, and commit inside the repo you touched.
 
 Current direction:
@@ -191,6 +193,19 @@ When launching an implementation agent, require this execution shape:
 5. return changed files and exact command output
 
 If the first check shows workflow summaries, relaunch notes, or other meta-status replies without a repo diff, treat that as failure and close the lane immediately.
+
+#### Pre-Spawn Seam Finding
+
+Do not spawn an implementation agent until the parent agent has identified the likely file set and command set.
+
+Use a short local seam-finding pass first:
+
+1. confirm the owning repo
+2. identify the most likely files or modules to change
+3. identify the exact repo-local verification commands
+4. then launch the implementer with only that narrowed context
+
+If the parent agent cannot name likely files yet, the task is still too ambiguous for a spawned implementer and should stay local until the seam is clear.
 
 ---
 

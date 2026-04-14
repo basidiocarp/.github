@@ -27,8 +27,9 @@ Task model, ownership and claiming, scheduling, dependency resolution, routing, 
 | Tool | Contribution | Coverage |
 |------|-------------|----------|
 | `canopy` | Task ledger, ownership, handoffs, evidence refs, council threads, file-scope conflict detection | Partial |
+| `hymenium` | Workflow dispatch, phase gating, retry and recovery across multi-step agent work | Partial |
 
-**Coverage: partial.** Canopy is a coordination ledger, not a full orchestration engine. Ownership and handoffs work. Scheduling, dependency resolution, routing between agents, retry, and timeout handling are gaps. A future tool (hymenium) is documented as a deferred option when these gaps become blocking — see [hymenium-design-note.md](./hymenium-design-note.md).
+**Coverage: partial.** Canopy is a coordination ledger, not a full orchestration engine. Ownership and handoffs work. Hymenium extends this with workflow dispatch, phase gating, and retry and recovery, but scheduling, dependency resolution, and routing between agents remain gaps.
 
 ---
 
@@ -66,8 +67,9 @@ Logs, metrics, traces, cost and latency tracking, model and workflow versioning,
 |------|-------------|----------|
 | `cortina` | Signal capture pipeline: errors, corrections, builds, tests, session events | Partial |
 | `cap` | Operator dashboard — reads and renders ecosystem state | Partial |
+| `annulus` | Cross-ecosystem operator utilities, statusline, and tiered operator tooling | Partial |
 
-**Coverage: partial.** Cortina captures structured lifecycle signals, which is more than most harnesses provide at this layer. Cap gives a human operator view of that state. What's missing: distributed tracing, OpenTelemetry integration, unified cost/latency metrics, and any recovery or self-healing automation. OTel in spore is a planned direction but not yet implemented.
+**Coverage: partial.** Cortina captures structured lifecycle signals, which is more than most harnesses provide at this layer. Cap gives a human operator view of that state. Annulus adds cross-ecosystem operator utilities and statusline coverage. What's missing: distributed tracing, OpenTelemetry integration, unified cost/latency metrics, and any recovery or self-healing automation. OTel in spore is a planned direction but not yet implemented.
 
 ---
 
