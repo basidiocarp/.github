@@ -14,6 +14,13 @@
 - **Verification contract:** run the repo-local commands below and `bash .handoffs/<project>/verify-<topic>.sh`
 - **Completion update:** once audit is clean and verification is green, update `.handoffs/HANDOFFS.md` and archive or remove this handoff if the dashboard tracks active work only
 
+## Implementation Seam
+
+- **Likely repo:** `[repo-name]`
+- **Likely files/modules:** [name the most likely files or modules to change; if exact files are not known yet, name the owning seam and tighten this before spawning an implementer]
+- **Reference seams:** [existing files, commands, or surfaces to imitate rather than parallel implementations]
+- **Spawn gate:** do not launch an implementer until the parent agent can name the likely file set and exact repo-local verification commands
+
 ## Problem
 
 [1-3 sentences: what's broken or missing, and why it matters]
