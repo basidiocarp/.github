@@ -26,7 +26,9 @@ This page handles step 3 from the concept side.
 | `septa`    | cross-tool contracts         | payload schemas, fixtures, seam governance                              |
 | `stipe`    | host adaptation              | installation, registration, repair, policy application                  |
 | `cap`      | operator observability       | read models, operational review, state presentation                     |
+| `annulus`  | operator utilities           | cross-ecosystem statusline, operator tooling, tiered utilities          |
 | `canopy`   | multi-agent coordination     | task ownership, handoffs, attention management                          |
+| `hymenium` | workflow orchestration       | workflow dispatch, phase gating, retry and recovery                     |
 | `spore`    | shared substrate             | path resolution, host primitives, subprocess and config plumbing        |
 
 ## Repo by Repo
@@ -174,6 +176,21 @@ What it is not:
 - not the main write path for knowledge
 - not the lifecycle capture source
 
+### `annulus`
+
+Implements cross-ecosystem operator utilities and statusline tooling.
+
+AI concepts in play:
+
+- operator observability across multiple tools
+- tiered operator utilities
+- ecosystem statusline and segment registry
+
+What it is not:
+
+- not the primary memory or retrieval layer
+- not the lifecycle capture runtime
+
 ### `canopy`
 
 Implements coordination once multiple active agents become a real system concern.
@@ -188,6 +205,21 @@ What it is not:
 
 - not the long-term memory system
 - not the underlying lifecycle adapter
+
+### `hymenium`
+
+Implements multi-step workflow orchestration across agent workloads.
+
+AI concepts in play:
+
+- workflow dispatch and phase gating
+- retry and recovery for multi-step agent runs
+- structured workflow progression and state tracking
+
+What it is not:
+
+- not the coordination ledger (that is `canopy`)
+- not the memory or retrieval layer
 
 ### `spore`
 
@@ -218,6 +250,8 @@ What it is not:
 | Cross-tool contracts       | `septa`                      | shared payloads and fixtures should become explicit    |
 | Host adaptation            | `stipe`                      | integrates the harness into concrete clients           |
 | Multi-agent coordination   | `canopy`                     | only when coordination is truly needed                 |
+| Workflow orchestration     | `hymenium`                   | dispatch, phase gating, retry, and recovery            |
+| Operator utilities         | `annulus`                    | cross-ecosystem statusline and tiered operator tooling |
 | Operator observability     | `cap`                        | read and review surface over the harness               |
 
 ## Practical Reading Path

@@ -26,12 +26,16 @@ flowchart TD
   Default -->|" installs "| Rhizome["rhizome"]
   Default -->|" installs "| Cortina["cortina"]
   Optional["Optional runtime install"] --> Canopy["canopy"]
+  Optional --> Hymenium["hymenium"]
+  Optional --> Annulus["annulus"]
   Separate["Separate source or deploy surface"] --> Cap["cap"]
   Separate --> Lamella["lamella"]
   Separate --> Spore["spore"]
 ```
 
 ## Optional Runtime Tools
+
+`canopy`, `hymenium`, and `annulus` are part of the ecosystem, but they are not installed by the bootstrap scripts today.
 
 `canopy` is part of the ecosystem, but it is not installed by the bootstrap scripts today.
 
@@ -74,7 +78,9 @@ binaries:
 | `hyphae`   | Yes                       | Bootstrap scripts                                              | Memory, recall, training-data export      |
 | `rhizome`  | Yes                       | Bootstrap scripts                                              | Code intelligence and code graph export   |
 | `cortina`  | Yes                       | Bootstrap scripts                                              | Lifecycle capture and session runtime     |
+| `annulus`  | No                        | `stipe install annulus`                                        | Cross-ecosystem operator utilities        |
 | `canopy`   | No                        | `stipe install canopy` or `stipe install --profile full-stack` | Multi-agent coordination runtime          |
+| `hymenium` | No                        | `stipe install hymenium`                                       | Workflow orchestration and retry          |
 | `cap`      | No                        | Run from source or deploy separately                           | Operator dashboard and review surface     |
 | `lamella`  | No                        | Repo or packaged exports                                       | Templates, skills, prompts, wrappers      |
 | `spore`    | No                        | Dependency of other Rust tools                                 | Shared editor and path primitives         |
