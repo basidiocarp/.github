@@ -35,11 +35,11 @@ ulid = "1"
 which = "7"
 
 [tools]
-mycelium = "0.8.15"
+mycelium = "0.8.16"
 hyphae = "0.10.9"       # 5-crate workspace, version per crate
 rhizome = "0.7.11"      # 5-crate workspace, version per crate
 canopy = "0.5.10"
-cortina = "0.2.13"
+cortina = "0.2.14"
 stipe = "0.5.15"
 volva = "0.1.3"
 hymenium = "0.1.0"
