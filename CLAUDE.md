@@ -37,6 +37,7 @@ cd spore && cargo build && cargo test
 cd stipe && cargo build --release && cargo test
 cd cortina && cargo build --release && cargo test
 cd canopy && cargo build --release && cargo test
+cd annulus && cargo build --release && cargo test
 cd hymenium && cargo build --release && cargo test
 cd volva && cargo check && cargo test
 
@@ -62,6 +63,7 @@ basidiocarp/
 ├── cortina/    lifecycle signal runner
 ├── lamella/    skills, hooks, and plugin packaging
 ├── canopy/     multi-agent coordination runtime
+├── annulus/    operator utilities and statusline tooling
 ├── hymenium/   workflow orchestration engine
 ├── volva/      execution-host runtime layer
 ├── septa/      shared schemas and fixtures
@@ -77,6 +79,7 @@ basidiocarp/
 - **cortina**: Captures hook events and writes structured signals.
 - **lamella**: Packages shared content for Claude and Codex.
 - **canopy**: Tracks task ownership, handoffs, and evidence.
+- **annulus**: Renders terminal operator surfaces such as the statusline and related utilities.
 - **hymenium**: Orchestrates workflow dispatch, phase gating, and retry/recovery.
 - **volva**: Hosts backend orchestration at the runtime seam.
 
@@ -102,6 +105,7 @@ basidiocarp/
 | [.audit/external/SYNTHESIS.md](/Users/williamnewton/projects/basidiocarp/.audit/external/SYNTHESIS.md) | Fast entrypoint to the external audit corpus and current ecosystem-level conclusions |
 | [.audit/external/AUDITING.md](/Users/williamnewton/projects/basidiocarp/.audit/external/AUDITING.md) | Method for mapping external features into existing repos, `septa`, or true new-tool candidates |
 | [ECOSYSTEM-OVERVIEW.md](/Users/williamnewton/projects/basidiocarp/docs/workspace/ECOSYSTEM-OVERVIEW.md) | Thin ecosystem map, repo responsibilities, and cross-tool boundaries |
+| [ECOSYSTEM-INTERACTIONS.md](/Users/williamnewton/projects/basidiocarp/docs/workspace/ECOSYSTEM-INTERACTIONS.md) | Lower-level prompt, memory, handoff, operator, and orchestration flows |
 | [ECOSYSTEM-REVIEW.md](/Users/williamnewton/projects/basidiocarp/docs/workspace/ECOSYSTEM-REVIEW.md) | Detailed ecosystem state, gap analysis, and near-term review surface |
 
 ---

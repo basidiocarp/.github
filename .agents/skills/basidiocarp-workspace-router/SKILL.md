@@ -10,6 +10,7 @@ Use this skill first when the task starts at the workspace root or mixes multipl
 ## Project Map
 
 - `mycelium`, `hyphae`, `rhizome`, `stipe`, `cortina`, `spore`, `canopy`, `volva`: Rust projects. Run `cargo build` and `cargo test` from the touched repo.
+- `annulus`, `hymenium`: Rust projects. `annulus` owns operator utilities and statusline surfaces; `hymenium` owns workflow orchestration. Run `cargo build` and `cargo test` from the touched repo.
 - `cap`: React, TypeScript, Vite, Vitest, and a small server. Use `npm run build`, `npm test`, and `npm run dev:all`.
 - `lamella`: plugin packaging, skills, commands, hooks, manifests, and Codex or Claude exports. Read `lamella/docs/authoring/` before larger content or migration work. Run `make validate`.
 - `septa`: cross-tool schemas, fixtures, and payload contracts. Read `septa/README.md` first when the task crosses repo or tool boundaries.
@@ -25,6 +26,8 @@ Use this skill first when the task starts at the workspace root or mixes multipl
 7. If the request is packaging, skill authoring, manifests, or plugin export behavior, bias toward `lamella`.
 8. If the request is execution-host runtime, provider routing, backend selection, or host-context shaping, bias toward `volva`.
 9. If the request is a shared payload, schema, fixture, or contract across tools, bias toward `septa`.
+10. If the request is workflow dispatch, phase gating, retry or recovery across handoffs, bias toward `hymenium`.
+11. If the request is terminal operator surfaces, statusline behavior, or cross-tool local status display, bias toward `annulus`.
 
 ## MCP Guidance
 
