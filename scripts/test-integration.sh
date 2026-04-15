@@ -97,24 +97,15 @@ if has_cmd jq; then
     fi
   done
 
-  # Full JSON Schema validation (if check-jsonschema is installed)
-  if has_cmd check-jsonschema; then
-    for schema in septa/*.schema.json; do
-      name=$(basename "$schema" .schema.json)
-      fixture="septa/fixtures/${name}.example.json"
-      if [ -f "$fixture" ]; then
-        # session-event-v1 fixture is a single typed-event object, not an array.
-        # The schema uses oneOf across event types; check-jsonschema validates
-        # the object directly against the combined schema.
-        if check-jsonschema --schemafile "$schema" "$fixture" >/dev/null 2>&1; then
-          pass "$name schema validation"
-        else
-          fail "$name schema validation"
-        fi
-      fi
-    done
+  # Full JSON Schema validation (via septa/validate-all.sh with cross-file $ref support)
+  if [ -x septa/validate-all.sh ]; then
+    if bash septa/validate-all.sh >/dev/null 2>&1; then
+      pass "all septa schemas validate (via validate-all.sh)"
+    else
+      fail "septa/validate-all.sh failed — run it directly to see details"
+    fi
   else
-    skip "check-jsonschema not installed (pip install check-jsonschema for full validation)"
+    skip "septa/validate-all.sh not executable"
   fi
 else
   skip "jq not installed — cannot validate fixtures"
