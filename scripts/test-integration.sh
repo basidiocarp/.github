@@ -74,8 +74,8 @@ if has_cmd jq; then
     fail "evidence-ref-v1 fixture missing required fields"
   fi
 
-  # Session event: check array of typed events
-  if jq -e '.[0].schema_version and .[0].type' \
+  # Session event: single typed-event object (schema uses oneOf across event types)
+  if jq -e '.schema_version and .type' \
     septa/fixtures/session-event-v1.example.json >/dev/null 2>&1; then
     pass "session-event-v1 fixture has required fields"
   else
@@ -103,27 +103,13 @@ if has_cmd jq; then
       name=$(basename "$schema" .schema.json)
       fixture="septa/fixtures/${name}.example.json"
       if [ -f "$fixture" ]; then
-        # evidence-ref and session-event fixtures have special structures
-        if [ "$name" = "session-event-v1" ]; then
-          # Array of events — validate each element
-          count=$(jq 'length' "$fixture")
-          all_valid=true
-          for i in $(seq 0 $((count - 1))); do
-            if ! jq ".[$i]" "$fixture" | check-jsonschema --schemafile "$schema" - >/dev/null 2>&1; then
-              all_valid=false
-            fi
-          done
-          if $all_valid; then
-            pass "$name schema validation (all elements)"
-          else
-            fail "$name schema validation"
-          fi
+        # session-event-v1 fixture is a single typed-event object, not an array.
+        # The schema uses oneOf across event types; check-jsonschema validates
+        # the object directly against the combined schema.
+        if check-jsonschema --schemafile "$schema" "$fixture" >/dev/null 2>&1; then
+          pass "$name schema validation"
         else
-          if check-jsonschema --schemafile "$schema" "$fixture" >/dev/null 2>&1; then
-            pass "$name schema validation"
-          else
-            fail "$name schema validation"
-          fi
+          fail "$name schema validation"
         fi
       fi
     done
