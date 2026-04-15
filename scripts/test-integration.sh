@@ -98,7 +98,7 @@ if has_cmd jq; then
   done
 
   # Full JSON Schema validation (via septa/validate-all.sh with cross-file $ref support)
-  if [ -x septa/validate-all.sh ]; then
+  if [ -f septa/validate-all.sh ]; then
     if bash septa/validate-all.sh >/dev/null 2>&1; then
       pass "all septa schemas validate (via validate-all.sh)"
     else
