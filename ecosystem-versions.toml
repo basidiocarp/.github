@@ -36,13 +36,13 @@ which = "7"
 
 [tools]
 mycelium = "0.8.17"
-hyphae = "0.10.11"      # 5-crate workspace, version per crate
+hyphae = "0.10.12"      # 5-crate workspace, version per crate
 rhizome = "0.7.11"      # 5-crate workspace, version per crate
 canopy = "0.5.13"
 cortina = "0.2.16"
 stipe = "0.5.17"
 volva = "0.2.0"
-hymenium = "0.4.0"
+hymenium = "0.5.0"
 annulus = "0.5.3"
 cap = "0.11.3"
 spore = "0.4.10"
