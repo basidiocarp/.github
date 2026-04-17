@@ -12,6 +12,7 @@ Use these docs when:
 
 Core docs:
 
+- [graceful-degradation.md](./graceful-degradation.md) — tool degradation tiers, behavior contracts, and ecosystem resilience
 - [rust-workspace-architecture-standards.md](./rust-workspace-architecture-standards.md)
 - [rust-workspace-standards-applied.md](./rust-workspace-standards-applied.md)
 - [repo-documentation-standards.md](./repo-documentation-standards.md)
