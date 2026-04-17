@@ -51,6 +51,7 @@ spore = "0.4.10"
 # Active Septa contract generations mirrored from `septa/`.
 # These are coordination versions for the contract families, not necessarily the
 # literal `schema_version` field encoded in each JSON payload.
+degradation-tier = "1.0"
 code-graph = "1.0"
 command-output = "1.0"
 cortina-lifecycle-event = "1.0"
