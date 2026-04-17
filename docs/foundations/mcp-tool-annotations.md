@@ -102,7 +102,7 @@ agent system prompts about tool semantics.
 | `hyphae_get_command_chunks` | true | false | true | |
 | `hyphae_artifact_store` | false | false | true | Upserts; idempotent for same artifact |
 | `hyphae_artifact_query` | true | false | true | |
-| `hyphae_extract_lessons` | false | false | false | Accumulates extracted lessons; calling twice may duplicate |
+| `hyphae_extract_lessons` | true | false | true | Reads memories and returns formatted analysis; no writes |
 | `hyphae_evaluate` | true | false | true | Evaluation is read-only |
 | `hyphae_onboard` | false | false | true | Setup; safe to re-run |
 
