@@ -49,8 +49,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 |---|---------|----------|-----------|
 | 125 | [Lamella: Three-Arm Eval Harness](lamella/three-arm-eval-harness.md) | Medium | [Lamella CI Single-Source Skill Sync](archive/lamella/single-source-skill-sync.md) (#124) |
 | 133 | [Lamella: Token-Efficiency Skill](lamella/token-efficiency-skill.md) | Medium | Lamella Skill Authoring Convention (#130); Lamella Three-Arm Eval Harness (#125) |
-| 134 | [Lamella: Strategic Compact Skill](lamella/strategic-compact-skill.md) | Medium | Lamella Skill Authoring Convention (#130) |
-| 135 | [Lamella: Agent Introspection Debugging Skill](lamella/agent-introspection-debugging-skill.md) | Medium | Lamella Skill Authoring Convention (#130) |
 
 ### Tier 4: Cross-Project Contract
 
@@ -75,8 +73,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | 86 | [Hyphae: Retrieval Benchmark Runners](hyphae/retrieval-benchmarks.md) | Medium | — |
 | 88 | [Stipe: First-Run Seeding](stipe/first-run-seeding.md) | Low | — |
 | 89 | [Hyphae: Scoped Agent Journals](hyphae/scoped-agent-journals.md) | Low | — |
-| 111b | [Lamella: Cache-Friendly Context Ordering](lamella/cache-friendly-context-ordering.md) | Medium | [Cache-Friendly Assembly Guidance](archive/cross-project/cache-friendly-assembly-guidance.md) (#111a) |
-| 111c | [Cortina: Cache-Friendly Context Ordering](cortina/cache-friendly-context-ordering.md) | Medium | [Cache-Friendly Assembly Guidance](archive/cross-project/cache-friendly-assembly-guidance.md) (#111a) |
 | 112 | [Mycelium: Compressed Format Experiments](mycelium/compressed-format-experiments.md) | Low | [Mycelium Structural Parser Hardening](archive/mycelium/structural-parser-hardening.md) |
 
 ### Tier 6: Cap
