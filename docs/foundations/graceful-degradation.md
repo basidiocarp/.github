@@ -143,6 +143,48 @@ Design your tool to report degradation clearly:
 
 ---
 
+## Current Behavior
+
+This section audits what each major ecosystem tool actually does when it fails, comparing against the tier classification above.
+
+### Tier 1: Critical
+
+| Tool | Actual Behavior | Matches Tier 1? |
+|------|-----------------|-----------------|
+| **mycelium** | Falls back to passthrough; still returns command output. | ✓ Correct — continues with degraded output. |
+| **volva** | Fails before launch or during runtime; does not execute commands without the host. | ✓ Correct — blocks execution. |
+| **cortina** | Logs warning and retries; does not block the outer tool even when Hyphae is unavailable. | ⚠ Actually Tier 2 behavior — continues with local scoped state. |
+| **spore** | Used by all tools; unavailability blocks runtime services. | ✓ Correct — shared transport unavailability is critical. |
+| **hymenium** | Pauses workflow execution on Canopy unavailability; retries on reconnect rather than corrupting state. | ⚠ Actually Tier 2 behavior — continues with degraded dispatch capability. |
+
+### Tier 2: Optional
+
+| Tool | Actual Behavior | Matches Tier 2? |
+|------|-----------------|-----------------|
+| **hyphae** | Falls back to FTS-only search when embeddings unavailable; storage errors fail cleanly; reads may continue during write failures. | ✓ Correct — agent continues without vector search. |
+| **rhizome** | Falls back to tree-sitter when LSP unavailable; parse failures return clear errors tied to files; workspace-root loss narrows context. | ✓ Correct — agent continues with reduced precision. |
+| **canopy** | Database locked waits on SQLite timeout; foreign-key checks fail fast with clear errors; agent-not-registered returns explicit errors. | ✓ Correct — coordination degrades but agent still runs. |
+| **lamella** | Validation failures stop the build with specific validator output; missing manifest resources fail with unresolved paths. | ⚠ Validation-time tool, not runtime — doesn't degrade. |
+
+### Tier 3: Enhancement
+
+| Tool | Actual Behavior | Matches Tier 3? |
+|------|-----------------|-----------------|
+| **cap** | Hyphae DB missing returns empty memory views; Mycelium unavailable zeroes analytics; backend unreachable shows connection error; API key mismatch fails with `401`. | ⚠ Varies — some failures degrade UI silently, others show user-facing errors. |
+| **annulus** | Tool not installed renders nothing instead of erroring; data source unavailable degrades statusline gracefully — only available segments appear; config missing uses defaults. | ✓ Correct — continues normally without operator feedback. |
+| **stipe** | GitHub release lookup fails until metadata can be read; partial install reports what is missing; host not detected offers supported-host guidance. | ⚠ Setup-time tool — doesn't degrade at runtime. |
+
+### Mismatch Summary
+
+Two tools have degradation behavior that diverges from their tier classification:
+
+1. **Cortina** is classified Tier 1 but behaves like Tier 2: when Hyphae unavailable, it falls back to local scoped state and retries later instead of blocking the outer tool.
+2. **Hymenium** is classified Tier 1 but behaves like Tier 2: when Canopy unavailable, it pauses workflow execution and retries rather than blocking the entire agent loop.
+
+Both tools are correct to continue with degradation, but their tier should be reconsidered. The distinction is whether the tool's own unavailability breaks the agent loop (Tier 1) versus whether a dependency's unavailability causes graceful degradation (Tier 2). Cortina and Hymenium continue operation when their sibling dependencies fail, placing them closer to Tier 2.
+
+---
+
 ## Reference
 
 - **Degradation Payload Schema**: [`septa/degradation-tier-v1.schema.json`](../../septa/degradation-tier-v1.schema.json)
