@@ -54,9 +54,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 | # | Handoff | Priority | Depends On |
 |---|---------|----------|-----------|
-| 100e | [Cap: Service Health Panel](cap/service-health-panel.md) | Medium | [Annulus Degradation Status Surfaces](archive/annulus/degradation-status-surfaces.md) |
-| 102d | [Hyphae: Archive Import Validation](hyphae/archive-import-validation.md) | Medium | [Cross-Project Hyphae Archive Contract](archive/cross-project/hyphae-archive-contract.md); Hyphae Archive Import Command (#102c) |
-| 102e | [Stipe: Hyphae Pre-Upgrade Backup](stipe/hyphae-pre-upgrade-backup.md) | Medium | [Hyphae Archive Export Command](archive/hyphae/archive-export-command.md) |
 | 104c | [Cap: Ecosystem Status Panel](cap/ecosystem-status-panel.md) | Medium | Annulus Statusline JSON Surface (#104b) |
 
 ### Tier 5: Standalone or Lower Urgency
