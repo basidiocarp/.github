@@ -37,7 +37,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 | # | Handoff | Priority | Depends On |
 |---|---------|----------|-----------|
-| 143 | [Hymenium: Fix Critical Bugs (retry loop, SQL injection, stale runtime detection)](hymenium/critical-fixes.md) | Critical | — |
 | 132 | [Canopy: Fix tool_task_decompose Missing Blocks Write](canopy/blocks-relationship-fix.md) | High | — |
 | 133 | [Canopy: Fix Council Session Non-Atomic Operations](canopy/council-atomicity.md) | High | — |
 | 117 | [Canopy: Fix Completion Guard and Auto-Complete Logic](canopy/completion-guard-fix.md) | High | — |
