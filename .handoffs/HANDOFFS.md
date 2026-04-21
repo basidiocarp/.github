@@ -33,35 +33,12 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 ## Active Handoffs
 
-### Tier 1: Critical — Broken Connections
-
-| # | Handoff | Priority | Depends On |
-|---|---------|----------|-----------|
-| 117 | [Canopy: Fix Completion Guard and Auto-Complete Logic](canopy/completion-guard-fix.md) | High | — |
-| 127 | [Hyphae: Fix Cross-Project Memory Data Loss](hyphae/cross-project-safety.md) | High | — |
-| 118 | [Hyphae: Fix content_hash TOCTOU and CLI Ingest Path](hyphae/content-hash-fix.md) | High | — |
-
-### Tier 2: Core Feature Work
-
-| # | Handoff | Priority | Depends On |
-|---|---------|----------|-----------|
-| 129 | [Stipe: Fix Tar Extraction Path Traversal Risk](stipe/install-security.md) | High | — |
-| 119 | [Stipe: Fix Backup Correctness Bugs](stipe/backup-correctness.md) | High | — |
-| 144 | [Volva: Fix Runtime Safety (double-wait, AuthTarget unreachable, zombie child)](volva/runtime-safety.md) | High | — |
-| 147 | [Spore: Quality Fixes (DoS allocation, JSON panic, TOCTOU, tilde, non-atomic backup)](spore/quality-fixes.md) | High | — |
-| 135 | [Lamella: Fix Hook Correctness Issues](lamella/hook-correctness.md) | High | — |
-| 120 | [Lamella: Fix Eval Harness Placeholder Snapshots and Delta Convention](lamella/eval-harness-fix.md) | Medium | — |
-| 139 | [Cortina: Quality Fixes (byte slicing, DefaultHasher, budget_memories, transcript)](cortina/quality-fixes.md) | Medium | — |
-| 141 | [Rhizome: Quality Fixes (hover stub, ref injection, path traversal, DefaultHasher)](rhizome/quality-fixes.md) | Medium | — |
-| 142 | [Cap: Fix Analytics Correctness (type contract, most_active_project, since semantics)](cap/analytics-correctness.md) | Medium | — |
-| 145 | [Annulus: Quality Fixes (TTL overflow, model match, cast_sign_loss)](annulus/quality-fixes.md) | Medium | — |
-
 ### Tier 3: Integration
 
 | # | Handoff | Priority | Depends On |
 |---|---------|----------|-----------|
 | 138 | [Septa: Fix Schema Drift (stipe-doctor, stipe-init-plan, canopy-notification)](septa/schema-drift-fix.md) | Medium | — |
-| 121 | [Cortina: Move inject_recall to Hyphae](cortina/recall-boundary.md) | Medium | #118 |
+| 121 | [Cortina: Move inject_recall to Hyphae](cortina/recall-boundary.md) | Medium | — |
 
 ### Tier 4: Cross-Project Contract
 
@@ -79,7 +56,7 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | 128 | [Hyphae: Round 2 Quality Fixes (purge, audit log, memoir, chunker)](hyphae/round2-quality.md) | Medium | — |
 | 124 | [Stipe: Quality Fixes (TTY guard, tilde, file_name, low items)](stipe/quality-fixes.md) | Low | — |
 | 130 | [Stipe: Install Quality Fixes (rollback, codesign, busy-poll, version)](stipe/install-quality.md) | Medium | — |
-| 125 | [Canopy: Quality Fixes (MCP error, schema, TOCTOU, tests)](canopy/quality-fixes.md) | Medium | #117 |
+| 125 | [Canopy: Quality Fixes (MCP error, schema, TOCTOU, tests)](canopy/quality-fixes.md) | Medium | — |
 | 134 | [Canopy: Store Quality Fixes (SQL injection, bind indices, summary model)](canopy/store-quality.md) | Medium | — |
 | 126 | [Lamella: Fix SessionEnd Hook Timeout and Async](lamella/hook-fixes.md) | Low | — |
 | 20 | [Hyphae: HTTP Embeddings](hyphae/http-embeddings.md) | Low | — |
