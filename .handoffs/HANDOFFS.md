@@ -37,7 +37,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 | # | Handoff | Priority | Depends On |
 |---|---------|----------|-----------|
-| 138 | [Septa: Fix Schema Drift (stipe-doctor, stipe-init-plan, canopy-notification)](septa/schema-drift-fix.md) | Medium | — |
 | 121 | [Cortina: Move inject_recall to Hyphae](cortina/recall-boundary.md) | Medium | — |
 
 ### Tier 4: Cross-Project Contract
@@ -52,11 +51,8 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 | # | Handoff | Priority | Depends On |
 |---|---------|----------|-----------|
-| 123 | [Hyphae: Quality Fixes (project scoping, bench, fixture)](hyphae/quality-fixes.md) | Medium | — |
 | 128 | [Hyphae: Round 2 Quality Fixes (purge, audit log, memoir, chunker)](hyphae/round2-quality.md) | Medium | — |
 | 124 | [Stipe: Quality Fixes (TTY guard, tilde, file_name, low items)](stipe/quality-fixes.md) | Low | — |
-| 130 | [Stipe: Install Quality Fixes (rollback, codesign, busy-poll, version)](stipe/install-quality.md) | Medium | — |
-| 125 | [Canopy: Quality Fixes (MCP error, schema, TOCTOU, tests)](canopy/quality-fixes.md) | Medium | — |
 | 134 | [Canopy: Store Quality Fixes (SQL injection, bind indices, summary model)](canopy/store-quality.md) | Medium | — |
 | 126 | [Lamella: Fix SessionEnd Hook Timeout and Async](lamella/hook-fixes.md) | Low | — |
 | 20 | [Hyphae: HTTP Embeddings](hyphae/http-embeddings.md) | Low | — |
