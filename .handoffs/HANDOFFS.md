@@ -37,9 +37,7 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 | # | Handoff | Priority | Depends On |
 |---|---------|----------|-----------|
-| 146 | [Mycelium: Fix Critical Bugs (no-op migration, binary exec, git failure, GLOB injection)](mycelium/critical-fixes.md) | Critical | — |
 | 143 | [Hymenium: Fix Critical Bugs (retry loop, SQL injection, stale runtime detection)](hymenium/critical-fixes.md) | Critical | — |
-| 140 | [Rhizome: Fix Code Graph Data Integrity (node collision, edge corruption, pub label)](rhizome/graph-data-integrity.md) | Critical | — |
 | 132 | [Canopy: Fix tool_task_decompose Missing Blocks Write](canopy/blocks-relationship-fix.md) | High | — |
 | 133 | [Canopy: Fix Council Session Non-Atomic Operations](canopy/council-atomicity.md) | High | — |
 | 117 | [Canopy: Fix Completion Guard and Auto-Complete Logic](canopy/completion-guard-fix.md) | High | — |
