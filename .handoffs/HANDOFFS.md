@@ -37,7 +37,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 | # | Handoff | Priority | Depends On |
 |---|---------|----------|-----------|
-| 131 | [Canopy: Fix list_handoffs Column Mismatch (runtime panic)](canopy/handoff-column-fix.md) | Critical | — |
 | 146 | [Mycelium: Fix Critical Bugs (no-op migration, binary exec, git failure, GLOB injection)](mycelium/critical-fixes.md) | Critical | — |
 | 143 | [Hymenium: Fix Critical Bugs (retry loop, SQL injection, stale runtime detection)](hymenium/critical-fixes.md) | Critical | — |
 | 140 | [Rhizome: Fix Code Graph Data Integrity (node collision, edge corruption, pub label)](rhizome/graph-data-integrity.md) | Critical | — |
