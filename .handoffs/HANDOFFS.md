@@ -54,7 +54,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 | # | Handoff | Priority | Depends On |
 |---|---------|----------|-----------|
-| 104c | [Cap: Ecosystem Status Panel](cap/ecosystem-status-panel.md) | Medium | Annulus Statusline JSON Surface (#104b) |
 
 ### Tier 5: Standalone or Lower Urgency
 
@@ -78,7 +77,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 |---|---------|----------|-----------|
 | 24 | [Cap: Live Operator Views And Browser Review Surfaces](cap/live-operator-views-and-browser-review-surfaces.md) | Medium | Volva Execution-Host Session Workspace Contract; Canopy Queue Worktree Review Orchestration; Hyphae Scoped Memory Identity And Export Contract |
 | 60 | [Cap: Status Preview And Customization Surface](cap/status-preview-and-customization-surface.md) | Medium | Septa Resolved Status And Customization Contract; Cap Live Operator Views And Browser Review Surfaces |
-| 29 | [Cap: Cost and Usage Tracking](cap/cost-usage-tracking.md) | Medium | — |
 | 30 | [Cap: Canopy Performance](cap/canopy-performance.md) | Medium | Deep Audit |
 | 32 | [Cap: Operational Modes](cap/operational-modes.md) | Low | — |
 | 33 | [Cap: Agent Telemetry](cap/agent-telemetry.md) | Low | Cost and Usage Tracking |
