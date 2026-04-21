@@ -62,7 +62,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | 21b | [Cross-Project: Docs Audit Platform Rust](cross-project/docs-audit-platform-rust.md) | Medium | — |
 | 21c | [Cross-Project: Docs Audit Interface And Authoring](cross-project/docs-audit-interface-and-authoring.md) | Medium | — |
 | 23 | [Cortina: Deduplicate Helpers](cortina/deduplicate-helpers.md) | Low | — |
-| 76 | [Cross-Project: Lifecycle Integration Test](cross-project/lifecycle-integration-test.md) | Medium | — |
 | 89 | [Hyphae: Scoped Agent Journals](hyphae/scoped-agent-journals.md) | Low | — |
 | 112 | [Mycelium: Compressed Format Experiments](mycelium/compressed-format-experiments.md) | Low | [Mycelium Structural Parser Hardening](archive/mycelium/structural-parser-hardening.md) |
 
