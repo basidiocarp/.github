@@ -33,12 +33,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 ## Active Handoffs
 
-### Tier 3: Integration
-
-| # | Handoff | Priority | Depends On |
-|---|---------|----------|-----------|
-| 121 | [Cortina: Move inject_recall to Hyphae](cortina/recall-boundary.md) | Medium | — |
-
 ### Tier 4: Cross-Project Contract
 
 | # | Handoff | Priority | Depends On |
