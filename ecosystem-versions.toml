@@ -9,7 +9,7 @@
 #   grep -r 'rusqlite' */Cargo.toml
 
 [spore]
-version = "0.4.9"
+version = "0.4.10"
 git = "https://github.com/basidiocarp/spore"
 consumers = ["mycelium", "hyphae", "rhizome", "stipe", "cortina", "canopy", "volva", "hymenium", "annulus"]
 pending = []
@@ -36,16 +36,16 @@ which = "7"
 
 [tools]
 mycelium = "0.8.18"
-hyphae = "0.10.17"      # 5-crate workspace, version per crate
+hyphae = "0.11.0"       # 5-crate workspace, version per crate
 rhizome = "0.7.14"      # 5-crate workspace, version per crate
-canopy = "0.5.21"
+canopy = "0.5.23"
 cortina = "0.2.22"
-stipe = "0.5.22"
+stipe = "0.5.24"
 volva = "0.2.4"
 hymenium = "0.5.0"
 annulus = "0.5.3"
 cap = "0.11.8"
-lamella = "0.5.15"
+lamella = "0.6.0"
 spore = "0.4.10"
 
 [contracts]
