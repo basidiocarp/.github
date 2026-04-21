@@ -47,7 +47,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 | # | Handoff | Priority | Depends On |
 |---|---------|----------|-----------|
-| 133 | [Lamella: Token-Efficiency Skill](lamella/token-efficiency-skill.md) | Medium | Lamella Skill Authoring Convention (#130); [Lamella Three-Arm Eval Harness](archive/lamella/three-arm-eval-harness.md) (#125) |
 
 ### Tier 4: Cross-Project Contract
 
