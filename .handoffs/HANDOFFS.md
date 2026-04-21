@@ -45,8 +45,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 | # | Handoff | Priority | Depends On |
 |---|---------|----------|-----------|
-| 124 | [Stipe: Quality Fixes (TTY guard, tilde, file_name, low items)](stipe/quality-fixes.md) | Low | — |
-| 126 | [Lamella: Fix SessionEnd Hook Timeout and Async](lamella/hook-fixes.md) | Low | — |
 | 20 | [Hyphae: HTTP Embeddings](hyphae/http-embeddings.md) | Low | — |
 | 23 | [Cortina: Deduplicate Helpers](cortina/deduplicate-helpers.md) | Low | — |
 | 89 | [Hyphae: Scoped Agent Journals](hyphae/scoped-agent-journals.md) | Low | — |

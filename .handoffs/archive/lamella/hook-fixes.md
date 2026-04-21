@@ -46,8 +46,9 @@ make validate 2>&1 | tail -5
 
 ## Checklist
 
-- [ ] SessionEnd hook has `"timeout": 10`
-- [ ] Async decision made and documented
-- [ ] token-efficiency SKILL.md injection claim corrected or marked as planned
-- [ ] agent-introspection-debugging skill documents hyphae CLI dependency
-- [ ] `make validate` passes
+- [x] SessionEnd hook has `"timeout": 10` (hooks.json — prior session)
+- [x] Stop hook has `"timeout": 10` (hooks.json — prior session)
+- [x] Async decision documented — SessionEnd intentionally synchronous (description updated)
+- [x] token-efficiency injection claim marked as planned, not yet implemented
+- [x] agent-introspection-debugging documents hyphae 0.11.0+ requirement
+- [x] `make validate` passes

@@ -61,10 +61,10 @@ cargo clippy 2>&1 | tail -10
 
 ## Checklist
 
-- [ ] `--interactive` emits a clear error when stdin is not a TTY
-- [ ] `STIPE_BACKUP_DIR` tilde handling documented or implemented
-- [ ] `file_name()` failures handled gracefully in backup file loops
-- [ ] FNV-1a comment corrected
-- [ ] Timestamp format updated (and `list_backups` sort verified)
-- [ ] Useless test removed
-- [ ] All tests pass
+- [x] `--interactive` TTY guard added (seed.rs — prior session)
+- [x] `STIPE_BACKUP_DIR` tilde expansion implemented (backup.rs)
+- [x] `file_name()` failures handled with early continue (backup.rs:77, 96)
+- [x] FNV-1a comment corrected to describe actual behavior
+- [ ] Timestamp format (epoch → ISO-8601) — skipped; touches sort logic and callers, deferred
+- [x] Useless test removed (commands/backup.rs)
+- [x] All tests pass (226 pass)
