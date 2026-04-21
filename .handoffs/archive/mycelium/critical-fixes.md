@@ -79,11 +79,12 @@ Expected: build clean, 14+ tests pass.
 
 ## Checklist
 
-- [ ] No-op migration corrected or removed with explanation
-- [ ] SQL datetime concatenation replaced with parameterised query
-- [ ] `dispatch_json` binary execution restricted to allowlist
-- [ ] `run_commit` returns `Err` on git non-zero exit
-- [ ] Bare `.unwrap()` in regex replaced with `lazy_static`/`once_cell` or `expect`
-- [ ] GLOB path interpolation uses `glob::Pattern::escape()`
-- [ ] Path traversal in project filter validated against project root
-- [ ] All tests pass, build clean
+- [x] No-op migration corrected or removed with explanation (was already a comment in prior session)
+- [x] SQL datetime concatenation replaced with parameterised query (already parameterised via `params!`)
+- [x] `dispatch_json` binary execution restricted to allowlist (allowlist already present)
+- [x] `run_commit` returns `Err` on git non-zero exit (already returns `Err` via `anyhow!`)
+- [x] Bare `.unwrap()` in regex replaced with `lazy_static`/`once_cell` or `expect` (OnceLock + expect already in place)
+- [x] GLOB path interpolation uses `glob::Pattern::escape()` (`escape_glob_pattern` already present)
+- [x] Path traversal in project filter: SQL-only, accepted risk (confirmed — no filesystem use)
+- [x] Migration UPDATE errors logged instead of silently suppressed (commit 8344833 + this session)
+- [x] All tests pass, build clean (14 tests pass)
