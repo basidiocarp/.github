@@ -38,7 +38,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | # | Handoff | Priority | Depends On |
 |---|---------|----------|-----------|
 | 132 | [Canopy: Fix tool_task_decompose Missing Blocks Write](canopy/blocks-relationship-fix.md) | High | — |
-| 133 | [Canopy: Fix Council Session Non-Atomic Operations](canopy/council-atomicity.md) | High | — |
 | 117 | [Canopy: Fix Completion Guard and Auto-Complete Logic](canopy/completion-guard-fix.md) | High | — |
 | 127 | [Hyphae: Fix Cross-Project Memory Data Loss](hyphae/cross-project-safety.md) | High | — |
 | 118 | [Hyphae: Fix content_hash TOCTOU and CLI Ingest Path](hyphae/content-hash-fix.md) | High | — |
