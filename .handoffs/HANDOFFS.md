@@ -33,14 +33,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 ## Active Handoffs
 
-### Tier 4: Cross-Project Contract
-
-| # | Handoff | Priority | Depends On |
-|---|---------|----------|-----------|
-| 136 | [Cortina: Resolve Boundary Expansion (handoff audit, rules, mycelium DB)](cortina/boundary-expansion.md) | Medium | — |
-| 137 | [Canopy: Resolve Orchestration Logic Boundary with Hymenium](canopy/orchestration-boundary.md) | Medium | — |
-| 122 | [Lamella: Resolve Homunculus Observation System Boundary](lamella/homunculus-boundary.md) | Medium | — |
-
 ### Tier 5: Standalone or Lower Urgency
 
 | # | Handoff | Priority | Depends On |
