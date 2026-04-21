@@ -47,8 +47,7 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 | # | Handoff | Priority | Depends On |
 |---|---------|----------|-----------|
-| 125 | [Lamella: Three-Arm Eval Harness](lamella/three-arm-eval-harness.md) | Medium | [Lamella CI Single-Source Skill Sync](archive/lamella/single-source-skill-sync.md) (#124) |
-| 133 | [Lamella: Token-Efficiency Skill](lamella/token-efficiency-skill.md) | Medium | Lamella Skill Authoring Convention (#130); Lamella Three-Arm Eval Harness (#125) |
+| 133 | [Lamella: Token-Efficiency Skill](lamella/token-efficiency-skill.md) | Medium | Lamella Skill Authoring Convention (#130); [Lamella Three-Arm Eval Harness](archive/lamella/three-arm-eval-harness.md) (#125) |
 
 ### Tier 4: Cross-Project Contract
 
@@ -79,7 +78,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | 60 | [Cap: Status Preview And Customization Surface](cap/status-preview-and-customization-surface.md) | Medium | Septa Resolved Status And Customization Contract; Cap Live Operator Views And Browser Review Surfaces |
 | 30 | [Cap: Canopy Performance](cap/canopy-performance.md) | Medium | Deep Audit |
 | 32 | [Cap: Operational Modes](cap/operational-modes.md) | Low | — |
-| 33 | [Cap: Agent Telemetry](cap/agent-telemetry.md) | Low | Cost and Usage Tracking |
 | 90 | [Cap: Replay and Eval Surfaces](cap/replay-eval-surfaces.md) | Medium | — |
 | — | [Cap: Data Loading UX Consistency](cap/data-loading-ux-consistency.md) | Low | — |
 
