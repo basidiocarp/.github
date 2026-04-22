@@ -33,23 +33,14 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 ## Active Handoffs
 
-### Tier 4: Cross-Cutting
-
-| # | Handoff | Priority | Depends On |
-|---|---------|----------|-----------|
-| — | [Rhizome: Foundation Alignment](septa/foundation-alignment.md) | Medium | — |
-
 ### Tier 5: Standalone or Lower Urgency
 
 | # | Handoff | Priority | Depends On |
 |---|---------|----------|-----------|
 | 20 | [Hyphae: HTTP Embeddings](hyphae/http-embeddings.md) | Low | — |
 | 112 | [Mycelium: Compressed Format Experiments](mycelium/compressed-format-experiments.md) | Low | [Mycelium Structural Parser Hardening](archive/mycelium/structural-parser-hardening.md) |
-| — | [Mycelium: Command Output Summary Mode](mycelium/command-output-summary-mode.md) | Medium | — |
 | — | [Mycelium: Deterministic Telemetry Summary Surfaces](mycelium/deterministic-telemetry-summary-surfaces.md) | Medium | — |
 | — | [Annulus: Per-Provider Usage Scanner](annulus/per-provider-usage-scanner.md) | Medium | — |
-| — | [Lamella: Strategic Compact Skill](lamella/strategic-compact-skill.md) | Medium | Lamella Skill Authoring Convention |
-| — | [Lamella: Agent Introspection Debugging Skill](lamella/agent-introspection-debugging-skill.md) | Medium | Lamella Skill Authoring Convention |
 
 ### Tier 6: Cap
 
