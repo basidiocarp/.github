@@ -1,7 +1,7 @@
 # Ecosystem Health Audit Campaign
 
 **Started:** 2026-04-22
-**Status:** Phase 1 Pass 1 — In Progress
+**Status:** Phase 1 Complete — Phase 2 Ready to Start
 
 ## Purpose
 
@@ -37,8 +37,8 @@ Find cross-tool payloads that have no septa backing at all.
 
 | Pass | Status | Agent | Findings |
 |------|--------|-------|----------|
-| Pass 1 — Discovery | In Progress | — | [findings-p1.md](phase1-contract/findings-p1.md) |
-| Pass 2 — Deep Review | Pending | — | [findings-p2.md](phase1-contract/findings-p2.md) |
+| Pass 1 — Discovery | Complete | Explore agent | [findings-p1.md](phase1-contract/findings-p1.md) |
+| Pass 2 — Deep Review | Complete | Explore agent | [findings-p2.md](phase1-contract/findings-p2.md) |
 
 **Scope:**
 - Run `cd septa && bash validate-all.sh`
@@ -162,8 +162,8 @@ Updated as each phase completes.
 
 | Phase | Pass | Critical | High | Medium | Low | Status |
 |-------|------|----------|------|--------|-----|--------|
-| 1 Contract | P1 | — | — | — | — | In Progress |
-| 1 Contract | P2 | — | — | — | — | Pending |
+| 1 Contract | P1 | 1 | 0 | 1 | 2 | Complete |
+| 1 Contract | P2 | 1 | 2 | 1 | 2 | Complete — verdict: FAIR |
 | 2 Quality | P1 | — | — | — | — | Pending |
 | 2 Quality | P2 | — | — | — | — | Pending |
 | 3 Architecture | P1 | — | — | — | — | Pending |
@@ -182,7 +182,12 @@ positives). Each gets a severity, owning repo, and fix status.
 
 | # | Severity | Repo | Issue | Fix Status |
 |---|----------|------|-------|------------|
-| — | — | — | — | — |
+| 1 | Critical | septa + canopy | HandoffStatus enum drift — schema has `pending/accepted/completed/rejected`, Rust has `Open/Accepted/Rejected/Expired/Cancelled/Completed` | Open |
+| 2 | High | septa + canopy | `canopy-snapshot-v1` schema has `additionalProperties: false` but struct emits 21 fields; schema documents only ~10 | Open |
+| 3 | High | septa + cortina + canopy | `cortina audit-handoff` response has no septa schema backing a critical cross-tool dispatch boundary | Open |
+| 4 | Medium | cap | `validateCanopySnapshot()` doesn't check `drift_signals` — required field added 2026-04-22 not validated | Open |
+| 5 | Low | cap | Hook error log NDJSON format undocumented — graceful fallback is solid, no action needed | Accepted risk |
+| 6 | Low | cap | `hyphae-search-v1` consumer doesn't validate `schema_version` | Accepted risk |
 
 ---
 
