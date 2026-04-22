@@ -46,7 +46,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | 24 | [Cap: Live Operator Views And Browser Review Surfaces](cap/live-operator-views-and-browser-review-surfaces.md) | Medium | Volva Execution-Host Session Workspace Contract; Canopy Queue Worktree Review Orchestration; Hyphae Scoped Memory Identity And Export Contract |
 | 60 | [Cap: Status Preview And Customization Surface](cap/status-preview-and-customization-surface.md) | Medium | Septa Resolved Status And Customization Contract; Cap Live Operator Views And Browser Review Surfaces |
 | 30 | [Cap: Canopy Performance](cap/canopy-performance.md) | Medium | Deep Audit |
-| 90 | [Cap: Replay and Eval Surfaces](cap/replay-eval-surfaces.md) | Medium | — |
 | — | [Cap: Service Health Panel](cap/service-health-panel.md) | Medium | Spore graceful-degradation-classification |
 
 ### Tier 7: Later Phases
