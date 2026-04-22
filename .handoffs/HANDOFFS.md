@@ -50,7 +50,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | — | [Annulus: Per-Provider Usage Scanner](annulus/per-provider-usage-scanner.md) | Medium | — |
 | — | [Lamella: Strategic Compact Skill](lamella/strategic-compact-skill.md) | Medium | Lamella Skill Authoring Convention |
 | — | [Lamella: Agent Introspection Debugging Skill](lamella/agent-introspection-debugging-skill.md) | Medium | Lamella Skill Authoring Convention |
-| — | [Spore: OpenTelemetry Tracing (foundation child)](spore/otel-tracing.md) | Medium | — |
 
 ### Tier 6: Cap
 
