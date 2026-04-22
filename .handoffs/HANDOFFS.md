@@ -33,16 +33,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 ## Active Handoffs
 
-### Critical: Blocking Bugs
-
-| # | Handoff | Priority | Depends On |
-|---|---------|----------|-----------|
-| — | [Hymenium: Critical Fixes](hymenium/critical-fixes.md) | Critical | — |
-| — | [Canopy: Fix Handoff Column Mismatch](canopy/handoff-column-fix.md) | Critical | — |
-| — | [Canopy: Fix Blocks Relationship Write](canopy/blocks-relationship-fix.md) | Critical | — |
-| — | [Canopy: Fix Council Session Atomicity](canopy/council-atomicity.md) | Critical | — |
-| — | [Rhizome: Graph Data Integrity](rhizome/graph-data-integrity.md) | Critical | — |
-
 ### Tier 2: High Priority Infrastructure
 
 | # | Handoff | Priority | Depends On |
