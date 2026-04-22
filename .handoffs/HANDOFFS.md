@@ -53,16 +53,12 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | # | Handoff | Priority | Depends On |
 |---|---------|----------|-----------|
 | 77 | [Canopy: Capability Routing + Multi-Model Orchestration](canopy/capability-routing.md) | Lower | [Canopy Sub-Task Hierarchy](archive/canopy/sub-task-hierarchy.md) |
-| 78 | [Canopy: Drift Detection Pipeline](canopy/drift-detection.md) | Lower | — |
-| 79 | [Canopy: File-Scope Conflict Resolution Strategies](canopy/conflict-resolution-strategies.md) | Lower | — |
 | 80 | [Hyphae: Composite Recall Resources](hyphae/composite-recall-resources.md) | Lower | — |
 | 81 | [Volva: Auth and Native API Backend](volva/auth-native-api.md) | Lower | — |
 | 82 | [Cortina: Codex / Gemini Adapters](cortina/codex-gemini-adapters.md) | Lower | — |
 | 105 | [Volva: Workspace-Session Route Models](volva/workspace-session-routes.md) | Lower | Volva Hyphae Recall Injection (#71) |
 | 106 | [Cap: Inline Diff-Comment Review Loops](cap/inline-diff-review.md) | Lower | Cap Live Operator Views (#24) |
 | 107 | [Rhizome: Analyzer Plugin Extensibility](rhizome/analyzer-plugin-extensibility.md) | Lower | Shipped prerequisite: Rhizome Structural Fallback (v0.7.11) |
-| — | [Stipe: Permission Memory and Provider UX](stipe/permission-memory-provider-ux.md) | Medium | — |
-| — | [Volva: Execution Environment Isolation](volva/execution-environment-isolation.md) | Medium | — |
 | — | [Cortina: Cache-Friendly Context Ordering](cortina/cache-friendly-context-ordering.md) | Low | — |
 | — | [Lamella: Cache-Friendly Context Ordering](lamella/cache-friendly-context-ordering.md) | Low | — |
 | — | [Lamella: Session-End Direct Hook Cutover](lamella/session-end-direct-hook-cutover.md) | Low | Lamella-Cortina Boundary Phase 2 |
