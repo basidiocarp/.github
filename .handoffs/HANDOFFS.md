@@ -31,6 +31,12 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 - [sessions/README.md](sessions/README.md): session-note conventions
 - [archive/README.md](archive/README.md): completed work and historical notes
 
+## Active Campaigns
+
+| Campaign | Status | Phase |
+|----------|--------|-------|
+| [Ecosystem Health Audit](campaigns/ecosystem-health-audit/README.md) | In Progress | Phase 1 Pass 1 — Contract Discovery |
+
 ## Active Handoffs
 
 ### Tier 5: Standalone or Lower Urgency
