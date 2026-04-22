@@ -39,7 +39,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 |---|---------|----------|-----------|
 | 20 | [Hyphae: HTTP Embeddings](hyphae/http-embeddings.md) | Low | — |
 | 112 | [Mycelium: Compressed Format Experiments](mycelium/compressed-format-experiments.md) | Low | [Mycelium Structural Parser Hardening](archive/mycelium/structural-parser-hardening.md) |
-| — | [Mycelium: Deterministic Telemetry Summary Surfaces](mycelium/deterministic-telemetry-summary-surfaces.md) | Medium | — |
 | — | [Annulus: Per-Provider Usage Scanner](annulus/per-provider-usage-scanner.md) | Medium | — |
 
 ### Tier 6: Cap
