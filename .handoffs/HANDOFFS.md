@@ -35,7 +35,7 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 | Campaign | Status | Phase |
 |----------|--------|-------|
-| [Ecosystem Health Audit](campaigns/ecosystem-health-audit/README.md) | In Progress | Phase 1 Complete — Phase 2 (Code Quality) ready |
+| [Ecosystem Health Audit](campaigns/ecosystem-health-audit/README.md) | All Phases Complete | 16 issues tracked — fix phase ready |
 
 ## Active Handoffs
 

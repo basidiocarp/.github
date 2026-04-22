@@ -1,7 +1,7 @@
 # Ecosystem Health Audit Campaign
 
 **Started:** 2026-04-22
-**Status:** Phase 1 Complete — Phase 2 Ready to Start
+**Status:** ALL PHASES COMPLETE — Fix phase ready
 
 ## Purpose
 
@@ -66,8 +66,8 @@ in cap.
 
 | Pass | Status | Agent | Findings |
 |------|--------|-------|----------|
-| Pass 1 — Discovery | Pending | — | [findings-p1.md](phase2-quality/findings-p1.md) |
-| Pass 2 — Deep Review | Pending | — | [findings-p2.md](phase2-quality/findings-p2.md) |
+| Pass 1 — Discovery | Complete | Explore agent | [findings-p1.md](phase2-quality/findings-p1.md) |
+| Pass 2 — Deep Review | Complete | Explore agent | [findings-p2.md](phase2-quality/findings-p2.md) |
 
 **Scope:**
 - Rust: `cargo clippy --all-targets -- -D warnings` in each repo
@@ -90,8 +90,8 @@ coupling and repos that have grown beyond their stated scope.
 
 | Pass | Status | Agent | Findings |
 |------|--------|-------|----------|
-| Pass 1 — Discovery | Pending | — | [findings-p1.md](phase3-architecture/findings-p1.md) |
-| Pass 2 — Deep Review | Pending | — | [findings-p2.md](phase3-architecture/findings-p2.md) |
+| Pass 1 — Discovery | Complete | Explore agent | [findings-p1.md](phase3-architecture/findings-p1.md) |
+| Pass 2 — Deep Review | In Progress | — | [findings-p2.md](phase3-architecture/findings-p2.md) |
 
 **Scope:**
 - For each repo: extract "does not" constraints from CLAUDE.md, check against
@@ -164,14 +164,14 @@ Updated as each phase completes.
 |-------|------|----------|------|--------|-----|--------|
 | 1 Contract | P1 | 1 | 0 | 1 | 2 | Complete |
 | 1 Contract | P2 | 1 | 2 | 1 | 2 | Complete — verdict: FAIR |
-| 2 Quality | P1 | — | — | — | — | Pending |
-| 2 Quality | P2 | — | — | — | — | Pending |
-| 3 Architecture | P1 | — | — | — | — | Pending |
-| 3 Architecture | P2 | — | — | — | — | Pending |
-| 4 Bugs | P1 | — | — | — | — | Pending |
-| 4 Bugs | P2 | — | — | — | — | Pending |
-| 5 Interaction | P1 | — | — | — | — | Pending |
-| 5 Interaction | P2 | — | — | — | — | Pending |
+| 2 Quality | P1 | 0 | 0 | 0 | 4 | Complete — 119 clippy errors, all fmt fail, 736 unwrap count |
+| 2 Quality | P2 | 0 | 0 | 1 | 4 | Complete — verdict: FAIR (most P1 highs were false positives) |
+| 3 Architecture | P1 | 0 | 0 | 0 | 0 | Complete — PASS, 11/11 constraints verified, 0 violations |
+| 3 Architecture | P2 | 0 | 1 | 0 | 1 | Complete — verdict: FAIR (spore version drift found) |
+| 4 Bugs | P1 | 0 | 0 | 0 | 0 | Complete — verdict: PASS (all panics test-only, validation solid) |
+| 4 Bugs | P2 | 0 | 0 | 0 | 2 | Complete — verdict: PASS (confirmed, SQLite WAL advisory, annulus schema contract advisory) |
+| 5 Interaction | P1 | 0 | 1 | 3 | 2 | Complete — verdict: FAIR (cap→canopy FRAGILE, 3 unseamed seams) |
+| 5 Interaction | P2 | 0 | 1 | 3 | 2 | Complete — verdict: FAIR (1 FRAGILE trivially fixable, 3 PARTIAL, new cortina timeout issue) |
 
 ---
 
@@ -188,6 +188,16 @@ positives). Each gets a severity, owning repo, and fix status.
 | 4 | Medium | cap | `validateCanopySnapshot()` doesn't check `drift_signals` — required field added 2026-04-22 not validated | Open |
 | 5 | Low | cap | Hook error log NDJSON format undocumented — graceful fallback is solid, no action needed | Accepted risk |
 | 6 | Low | cap | `hyphae-search-v1` consumer doesn't validate `schema_version` | Accepted risk |
+| 7 | High | ecosystem | Spore version drift — canonical `ecosystem-versions.toml` pins v0.4.10; mycelium/rhizome/stipe/hymenium on v0.4.9, hyphae/cortina/canopy/volva/annulus on v0.4.11; no repo on canonical | Open |
+| 8 | Low | cortina | `rusqlite` declared in Cargo.toml but appears unused in source — possible dead dependency | Open |
+| 9 | High | cortina + hyphae | Session state orphaning — stale session scope file reused when hyphae unavailable; parallel worktrees collapse to same session ID | Open |
+| 10 | High | cap + canopy | Cap has no secondary read path if canopy is down — dashboard returns 500, operator loses all visibility | Open |
+| 11 | Medium | hyphae + volva + cortina | Hyphae protocol/recall response shapes not in septa — changes break volva/cortina without detection | Open |
+| 12 | Medium | cortina + lamella | Async hook execution without persistence guarantee — captures dropped if session exits before cortina write completes | Open |
+| 13 | Medium | cortina + lamella | Lamella hook envelope not schema-backed — Claude Code envelope changes break cortina silently | Open |
+| 14 | Medium | volva + hyphae | Volva context injection timeouts (250ms/500ms) fail silently — user unaware of memory context loss | Open |
+| 15 | Medium | cortina | `Command::output()` on hyphae write has no internal timeout — cortina blocks until hook timeout kills it, state file not cleaned | Open |
+| 16 | Low | cap | Canopy CLI error swallowed — 500 response returns generic message, hides root cause (e.g., "database locked") | Open |
 
 ---
 
