@@ -67,8 +67,6 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | 105 | [Volva: Workspace-Session Route Models](volva/workspace-session-routes.md) | Lower | Volva Hyphae Recall Injection (#71) |
 | 106 | [Cap: Inline Diff-Comment Review Loops](cap/inline-diff-review.md) | Lower | Cap Live Operator Views (#24) |
 | 107 | [Rhizome: Analyzer Plugin Extensibility](rhizome/analyzer-plugin-extensibility.md) | Lower | Shipped prerequisite: Rhizome Structural Fallback (v0.7.11) |
-| — | [Stipe: Annulus Statusline Auto-Config](stipe/annulus-statusline-auto-config.md) | Medium | Stipe Doctor Expansion |
-| — | [Stipe: Hyphae Pre-Upgrade Backup](stipe/hyphae-pre-upgrade-backup.md) | Medium | — |
 | — | [Stipe: Permission Memory and Provider UX](stipe/permission-memory-provider-ux.md) | Medium | — |
 | — | [Volva: Execution Environment Isolation](volva/execution-environment-isolation.md) | Medium | — |
 | — | [Cortina: Cache-Friendly Context Ordering](cortina/cache-friendly-context-ordering.md) | Low | — |
