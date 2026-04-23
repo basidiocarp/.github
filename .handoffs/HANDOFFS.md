@@ -86,6 +86,13 @@ Issues found during the Ecosystem Health Audit. Fix Critical/High first, then st
 |---|---------|----------|--------|
 | St1 | [Stipe: Install Mode Prompt](stipe/install-mode-prompt.md) | Medium | Done |
 
+**Spawned from U4 auth audit:**
+
+| # | Handoff | Priority | Status |
+|---|---------|----------|--------|
+| U4a | [Cap: Server Exposure Warning](cap/server-exposure-warning.md) | Medium | In Progress |
+| U4b | [Canopy: Policy Event Log](canopy/policy-event-log.md) | Medium | In Progress |
+
 ---
 
 ### Tier 5: Standalone or Lower Urgency
