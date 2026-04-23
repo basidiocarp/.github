@@ -95,6 +95,19 @@ Issues found during the Ecosystem Health Audit. Fix Critical/High first, then st
 
 ---
 
+### Tier 4: Wave 1+2 Audit Follow-ups
+
+Handoffs spawned from the Wave 1 re-audit and Wave 2 audit programs (2026-04-23).
+
+| # | Handoff | Priority | Source |
+|---|---------|----------|--------|
+| W1a | [Canopy: Permission Memory Policy](canopy/permission-memory-policy.md) | Medium | forgecode Wave 1 re-audit |
+| W1b | [Mycelium: Declarative Filter Extensions](mycelium/declarative-filter-extensions.md) | Medium | rtk Wave 1 re-audit |
+| W1c | [Septa: Context Envelope V1 Contract](septa/context-envelope-v1.md) | Medium | serena Wave 1 re-audit |
+| W1d | [Rhizome: Incremental Fingerprinting](rhizome/incremental-fingerprinting.md) | Medium | Understand-Anything Wave 1 re-audit |
+
+---
+
 ### Tier 5: Standalone or Lower Urgency
 
 | # | Handoff | Priority | Depends On |
