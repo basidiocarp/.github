@@ -39,6 +39,39 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 ## Active Handoffs
 
+### Tier 0: Foundation — Audit Fix Backlog
+
+Issues found during the Ecosystem Health Audit. Fix Critical/High first, then structural improvements.
+
+**Critical / High (fix before new features):**
+
+| # | Handoff | Severity | Repo |
+|---|---------|----------|------|
+| A1 | [Audit Fix: HandoffStatus Enum Drift](campaigns/ecosystem-health-audit/README.md) | Critical | septa + canopy |
+| A2 | [Audit Fix: Snapshot additionalProperties Mismatch](campaigns/ecosystem-health-audit/README.md) | High | septa + canopy |
+| A3 | [Audit Fix: cortina audit-handoff Unseamed](campaigns/ecosystem-health-audit/README.md) | High | septa + cortina + canopy |
+| A4 | [Audit Fix: Spore Version Drift](campaigns/ecosystem-health-audit/README.md) | High | ecosystem |
+| A5 | [Audit Fix: Cap→Canopy Single Point of Failure](campaigns/ecosystem-health-audit/README.md) | High | cap + canopy |
+
+**Structural improvements (design decision required before starting):**
+
+| # | Handoff | Priority | Note |
+|---|---------|----------|------|
+| S1 | [Cap: Canopy Resilience Layer](cap/canopy-resilience-layer.md) | High | ⚠ THINK FIRST — read and answer design questions |
+| S2 | [Cortina: Session State Store](cortina/session-state-store.md) | Medium | ⚠ THINK FIRST — read and answer design questions |
+| S3 | [Septa: Contract Governance Enforcement](septa/contract-governance-enforcement.md) | Medium | ⚠ THINK FIRST — read and answer design questions |
+
+**Uncharted territory (new audit surface, not yet covered):**
+
+| # | Handoff | Priority | Depends On |
+|---|---------|----------|-----------|
+| U1 | [Cross-Project: CI Enforcement Gates](cross-project/ci-enforcement-gates.md) | High | Audit fix pass (clippy/fmt must be clean first) |
+| U2 | [Cross-Project: Seam and Fix-Target Test Coverage](cross-project/seam-test-coverage.md) | Medium | Audit fix pass (tests cover fixed behavior) |
+| U3 | [Cross-Project: Cross-Tool Observability](cross-project/cross-tool-observability.md) | Medium | — |
+| U4 | [Cross-Project: Auth and Access Control Audit](cross-project/auth-access-control-audit.md) | Medium | — |
+
+---
+
 ### Tier 5: Standalone or Lower Urgency
 
 | # | Handoff | Priority | Depends On |
