@@ -9,11 +9,11 @@
 #   grep -r 'rusqlite' */Cargo.toml
 
 [spore]
-version = "0.4.10"
+version = "0.4.11"
 git = "https://github.com/basidiocarp/spore"
 consumers = ["mycelium", "hyphae", "rhizome", "stipe", "cortina", "canopy", "volva", "hymenium", "annulus"]
 pending = []
-note = "Version aligned across current Rust consumers; source refs may vary while repos catch up."
+note = "All consumers pinned to v0.4.11."
 
 [datetime]
 crate = "chrono"
