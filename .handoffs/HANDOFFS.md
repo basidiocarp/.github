@@ -111,6 +111,11 @@ Handoffs spawned from the Wave 1 re-audit and Wave 2 audit programs (2026-04-23)
 | W2d | [Hyphae: Tiered Memory Eviction](hyphae/tiered-memory-eviction.md) | Medium | letta + graphrag Wave 2 |
 | W2e | [Septa: Credential Abstraction V1](septa/credential-abstraction-v1.md) | Medium | better-ccflare + cognee + letta Wave 2 |
 | W2f | [Canopy: DAG-Based Task Graph](canopy/dag-task-graph.md) | Medium | crewAI + langgraph + strands Wave 2 |
+| W2g | [Cortina: Hook Governance and Tool Metadata](cortina/hook-governance.md) | Medium | cline Wave 2 |
+| W2h | [Septa: Dependency Types V1 Contract](septa/dependency-types-v1.md) | Medium | beads Wave 2 |
+| W2i | [Volva: Checkpoint Durability Modes](volva/checkpoint-durability-modes.md) | Medium | langgraph Wave 2 |
+| W2j | [Canopy: Task Output Envelope](canopy/task-output-envelope.md) | Medium | crewAI Wave 2 |
+| W2k | [Cap: Session Persistence and Cost Tracking](cap/session-cost-tracking.md) | Medium | agent-deck Wave 2 |
 
 ---
 
