@@ -70,6 +70,16 @@ Issues found during the Ecosystem Health Audit. Fix Critical/High first, then st
 | U3 | [Cross-Project: Cross-Tool Observability](cross-project/cross-tool-observability.md) | Medium | — |
 | U4 | [Cross-Project: Auth and Access Control Audit](cross-project/auth-access-control-audit.md) | Medium | — |
 
+**Cohesion path (ecosystem tools actually used, tools wired together):**
+
+| # | Handoff | Priority | Depends On |
+|---|---------|----------|-----------|
+| C1 | [Cross-Project: Tool Preference Instructions](cross-project/tool-preference-instructions.md) | High | Nothing — CLAUDE.md edit only |
+| C2 | [Cross-Project: Session-Start Context Injection](cross-project/session-start-context-injection.md) | High | Understand stipe hook deployment first |
+| C3 | [Cross-Project: Ecosystem Smoke Test](cross-project/ecosystem-smoke-test.md) | Medium | Tools running locally |
+| C4 | [Cap: Drift Signal Surface](cap/drift-signal-surface.md) | Medium | Cap→Canopy seam working (A5) |
+| C5 | [Volva: Orchestration Mode Definition](volva/orchestration-mode-definition.md) | Medium | ⚠ THINK FIRST — read and answer design questions |
+
 ---
 
 ### Tier 5: Standalone or Lower Urgency
@@ -86,6 +96,7 @@ Issues found during the Ecosystem Health Audit. Fix Critical/High first, then st
 | 60 | [Cap: Status Preview And Customization Surface](cap/status-preview-and-customization-surface.md) | Medium | Septa Resolved Status And Customization Contract; Cap Live Operator Views And Browser Review Surfaces |
 | 30 | [Cap: Canopy Performance](cap/canopy-performance.md) | Medium | Deep Audit |
 | — | [Cap: Service Health Panel](cap/service-health-panel.md) | Medium | Spore graceful-degradation-classification |
+| C4 | [Cap: Drift Signal Surface](cap/drift-signal-surface.md) | Medium | Cap→Canopy seam working (A5) |
 
 ### Tier 7: Later Phases
 
@@ -94,6 +105,7 @@ Issues found during the Ecosystem Health Audit. Fix Critical/High first, then st
 | 81 | [Volva: Auth and Native API Backend](volva/auth-native-api.md) | Lower | — |
 | 82 | [Cortina: Codex / Gemini Adapters](cortina/codex-gemini-adapters.md) | Lower | — |
 | 105 | [Volva: Workspace-Session Route Models](volva/workspace-session-routes.md) | Lower | Volva Hyphae Recall Injection (#71) |
+| C5 | [Volva: Orchestration Mode Definition](volva/orchestration-mode-definition.md) | Medium | ⚠ THINK FIRST |
 | 106 | [Cap: Inline Diff-Comment Review Loops](cap/inline-diff-review.md) | Lower | Cap Live Operator Views (#24) |
 | 107 | [Rhizome: Analyzer Plugin Extensibility](rhizome/analyzer-plugin-extensibility.md) | Lower | Shipped prerequisite: Rhizome Structural Fallback (v0.7.11) |
 | — | [Lamella: Session-End Direct Hook Cutover](lamella/session-end-direct-hook-cutover.md) | Low | Lamella-Cortina Boundary Phase 2 |
