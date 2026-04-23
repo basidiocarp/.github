@@ -78,7 +78,7 @@ Issues found during the Ecosystem Health Audit. Fix Critical/High first, then st
 | U1 | [Cross-Project: CI Enforcement Gates](cross-project/ci-enforcement-gates.md) | High | Done |
 | U2 | [Cross-Project: Seam and Fix-Target Test Coverage](cross-project/seam-test-coverage.md) | Medium | Done |
 | U3 | [Cross-Project: Cross-Tool Observability](cross-project/cross-tool-observability.md) | Medium | Done |
-| U4 | [Cross-Project: Auth and Access Control Audit](cross-project/auth-access-control-audit.md) | Medium | Open |
+| U4 | [Cross-Project: Auth and Access Control Audit](cross-project/auth-access-control-audit.md) | Medium | Done |
 
 **Stipe integration (spawned from C5):**
 
