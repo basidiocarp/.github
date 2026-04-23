@@ -112,15 +112,23 @@ This determines what stipe writes to the volva config during install. Answer her
 
 ---
 
-## Questions for the Human Engineer
+## Decisions (locked 2026-04-23)
 
-Before implementation starts, answer:
+1. **Mode selection:** Option D — explicit `--mode baseline|orchestration` flag. Default is `baseline`. Orchestration probes for canopy at startup; if canopy is unavailable, exits with a clear error (not a silent hang).
 
-1. **Which mode selection approach?** (A, B, C, or D from Question 1)
-2. **Are the mode difference table values correct?** Any behaviors to add or remove?
-3. **Where does mode-gating logic live?** (A, B, or C from Question 3)
-4. **Silent startup or visible mode announcement?**
-5. **What should stipe write during install?**
+2. **Token budgets:**
+   - Session-start.js hook (already deployed): 500 tokens — passive, always-on, correct as-is
+   - Volva baseline: ~20 recall entries (`--limit 20`, ≈1000 tokens)
+   - Volva orchestration: ~50 recall entries (`--limit 50`, ≈2500 tokens) plus canopy task context and workflow state
+   - Current hardcoded value is `SESSION_RECALL_LIMIT = 5` — this is the value to replace with mode-dependent limits
+
+3. **Mode-gating logic:** `Capabilities` struct built at startup, passed through the call chain. `assemble_prompt` takes `&Capabilities` and uses it to select recall limit and decide whether to call canopy.
+
+4. **Startup announcement:** Visible — print to stderr on startup:
+   - `volva: baseline mode — mycelium, hyphae, and rhizome active`
+   - `volva: orchestration mode — canopy connected, full memory budget active`
+
+5. **Stipe during install:** Ask the user which mode, default to baseline if they skip the prompt.
 
 ---
 
