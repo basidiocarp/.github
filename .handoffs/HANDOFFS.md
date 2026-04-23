@@ -43,42 +43,48 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 Issues found during the Ecosystem Health Audit. Fix Critical/High first, then structural improvements.
 
-**Critical / High (fix before new features):**
+**Critical / High (completed 2026-04-23):**
 
-| # | Handoff | Severity | Repo |
-|---|---------|----------|------|
-| A1 | [Audit Fix: HandoffStatus Enum Drift](campaigns/ecosystem-health-audit/README.md) | Critical | septa + canopy |
-| A2 | [Audit Fix: Snapshot additionalProperties Mismatch](campaigns/ecosystem-health-audit/README.md) | High | septa + canopy |
-| A3 | [Audit Fix: cortina audit-handoff Unseamed](campaigns/ecosystem-health-audit/README.md) | High | septa + cortina + canopy |
-| A4 | [Audit Fix: Spore Version Drift](campaigns/ecosystem-health-audit/README.md) | High | ecosystem |
-| A5 | [Audit Fix: Cap→Canopy Single Point of Failure](campaigns/ecosystem-health-audit/README.md) | High | cap + canopy |
+| # | Handoff | Severity | Status |
+|---|---------|----------|--------|
+| A1 | [Audit Fix: HandoffStatus Enum Drift](campaigns/ecosystem-health-audit/README.md) | Critical | Done |
+| A2 | [Audit Fix: Snapshot additionalProperties Mismatch](campaigns/ecosystem-health-audit/README.md) | High | Done |
+| A3 | [Audit Fix: cortina audit-handoff Unseamed](campaigns/ecosystem-health-audit/README.md) | High | Done |
+| A4 | [Audit Fix: Spore Version Drift](campaigns/ecosystem-health-audit/README.md) | High | Done |
+| A5 | [Audit Fix: Cap→Canopy Single Point of Failure](campaigns/ecosystem-health-audit/README.md) | High | Done |
 
-**Structural improvements (design decision required before starting):**
+**Structural improvements (completed 2026-04-23):**
 
-| # | Handoff | Priority | Note |
-|---|---------|----------|------|
-| S1 | [Cap: Canopy Resilience Layer](cap/canopy-resilience-layer.md) | High | ⚠ THINK FIRST — read and answer design questions |
-| S2 | [Cortina: Session State Store](cortina/session-state-store.md) | Medium | ⚠ THINK FIRST — read and answer design questions |
-| S3 | [Septa: Contract Governance Enforcement](septa/contract-governance-enforcement.md) | Medium | ⚠ THINK FIRST — read and answer design questions |
+| # | Handoff | Priority | Status |
+|---|---------|----------|--------|
+| S1 | [Cap: Canopy Resilience Layer](cap/canopy-resilience-layer.md) | High | Done |
+| S2 | [Cortina: Session State Store](cortina/session-state-store.md) | Medium | Done |
+| S3 | [Septa: Contract Governance Enforcement](septa/contract-governance-enforcement.md) | Medium | Done |
 
-**Uncharted territory (new audit surface, not yet covered):**
+**Cohesion path (completed 2026-04-23):**
 
-| # | Handoff | Priority | Depends On |
-|---|---------|----------|-----------|
-| U1 | [Cross-Project: CI Enforcement Gates](cross-project/ci-enforcement-gates.md) | High | Audit fix pass (clippy/fmt must be clean first) |
-| U2 | [Cross-Project: Seam and Fix-Target Test Coverage](cross-project/seam-test-coverage.md) | Medium | Audit fix pass (tests cover fixed behavior) |
-| U3 | [Cross-Project: Cross-Tool Observability](cross-project/cross-tool-observability.md) | Medium | — |
-| U4 | [Cross-Project: Auth and Access Control Audit](cross-project/auth-access-control-audit.md) | Medium | — |
+| # | Handoff | Priority | Status |
+|---|---------|----------|--------|
+| C1 | [Cross-Project: Tool Preference Instructions](cross-project/tool-preference-instructions.md) | High | Done |
+| C2 | [Cross-Project: Session-Start Context Injection](cross-project/session-start-context-injection.md) | High | Done |
+| C3 | [Cross-Project: Ecosystem Smoke Test](cross-project/ecosystem-smoke-test.md) | Medium | Done |
+| C4 | [Cap: Drift Signal Surface](cap/drift-signal-surface.md) | Medium | Done |
+| C5 | [Volva: Orchestration Mode Definition](volva/orchestration-mode-definition.md) | Medium | Done |
 
-**Cohesion path (ecosystem tools actually used, tools wired together):**
+**Uncharted territory:**
 
-| # | Handoff | Priority | Depends On |
-|---|---------|----------|-----------|
-| C1 | [Cross-Project: Tool Preference Instructions](cross-project/tool-preference-instructions.md) | High | Nothing — CLAUDE.md edit only |
-| C2 | [Cross-Project: Session-Start Context Injection](cross-project/session-start-context-injection.md) | High | Understand stipe hook deployment first |
-| C3 | [Cross-Project: Ecosystem Smoke Test](cross-project/ecosystem-smoke-test.md) | Medium | Tools running locally |
-| C4 | [Cap: Drift Signal Surface](cap/drift-signal-surface.md) | Medium | Cap→Canopy seam working (A5) |
-| C5 | [Volva: Orchestration Mode Definition](volva/orchestration-mode-definition.md) | Medium | ⚠ THINK FIRST — read and answer design questions |
+| # | Handoff | Priority | Status |
+|---|---------|----------|--------|
+| U1 | [Cross-Project: CI Enforcement Gates](cross-project/ci-enforcement-gates.md) | High | In Progress |
+| U2 | [Cross-Project: Seam and Fix-Target Test Coverage](cross-project/seam-test-coverage.md) | Medium | Open |
+| U3 | [Cross-Project: Cross-Tool Observability](cross-project/cross-tool-observability.md) | Medium | In Progress |
+| U4 | [Cross-Project: Auth and Access Control Audit](cross-project/auth-access-control-audit.md) | Medium | Open |
+
+**Stipe integration (spawned from C5):**
+
+| # | Handoff | Priority | Status |
+|---|---------|----------|--------|
+| St1 | [Stipe: Install Mode Prompt](stipe/install-mode-prompt.md) | Medium | Open |
 
 ---
 
