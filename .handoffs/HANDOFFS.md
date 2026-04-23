@@ -90,8 +90,8 @@ Issues found during the Ecosystem Health Audit. Fix Critical/High first, then st
 
 | # | Handoff | Priority | Status |
 |---|---------|----------|--------|
-| U4a | [Cap: Server Exposure Warning](cap/server-exposure-warning.md) | Medium | In Progress |
-| U4b | [Canopy: Policy Event Log](canopy/policy-event-log.md) | Medium | In Progress |
+| U4a | [Cap: Server Exposure Warning](cap/server-exposure-warning.md) | Medium | Done |
+| U4b | [Canopy: Policy Event Log](canopy/policy-event-log.md) | Medium | Done |
 
 ---
 
