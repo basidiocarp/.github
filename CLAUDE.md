@@ -85,6 +85,62 @@ basidiocarp/
 
 ---
 
+## Tool Selection Guide
+
+The ecosystem tools are globally available. Use them instead of native fallbacks
+when the task fits:
+
+### Rhizome (code navigation)
+
+Prefer `mcp__rhizome__search_symbols` over `Grep` when:
+- Finding all callers of a function or all uses of a type
+- Navigating to a definition you can't locate by filename
+- Checking what imports a module or struct
+
+Prefer `mcp__rhizome__get_structure` or `mcp__rhizome__summarize_file` over
+`Read` when you need to understand a file's shape without reading every line.
+
+Use `Grep` when: searching for a string pattern across files, or when the search
+is purely textual (not structural). Rhizome does not replace text search.
+
+### Hyphae (memory and recall)
+
+Call `mcp__hyphae__hyphae_memory_recall` before starting work in any area you
+haven't touched in this session if you want prior-session decisions, errors
+resolved, or relevant context loaded.
+
+Call `mcp__hyphae__hyphae_memory_store` after resolving a non-obvious error,
+making an architecture decision, or discovering a non-obvious constraint. Use
+topic `"errors/resolved"` for error fixes, `"decisions/{project}"` for
+architecture choices.
+
+Do NOT recall at every step. One recall at the start of a task is usually
+enough. Hyphae is for prior-session continuity, not in-session notes.
+
+### Mycelium (command output compression)
+
+You do not invoke mycelium directly. The cortina pre-tool-use hook automatically
+pipes verbose Bash command output through mycelium before it reaches the model.
+This is active for: git log, cargo test, cargo build, and other high-volume
+commands.
+
+If you see compressed/summarized command output, that is mycelium working.
+Do not attempt to "undo" the compression — the full output is available via
+hyphae chunked storage if needed.
+
+### When to use native tools
+
+- `Read` for reading a specific file when you already know the path
+- `Glob` for file discovery by name pattern
+- `Grep` for text/regex search across files
+- `Bash` for commands not covered by the above
+
+Native tools are fine when the task is bounded. The ecosystem tools add value
+for cross-session continuity (hyphae), structural code navigation (rhizome),
+and output compression (mycelium/cortina).
+
+---
+
 ## Key Design Decisions
 
 - **Mostly independent repositories**: keeps release cadence and ownership per tool clear without forcing every root-level directory to be a standalone repo.
