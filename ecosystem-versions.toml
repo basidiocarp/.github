@@ -46,7 +46,7 @@ hymenium = "0.5.0"
 annulus = "0.5.3"
 cap = "0.11.8"
 lamella = "0.6.0"
-spore = "0.4.10"
+spore = "0.4.11"
 
 [contracts]
 # Active Septa contract generations mirrored from `septa/`.
