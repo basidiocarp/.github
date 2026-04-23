@@ -105,6 +105,12 @@ Handoffs spawned from the Wave 1 re-audit and Wave 2 audit programs (2026-04-23)
 | W1b | [Mycelium: Declarative Filter Extensions](mycelium/declarative-filter-extensions.md) | Medium | rtk Wave 1 re-audit |
 | W1c | [Septa: Context Envelope V1 Contract](septa/context-envelope-v1.md) | Medium | serena Wave 1 re-audit |
 | W1d | [Rhizome: Incremental Fingerprinting](rhizome/incremental-fingerprinting.md) | Medium | Understand-Anything Wave 1 re-audit |
+| W2a | [Cortina: Lifecycle Pipeline Stages](cortina/lifecycle-pipeline-stages.md) | Medium | headroom + cognee Wave 2 |
+| W2b | [Lamella: Skill Progressive Disclosure](lamella/skill-progressive-disclosure.md) | Medium | harness Wave 2 |
+| W2c | [Hyphae: Pluggable Backend Adapters](hyphae/pluggable-backends.md) | Medium | cognee + letta + strands Wave 2 |
+| W2d | [Hyphae: Tiered Memory Eviction](hyphae/tiered-memory-eviction.md) | Medium | letta + graphrag Wave 2 |
+| W2e | [Septa: Credential Abstraction V1](septa/credential-abstraction-v1.md) | Medium | better-ccflare + cognee + letta Wave 2 |
+| W2f | [Canopy: DAG-Based Task Graph](canopy/dag-task-graph.md) | Medium | crewAI + langgraph + strands Wave 2 |
 
 ---
 
