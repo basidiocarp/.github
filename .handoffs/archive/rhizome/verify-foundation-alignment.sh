@@ -1,33 +1,55 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/bash
 
-PASS=0
-FAIL=0
-ROOT="/Users/williamnewton/projects/basidiocarp"
+# Verification script for foundation-alignment handoff
+# Checks:
+# 1. rhizome/docs/architecture.md contains "Backend Boundary Rules" section
+# 2. cargo build --workspace exits 0
+# 3. cargo test --workspace exits 0
 
-check() {
-  local name="$1"
-  shift
-  if "$@"; then
-    printf 'PASS: %s\n' "$name"
-    PASS=$((PASS + 1))
-  else
-    printf 'FAIL: %s\n' "$name"
-    FAIL=$((FAIL + 1))
-  fi
-}
+set -e
 
-check "Workspace foundation docs live under docs/foundations" \
-  bash -lc "test -f '$ROOT/docs/foundations/rust-workspace-architecture-standards.md' && test -f '$ROOT/docs/foundations/rust-workspace-standards-applied.md'"
+PASSED=0
+FAILED=0
 
-check "Rhizome docs mention backend selection or boundaries" \
-  rg -q 'backend|tree-sitter|lsp|core|mcp|cli' "$ROOT/rhizome/README.md" "$ROOT/rhizome/CLAUDE.md" "$ROOT/rhizome/docs"
+echo "=== Foundation Alignment Verification ==="
+echo ""
 
-check "Rhizome docs mention export or graph boundaries" \
-  rg -q 'export|graph|core' "$ROOT/rhizome/README.md" "$ROOT/rhizome/CLAUDE.md" "$ROOT/rhizome/docs"
+# Check 1: Backend Boundary Rules section exists in architecture.md
+echo "Check 1: Verifying Backend Boundary Rules section in architecture.md..."
+if grep -q "Backend Boundary Rules" /Users/williamnewton/projects/basidiocarp/rhizome/docs/architecture.md; then
+    echo "  PASS: Backend Boundary Rules section found"
+    ((PASSED++))
+else
+    echo "  FAIL: Backend Boundary Rules section not found"
+    ((FAILED++))
+fi
 
-check "Rhizome has separate tests or test modules" \
-  bash -lc "find '$ROOT/rhizome' -path '*/tests/*' | grep -q . || rg -q '#\\[cfg\\(test\\)\\]|mod tests' '$ROOT/rhizome/crates'"
+# Check 2: cargo build --workspace
+echo ""
+echo "Check 2: Running cargo build --workspace..."
+if cd /Users/williamnewton/projects/basidiocarp/rhizome && cargo build --workspace > /tmp/build.log 2>&1; then
+    echo "  PASS: cargo build --workspace succeeded"
+    ((PASSED++))
+else
+    echo "  FAIL: cargo build --workspace failed"
+    cat /tmp/build.log
+    ((FAILED++))
+fi
 
-printf 'Results: %d passed, %d failed\n' "$PASS" "$FAIL"
-test "$FAIL" -eq 0
+# Check 3: cargo test --workspace
+echo ""
+echo "Check 3: Running cargo test --workspace..."
+if cd /Users/williamnewton/projects/basidiocarp/rhizome && cargo test --workspace > /tmp/test.log 2>&1; then
+    echo "  PASS: cargo test --workspace succeeded"
+    ((PASSED++))
+else
+    echo "  FAIL: cargo test --workspace failed"
+    cat /tmp/test.log
+    ((FAILED++))
+fi
+
+echo ""
+echo "=== Results ==="
+echo "Results: $PASSED passed, $FAILED failed"
+
+exit "$FAILED"

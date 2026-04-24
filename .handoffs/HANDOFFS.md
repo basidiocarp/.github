@@ -84,13 +84,13 @@ Issues found during the Ecosystem Health Audit. Fix Critical/High first, then st
 
 | # | Handoff | Priority | Status |
 |---|---------|----------|--------|
-| St1 | [Stipe: Install Mode Prompt](stipe/install-mode-prompt.md) | Medium | Done |
+| St1 | [Stipe: Install Mode Prompt](stipe/install-mode-prompt.md) | Medium | Open |
 
 **Spawned from U4 auth audit:**
 
 | # | Handoff | Priority | Status |
 |---|---------|----------|--------|
-| U4a | [Cap: Server Exposure Warning](cap/server-exposure-warning.md) | Medium | Done |
+| U4a | [Cap: Server Exposure Warning](cap/server-exposure-warning.md) | Medium | Open |
 | U4b | [Canopy: Policy Event Log](canopy/policy-event-log.md) | Medium | Done |
 
 ---
@@ -146,7 +146,6 @@ Handoffs spawned from the Wave 1 re-audit and Wave 2 audit programs (2026-04-23)
 | 60 | [Cap: Status Preview And Customization Surface](cap/status-preview-and-customization-surface.md) | Medium | Septa Resolved Status And Customization Contract; Cap Live Operator Views And Browser Review Surfaces |
 | 30 | [Cap: Canopy Performance](cap/canopy-performance.md) | Medium | Deep Audit |
 | — | [Cap: Service Health Panel](cap/service-health-panel.md) | Medium | Spore graceful-degradation-classification |
-| C4 | [Cap: Drift Signal Surface](cap/drift-signal-surface.md) | Medium | Cap→Canopy seam working (A5) |
 
 ### Tier 7: Later Phases
 
@@ -155,7 +154,6 @@ Handoffs spawned from the Wave 1 re-audit and Wave 2 audit programs (2026-04-23)
 | 81 | [Volva: Auth and Native API Backend](volva/auth-native-api.md) | Lower | — |
 | 82 | [Cortina: Codex / Gemini Adapters](cortina/codex-gemini-adapters.md) | Lower | — |
 | 105 | [Volva: Workspace-Session Route Models](volva/workspace-session-routes.md) | Lower | Volva Hyphae Recall Injection (#71) |
-| C5 | [Volva: Orchestration Mode Definition](volva/orchestration-mode-definition.md) | Medium | ⚠ THINK FIRST |
 | 106 | [Cap: Inline Diff-Comment Review Loops](cap/inline-diff-review.md) | Lower | Cap Live Operator Views (#24) |
 | 107 | [Rhizome: Analyzer Plugin Extensibility](rhizome/analyzer-plugin-extensibility.md) | Lower | Shipped prerequisite: Rhizome Structural Fallback (v0.7.11) |
 | — | [Lamella: Session-End Direct Hook Cutover](lamella/session-end-direct-hook-cutover.md) | Low | Lamella-Cortina Boundary Phase 2 |

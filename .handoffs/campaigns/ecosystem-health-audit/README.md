@@ -91,7 +91,7 @@ coupling and repos that have grown beyond their stated scope.
 | Pass | Status | Agent | Findings |
 |------|--------|-------|----------|
 | Pass 1 — Discovery | Complete | Explore agent | [findings-p1.md](phase3-architecture/findings-p1.md) |
-| Pass 2 — Deep Review | In Progress | — | [findings-p2.md](phase3-architecture/findings-p2.md) |
+| Pass 2 — Deep Review | Complete | Explore agent | [findings-p2.md](phase3-architecture/findings-p2.md) |
 
 **Scope:**
 - For each repo: extract "does not" constraints from CLAUDE.md, check against
@@ -182,16 +182,16 @@ positives). Each gets a severity, owning repo, and fix status.
 
 | # | Severity | Repo | Issue | Fix Status |
 |---|----------|------|-------|------------|
-| 1 | Critical | septa + canopy | HandoffStatus enum drift — schema has `pending/accepted/completed/rejected`, Rust has `Open/Accepted/Rejected/Expired/Cancelled/Completed` | Open |
-| 2 | High | septa + canopy | `canopy-snapshot-v1` schema has `additionalProperties: false` but struct emits 21 fields; schema documents only ~10 | Open |
-| 3 | High | septa + cortina + canopy | `cortina audit-handoff` response has no septa schema backing a critical cross-tool dispatch boundary | Open |
+| 1 | Critical | septa + canopy | HandoffStatus enum drift — schema has `pending/accepted/completed/rejected`, Rust has `Open/Accepted/Rejected/Expired/Cancelled/Completed` | Fixed (2026-04-23) |
+| 2 | High | septa + canopy | `canopy-snapshot-v1` schema has `additionalProperties: false` but struct emits 21 fields; schema documents only ~10 | Fixed (2026-04-23) |
+| 3 | High | septa + cortina + canopy | `cortina audit-handoff` response has no septa schema backing a critical cross-tool dispatch boundary | Fixed (2026-04-23) |
 | 4 | Medium | cap | `validateCanopySnapshot()` doesn't check `drift_signals` — required field added 2026-04-22 not validated | Open |
 | 5 | Low | cap | Hook error log NDJSON format undocumented — graceful fallback is solid, no action needed | Accepted risk |
 | 6 | Low | cap | `hyphae-search-v1` consumer doesn't validate `schema_version` | Accepted risk |
-| 7 | High | ecosystem | Spore version drift — canonical `ecosystem-versions.toml` pins v0.4.10; mycelium/rhizome/stipe/hymenium on v0.4.9, hyphae/cortina/canopy/volva/annulus on v0.4.11; no repo on canonical | Open |
+| 7 | High | ecosystem | Spore version drift — canonical `ecosystem-versions.toml` pins v0.4.10; mycelium/rhizome/stipe/hymenium on v0.4.9, hyphae/cortina/canopy/volva/annulus on v0.4.11; no repo on canonical | Fixed (2026-04-23) |
 | 8 | Low | cortina | `rusqlite` declared in Cargo.toml but appears unused in source — possible dead dependency | Open |
 | 9 | High | cortina + hyphae | Session state orphaning — stale session scope file reused when hyphae unavailable; parallel worktrees collapse to same session ID | Open |
-| 10 | High | cap + canopy | Cap has no secondary read path if canopy is down — dashboard returns 500, operator loses all visibility | Open |
+| 10 | High | cap + canopy | Cap has no secondary read path if canopy is down — dashboard returns 500, operator loses all visibility | Fixed (2026-04-23) |
 | 11 | Medium | hyphae + volva + cortina | Hyphae protocol/recall response shapes not in septa — changes break volva/cortina without detection | Open |
 | 12 | Medium | cortina + lamella | Async hook execution without persistence guarantee — captures dropped if session exits before cortina write completes | Open |
 | 13 | Medium | cortina + lamella | Lamella hook envelope not schema-backed — Claude Code envelope changes break cortina silently | Open |
