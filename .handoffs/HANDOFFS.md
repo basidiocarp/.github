@@ -62,8 +62,8 @@ Empirically validated, fix live seam gaps, or unblock the most other work.
 | W3a | ~~[Cortina: GateGuard Fact-Force Hook](cortina/gateguard-fact-force.md)~~ | Done 2026-04-23 — 242 tests pass; 3 blockers patched post-audit (8cce346); lamella skill doc shipped |
 | W2g | ~~[Cortina: Hook Governance and Tool Metadata](cortina/hook-governance.md)~~ | Done 2026-04-24 — 258 cortina / 193 canopy tests pass; TOML config + dispatch gate wired (60bd1cc, 0bd0fa6) |
 | W1c | ~~[Septa: Context Envelope V1 Contract](septa/context-envelope-v1.md)~~ | Done 2026-04-24 — 49/49 septa schemas pass |
-| W2a | [Cortina: Lifecycle Pipeline Stages](cortina/lifecycle-pipeline-stages.md) | Cortina is the signal backbone — more stages = better observability across everything |
-| W2f | [Canopy: DAG-Based Task Graph](canopy/dag-task-graph.md) | Core coordination primitive; multi-agent work has no dependency ordering without it |
+| W2a | ~~[Cortina: Lifecycle Pipeline Stages](cortina/lifecycle-pipeline-stages.md)~~ | Done 2026-04-24 — 261 tests pass; 8 named stages, fail-open, LoggingHandler wired (f8d0f5d) |
+| W2f | ~~[Canopy: DAG-Based Task Graph](canopy/dag-task-graph.md)~~ | Done 2026-04-24 — 197 tests pass; 5 MCP tools, fan-in/fan-out SQL, tool count 44 (99a3a6f) |
 | W1a | [Canopy: Permission Memory Policy](canopy/permission-memory-policy.md) | Governs what agents can retain — security concern that touches every multi-agent session |
 
 ---
