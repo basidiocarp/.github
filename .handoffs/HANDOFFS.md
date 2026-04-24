@@ -75,14 +75,14 @@ Clear value, no unresolved prerequisites. Septa contracts run together; St1/U4a 
 | # | Handoff | Rationale |
 |---|---------|-----------|
 | W2e | ~~[Septa: Credential Abstraction V1](septa/credential-abstraction-v1.md)~~ | Done 2026-04-24 — 50/50 septa schemas pass (89a6e3c) |
-| W2h | [Septa: Dependency Types V1 Contract](septa/dependency-types-v1.md) | Contract — completes the septa contract triad (W1c → W2e → W2h) |
+| W2h | ~~[Septa: Dependency Types V1 Contract](septa/dependency-types-v1.md)~~ | Done 2026-04-24 — 51/51 septa schemas pass (e1604bf) |
+| W3d | ~~[Cortina: Stop Hook Extensions](cortina/stop-hook-extensions.md)~~ | Done 2026-04-24 — 276 cortina tests pass; FP check + trigger word processors (38055b9) |
+| W3b | ~~[Annulus: Context Window % and Pace Delta](annulus/context-metrics.md)~~ | Done 2026-04-24 — ContextMetrics + pace_delta helpers + 6 unit tests (085b7e6) |
+| W1b | ~~[Mycelium: Declarative Filter Extensions](mycelium/declarative-filter-extensions.md)~~ | Done 2026-04-24 — TOML filter layer + npm-test.toml + 7 unit tests (820c11a) |
 | W2j | [Canopy: Task Output Envelope](canopy/task-output-envelope.md) | Contract — structured agent output shape; downstream consumers need a stable target |
-| W3d | [Cortina: Stop Hook Extensions](cortina/stop-hook-extensions.md) | Extends the hook system with fact-force and trigger words; builds on W2g |
-| W3b | [Annulus: Context Window % and Pace Delta](annulus/context-metrics.md) | Operator-visible in the statusline; low implementation risk; completes a core annulus capability |
 | W2k | [Cap: Session Persistence and Cost Tracking](cap/session-cost-tracking.md) | Operators need cost visibility; self-contained cap feature |
 | W2d | [Hyphae: Tiered Memory Eviction](hyphae/tiered-memory-eviction.md) | Prevents unbounded growth — operational correctness, not just a feature |
 | W2c | [Hyphae: Pluggable Backend Adapters](hyphae/pluggable-backends.md) | Structural flexibility; unlocks non-SQLite backends for production deployments |
-| W1b | [Mycelium: Declarative Filter Extensions](mycelium/declarative-filter-extensions.md) | Extends core filtering without touching the parser; contained and valuable |
 | U4a | [Cap: Server Exposure Warning](cap/server-exposure-warning.md) | Was marked Done prematurely; straightforward cap UI addition |
 | St1 | [Stipe: Install Mode Prompt](stipe/install-mode-prompt.md) | Was marked Done prematurely; stipe UX gap from C5 orchestration mode work |
 
