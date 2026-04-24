@@ -64,7 +64,7 @@ Empirically validated, fix live seam gaps, or unblock the most other work.
 | W1c | ~~[Septa: Context Envelope V1 Contract](septa/context-envelope-v1.md)~~ | Done 2026-04-24 — 49/49 septa schemas pass |
 | W2a | ~~[Cortina: Lifecycle Pipeline Stages](cortina/lifecycle-pipeline-stages.md)~~ | Done 2026-04-24 — 261 tests pass; 8 named stages, fail-open, LoggingHandler wired (f8d0f5d) |
 | W2f | ~~[Canopy: DAG-Based Task Graph](canopy/dag-task-graph.md)~~ | Done 2026-04-24 — 197 tests pass; 5 MCP tools, fan-in/fan-out SQL, tool count 44 (99a3a6f) |
-| W1a | [Canopy: Permission Memory Policy](canopy/permission-memory-policy.md) | Governs what agents can retain — security concern that touches every multi-agent session |
+| W1a | ~~[Canopy: Permission Memory Policy](canopy/permission-memory-policy.md)~~ | Done 2026-04-24 — 202 tests pass; exact-over-wildcard priority tested, fail-open dispatch (00fac69) |
 
 ---
 
