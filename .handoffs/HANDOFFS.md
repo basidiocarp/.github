@@ -82,7 +82,7 @@ Clear value, no unresolved prerequisites. Septa contracts run together; St1/U4a 
 | W2j | ~~[Canopy: Task Output Envelope](canopy/task-output-envelope.md)~~ | Done 2026-04-24 — 101 tests pass; TaskOutput + canopy_task_output tool, 45 tools total (0bd2775) |
 | W2k | ~~[Cap: Session Persistence and Cost Tracking](cap/session-cost-tracking.md)~~ | Done 2026-04-24 — 471 tests pass; cost API + dashboard + per-session budget enforcement (281c60f, 166b54f) |
 | W2d | ~~[Hyphae: Tiered Memory Eviction](hyphae/tiered-memory-eviction.md)~~ | Done 2026-04-24 — 266 tests pass; MemoryTier enum + DefaultEvictionPolicy + tier/token_budget MCP params (9e1a12f) |
-| W2c | [Hyphae: Pluggable Backend Adapters](hyphae/pluggable-backends.md) | Structural flexibility; unlocks non-SQLite backends for production deployments |
+| ~~W2c~~ | ~~[Hyphae: Pluggable Backend Adapters](hyphae/pluggable-backends.md)~~ | Done 2026-04-24 — MemoryStore trait existed; extract.rs switched to trait (9ff95d3); HYPHAE_BACKEND factory wired (26da8a6); full CLI trait migration deferred (SQLite-specific methods block it) |
 | ~~U4a~~ | ~~[Cap: Server Exposure Warning](cap/server-exposure-warning.md)~~ | Done 2026-04-24 — startup warning on non-loopback + no API key (0855b7e) |
 | ~~St1~~ | ~~[Stipe: Install Mode Prompt](stipe/install-mode-prompt.md)~~ | Done 2026-04-24 — volva GlobalVolvaConfig (730786a) + stipe mode prompt (ac3287f) |
 
