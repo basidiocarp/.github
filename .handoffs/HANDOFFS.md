@@ -116,7 +116,19 @@ Handoffs spawned from the Wave 1 re-audit and Wave 2 audit programs (2026-04-23)
 | W2i | [Volva: Checkpoint Durability Modes](volva/checkpoint-durability-modes.md) | Medium | langgraph Wave 2 |
 | W2j | [Canopy: Task Output Envelope](canopy/task-output-envelope.md) | Medium | crewAI Wave 2 |
 | W2k | [Cap: Session Persistence and Cost Tracking](cap/session-cost-tracking.md) | Medium | agent-deck Wave 2 |
+| W2l | [Hyphae: Memoir Git Versioning](hyphae/memoir-git-versioning.md) | Medium | letta Wave 2 |
+| W2m | [Hyphae: Search Type Registry](hyphae/search-type-registry.md) | Medium | cognee Wave 2 |
+| W2n | [Hyphae: Shared Cross-Agent Context](hyphae/shared-cross-agent-context.md) | Medium | headroom Wave 2 |
+| W2o | [Mycelium: Content-Aware Routing](mycelium/content-aware-routing.md) | Medium | headroom Wave 2 |
+| W2p | [Lamella: Validator Plugin Architecture](lamella/validator-plugin-architecture.md) | Medium | agnix Wave 2 |
+| W2q | [Lamella: Evolution Feedback Loop](lamella/evolution-feedback-loop.md) | Medium | harness Wave 2 |
+| W2r | [Cap: Watcher Framework](cap/watcher-framework.md) | Medium | agent-deck Wave 2 |
 | W3a | [Cortina: GateGuard Fact-Force Hook](cortina/gateguard-fact-force.md) | Medium | ECC re-audit 2026-04-23 |
+| W3b | [Annulus: Context Window % and Pace Delta](annulus/context-metrics.md) | Medium | claude-hud + claude-pace Wave 3 |
+| W3c | [Rhizome: Blast-Radius Simulation](rhizome/blast-radius-simulation.md) | Medium | depwire Wave 3 |
+| W3d | [Cortina: Stop Hook Extensions](cortina/stop-hook-extensions.md) | Medium | trailofbits + context-engineering-kit Wave 3 |
+| W3e | [Stipe: Skill Install Pack](stipe/skill-install-pack.md) | Medium | Skill management adoption plan Track A Phase 2 |
+| W3f | [Lamella: Council Role Bundles](lamella/council-role-bundles.md) | Medium | ECC Council skill + adoption plan Track B Phase 2 |
 
 ---
 
