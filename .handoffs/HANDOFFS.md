@@ -110,7 +110,7 @@ Formalize the search surface before adding behavior on top of it.
 
 | # | Handoff | Notes |
 |---|---------|-------|
-| W2c-b | [Hyphae: MemoryStore Trait Extension](hyphae/memory-store-trait-extension.md) | Follow-on to W2c — add `_with_options` variants to trait, migrate memory.rs to `&dyn MemoryStore`; do before W2m |
+| ~~W2c-b~~ | ~~[Hyphae: MemoryStore Trait Extension](hyphae/memory-store-trait-extension.md)~~ | Done 2026-04-24 — 6 _with_options methods in trait, memory.rs + auto_recall.rs migrated (d105bb9, a000fc4) |
 | W2m | [Hyphae: Search Type Registry](hyphae/search-type-registry.md) | Formalizes the search surface first — subsequent items build on a stable retrieval API |
 | W2l | [Hyphae: Memoir Git Versioning](hyphae/memoir-git-versioning.md) | Adds traceability to memoirs; needs stable memoir shape |
 | W2n | [Hyphae: Shared Cross-Agent Context](hyphae/shared-cross-agent-context.md) | Multi-agent memory sharing; needs retrieval working well (W2m) |
