@@ -59,7 +59,7 @@ Empirically validated, fix live seam gaps, or unblock the most other work.
 
 | # | Handoff | Rationale |
 |---|---------|-----------|
-| W3a | ~~[Cortina: GateGuard Fact-Force Hook](cortina/gateguard-fact-force.md)~~ | Done 2026-04-24 — 8 tests, 239 pass; lamella skill doc shipped |
+| W3a | ~~[Cortina: GateGuard Fact-Force Hook](cortina/gateguard-fact-force.md)~~ | Done 2026-04-23 — 242 tests pass; 3 blockers patched post-audit (8cce346); lamella skill doc shipped |
 | W2g | [Cortina: Hook Governance and Tool Metadata](cortina/hook-governance.md) | Hook metadata contract; W3a and W3d build on it |
 | W1c | ~~[Septa: Context Envelope V1 Contract](septa/context-envelope-v1.md)~~ | Done 2026-04-24 — 49/49 septa schemas pass |
 | W2a | [Cortina: Lifecycle Pipeline Stages](cortina/lifecycle-pipeline-stages.md) | Cortina is the signal backbone — more stages = better observability across everything |
