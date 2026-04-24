@@ -116,6 +116,7 @@ Handoffs spawned from the Wave 1 re-audit and Wave 2 audit programs (2026-04-23)
 | W2i | [Volva: Checkpoint Durability Modes](volva/checkpoint-durability-modes.md) | Medium | langgraph Wave 2 |
 | W2j | [Canopy: Task Output Envelope](canopy/task-output-envelope.md) | Medium | crewAI Wave 2 |
 | W2k | [Cap: Session Persistence and Cost Tracking](cap/session-cost-tracking.md) | Medium | agent-deck Wave 2 |
+| W3a | [Cortina: GateGuard Fact-Force Hook](cortina/gateguard-fact-force.md) | Medium | ECC re-audit 2026-04-23 |
 
 ---
 
