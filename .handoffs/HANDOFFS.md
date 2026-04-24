@@ -60,7 +60,7 @@ Empirically validated, fix live seam gaps, or unblock the most other work.
 | # | Handoff | Rationale |
 |---|---------|-----------|
 | W3a | ~~[Cortina: GateGuard Fact-Force Hook](cortina/gateguard-fact-force.md)~~ | Done 2026-04-23 — 242 tests pass; 3 blockers patched post-audit (8cce346); lamella skill doc shipped |
-| W2g | [Cortina: Hook Governance and Tool Metadata](cortina/hook-governance.md) | Hook metadata contract; W3a and W3d build on it |
+| W2g | ~~[Cortina: Hook Governance and Tool Metadata](cortina/hook-governance.md)~~ | Done 2026-04-24 — 258 cortina / 193 canopy tests pass; TOML config + dispatch gate wired (60bd1cc, 0bd0fa6) |
 | W1c | ~~[Septa: Context Envelope V1 Contract](septa/context-envelope-v1.md)~~ | Done 2026-04-24 — 49/49 septa schemas pass |
 | W2a | [Cortina: Lifecycle Pipeline Stages](cortina/lifecycle-pipeline-stages.md) | Cortina is the signal backbone — more stages = better observability across everything |
 | W2f | [Canopy: DAG-Based Task Graph](canopy/dag-task-graph.md) | Core coordination primitive; multi-agent work has no dependency ordering without it |
@@ -74,7 +74,7 @@ Clear value, no unresolved prerequisites. Septa contracts run together; St1/U4a 
 
 | # | Handoff | Rationale |
 |---|---------|-----------|
-| W2e | [Septa: Credential Abstraction V1](septa/credential-abstraction-v1.md) | Contract — multi-tool auth needs a shared shape before implementations proliferate |
+| W2e | ~~[Septa: Credential Abstraction V1](septa/credential-abstraction-v1.md)~~ | Done 2026-04-24 — 50/50 septa schemas pass (89a6e3c) |
 | W2h | [Septa: Dependency Types V1 Contract](septa/dependency-types-v1.md) | Contract — completes the septa contract triad (W1c → W2e → W2h) |
 | W2j | [Canopy: Task Output Envelope](canopy/task-output-envelope.md) | Contract — structured agent output shape; downstream consumers need a stable target |
 | W3d | [Cortina: Stop Hook Extensions](cortina/stop-hook-extensions.md) | Extends the hook system with fact-force and trigger words; builds on W2g |
