@@ -39,118 +39,106 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 ## Active Handoffs
 
-### Tier 0: Foundation — Audit Fix Backlog
+### Foundation — Completed (2026-04-23)
 
-Issues found during the Ecosystem Health Audit. Fix Critical/High first, then structural improvements.
+All Ecosystem Health Audit fixes and structural improvements are done. St1 and U4a were marked Done prematurely and are now in Tier 2. See the [campaign README](campaigns/ecosystem-health-audit/README.md) for full issue tracking.
 
-**Critical / High (completed 2026-04-23):**
-
-| # | Handoff | Severity | Status |
-|---|---------|----------|--------|
-| A1 | [Audit Fix: HandoffStatus Enum Drift](campaigns/ecosystem-health-audit/README.md) | Critical | Done |
-| A2 | [Audit Fix: Snapshot additionalProperties Mismatch](campaigns/ecosystem-health-audit/README.md) | High | Done |
-| A3 | [Audit Fix: cortina audit-handoff Unseamed](campaigns/ecosystem-health-audit/README.md) | High | Done |
-| A4 | [Audit Fix: Spore Version Drift](campaigns/ecosystem-health-audit/README.md) | High | Done |
-| A5 | [Audit Fix: Cap→Canopy Single Point of Failure](campaigns/ecosystem-health-audit/README.md) | High | Done |
-
-**Structural improvements (completed 2026-04-23):**
-
-| # | Handoff | Priority | Status |
-|---|---------|----------|--------|
-| S1 | [Cap: Canopy Resilience Layer](cap/canopy-resilience-layer.md) | High | Done |
-| S2 | [Cortina: Session State Store](cortina/session-state-store.md) | Medium | Done |
-| S3 | [Septa: Contract Governance Enforcement](septa/contract-governance-enforcement.md) | Medium | Done |
-
-**Cohesion path (completed 2026-04-23):**
-
-| # | Handoff | Priority | Status |
-|---|---------|----------|--------|
-| C1 | [Cross-Project: Tool Preference Instructions](cross-project/tool-preference-instructions.md) | High | Done |
-| C2 | [Cross-Project: Session-Start Context Injection](cross-project/session-start-context-injection.md) | High | Done |
-| C3 | [Cross-Project: Ecosystem Smoke Test](cross-project/ecosystem-smoke-test.md) | Medium | Done |
-| C4 | [Cap: Drift Signal Surface](cap/drift-signal-surface.md) | Medium | Done |
-| C5 | [Volva: Orchestration Mode Definition](volva/orchestration-mode-definition.md) | Medium | Done |
-
-**Uncharted territory:**
-
-| # | Handoff | Priority | Status |
-|---|---------|----------|--------|
-| U1 | [Cross-Project: CI Enforcement Gates](cross-project/ci-enforcement-gates.md) | High | Done |
-| U2 | [Cross-Project: Seam and Fix-Target Test Coverage](cross-project/seam-test-coverage.md) | Medium | Done |
-| U3 | [Cross-Project: Cross-Tool Observability](cross-project/cross-tool-observability.md) | Medium | Done |
-| U4 | [Cross-Project: Auth and Access Control Audit](cross-project/auth-access-control-audit.md) | Medium | Done |
-
-**Stipe integration (spawned from C5):**
-
-| # | Handoff | Priority | Status |
-|---|---------|----------|--------|
-| St1 | [Stipe: Install Mode Prompt](stipe/install-mode-prompt.md) | Medium | Open |
-
-**Spawned from U4 auth audit:**
-
-| # | Handoff | Priority | Status |
-|---|---------|----------|--------|
-| U4a | [Cap: Server Exposure Warning](cap/server-exposure-warning.md) | Medium | Open |
-| U4b | [Canopy: Policy Event Log](canopy/policy-event-log.md) | Medium | Done |
+| # | Handoff | Status |
+|---|---------|--------|
+| A1–A5 | Audit fixes: enum drift, snapshot schema, cortina seam, spore version, cap→canopy SPOF | Done |
+| S1–S3 | Structural: canopy resilience layer, cortina session store, septa contract governance | Done |
+| C1–C5 | Cohesion: tool preference instructions, context injection, smoke test, drift signal, orchestration mode | Done |
+| U1–U4 | Uncharted: CI gates, seam test coverage, cross-tool observability, auth audit | Done |
+| U4b | [Canopy: Policy Event Log](canopy/policy-event-log.md) | Done |
 
 ---
 
-### Tier 4: Wave 1+2 Audit Follow-ups
+### Tier 1: Do First
 
-Handoffs spawned from the Wave 1 re-audit and Wave 2 audit programs (2026-04-23).
+Empirically validated, fix live seam gaps, or unblock the most other work.
 
-| # | Handoff | Priority | Source |
-|---|---------|----------|--------|
-| W1a | [Canopy: Permission Memory Policy](canopy/permission-memory-policy.md) | Medium | forgecode Wave 1 re-audit |
-| W1b | [Mycelium: Declarative Filter Extensions](mycelium/declarative-filter-extensions.md) | Medium | rtk Wave 1 re-audit |
-| W1c | [Septa: Context Envelope V1 Contract](septa/context-envelope-v1.md) | Medium | serena Wave 1 re-audit |
-| W1d | [Rhizome: Incremental Fingerprinting](rhizome/incremental-fingerprinting.md) | Medium | Understand-Anything Wave 1 re-audit |
-| W2a | [Cortina: Lifecycle Pipeline Stages](cortina/lifecycle-pipeline-stages.md) | Medium | headroom + cognee Wave 2 |
-| W2b | [Lamella: Skill Progressive Disclosure](lamella/skill-progressive-disclosure.md) | Medium | harness Wave 2 |
-| W2c | [Hyphae: Pluggable Backend Adapters](hyphae/pluggable-backends.md) | Medium | cognee + letta + strands Wave 2 |
-| W2d | [Hyphae: Tiered Memory Eviction](hyphae/tiered-memory-eviction.md) | Medium | letta + graphrag Wave 2 |
-| W2e | [Septa: Credential Abstraction V1](septa/credential-abstraction-v1.md) | Medium | better-ccflare + cognee + letta Wave 2 |
-| W2f | [Canopy: DAG-Based Task Graph](canopy/dag-task-graph.md) | Medium | crewAI + langgraph + strands Wave 2 |
-| W2g | [Cortina: Hook Governance and Tool Metadata](cortina/hook-governance.md) | Medium | cline Wave 2 |
-| W2h | [Septa: Dependency Types V1 Contract](septa/dependency-types-v1.md) | Medium | beads Wave 2 |
-| W2i | [Volva: Checkpoint Durability Modes](volva/checkpoint-durability-modes.md) | Medium | langgraph Wave 2 |
-| W2j | [Canopy: Task Output Envelope](canopy/task-output-envelope.md) | Medium | crewAI Wave 2 |
-| W2k | [Cap: Session Persistence and Cost Tracking](cap/session-cost-tracking.md) | Medium | agent-deck Wave 2 |
-| W2l | [Hyphae: Memoir Git Versioning](hyphae/memoir-git-versioning.md) | Medium | letta Wave 2 |
-| W2m | [Hyphae: Search Type Registry](hyphae/search-type-registry.md) | Medium | cognee Wave 2 |
-| W2n | [Hyphae: Shared Cross-Agent Context](hyphae/shared-cross-agent-context.md) | Medium | headroom Wave 2 |
-| W2o | [Mycelium: Content-Aware Routing](mycelium/content-aware-routing.md) | Medium | headroom Wave 2 |
-| W2p | [Lamella: Validator Plugin Architecture](lamella/validator-plugin-architecture.md) | Medium | agnix Wave 2 |
-| W2q | [Lamella: Evolution Feedback Loop](lamella/evolution-feedback-loop.md) | Medium | harness Wave 2 |
-| W2r | [Cap: Watcher Framework](cap/watcher-framework.md) | Medium | agent-deck Wave 2 |
-| W3a | [Cortina: GateGuard Fact-Force Hook](cortina/gateguard-fact-force.md) | Medium | ECC re-audit 2026-04-23 |
-| W3b | [Annulus: Context Window % and Pace Delta](annulus/context-metrics.md) | Medium | claude-hud + claude-pace Wave 3 |
-| W3c | [Rhizome: Blast-Radius Simulation](rhizome/blast-radius-simulation.md) | Medium | depwire Wave 3 |
-| W3d | [Cortina: Stop Hook Extensions](cortina/stop-hook-extensions.md) | Medium | trailofbits + context-engineering-kit Wave 3 |
-| W3e | [Stipe: Skill Install Pack](stipe/skill-install-pack.md) | Medium | Skill management adoption plan Track A Phase 2 |
-| W3f | [Lamella: Council Role Bundles](lamella/council-role-bundles.md) | Medium | ECC Council skill + adoption plan Track B Phase 2 |
+| # | Handoff | Rationale |
+|---|---------|-----------|
+| W3a | [Cortina: GateGuard Fact-Force Hook](cortina/gateguard-fact-force.md) | A/B validated +2.25 quality improvement — rare empirical evidence; standalone cortina change |
+| W2g | [Cortina: Hook Governance and Tool Metadata](cortina/hook-governance.md) | Hook metadata contract; W3a and W3d build on it |
+| W1c | [Septa: Context Envelope V1 Contract](septa/context-envelope-v1.md) | Live seam gap from serena audit; cross-cutting contract that fixes a real integration blind spot |
+| W2a | [Cortina: Lifecycle Pipeline Stages](cortina/lifecycle-pipeline-stages.md) | Cortina is the signal backbone — more stages = better observability across everything |
+| W2f | [Canopy: DAG-Based Task Graph](canopy/dag-task-graph.md) | Core coordination primitive; multi-agent work has no dependency ordering without it |
+| W1a | [Canopy: Permission Memory Policy](canopy/permission-memory-policy.md) | Governs what agents can retain — security concern that touches every multi-agent session |
 
 ---
 
-### Tier 5: Standalone or Lower Urgency
+### Tier 2: Do Next
 
-| # | Handoff | Priority | Depends On |
-|---|---------|----------|-----------|
-| 112 | [Mycelium: Compressed Format Experiments](mycelium/compressed-format-experiments.md) | Low | [Mycelium Structural Parser Hardening](archive/mycelium/structural-parser-hardening.md) |
+Clear value, no unresolved prerequisites. Septa contracts run together; St1/U4a were marked Done prematurely.
 
-### Tier 6: Cap
+| # | Handoff | Rationale |
+|---|---------|-----------|
+| W2e | [Septa: Credential Abstraction V1](septa/credential-abstraction-v1.md) | Contract — multi-tool auth needs a shared shape before implementations proliferate |
+| W2h | [Septa: Dependency Types V1 Contract](septa/dependency-types-v1.md) | Contract — completes the septa contract triad (W1c → W2e → W2h) |
+| W2j | [Canopy: Task Output Envelope](canopy/task-output-envelope.md) | Contract — structured agent output shape; downstream consumers need a stable target |
+| W3d | [Cortina: Stop Hook Extensions](cortina/stop-hook-extensions.md) | Extends the hook system with fact-force and trigger words; builds on W2g |
+| W3b | [Annulus: Context Window % and Pace Delta](annulus/context-metrics.md) | Operator-visible in the statusline; low implementation risk; completes a core annulus capability |
+| W2k | [Cap: Session Persistence and Cost Tracking](cap/session-cost-tracking.md) | Operators need cost visibility; self-contained cap feature |
+| W2d | [Hyphae: Tiered Memory Eviction](hyphae/tiered-memory-eviction.md) | Prevents unbounded growth — operational correctness, not just a feature |
+| W2c | [Hyphae: Pluggable Backend Adapters](hyphae/pluggable-backends.md) | Structural flexibility; unlocks non-SQLite backends for production deployments |
+| W1b | [Mycelium: Declarative Filter Extensions](mycelium/declarative-filter-extensions.md) | Extends core filtering without touching the parser; contained and valuable |
+| U4a | [Cap: Server Exposure Warning](cap/server-exposure-warning.md) | Was marked Done prematurely; straightforward cap UI addition |
+| St1 | [Stipe: Install Mode Prompt](stipe/install-mode-prompt.md) | Was marked Done prematurely; stipe UX gap from C5 orchestration mode work |
+
+---
+
+### Tier 3: Do Later
+
+Organized by cluster with internal ordering. Items within each cluster have dependencies on each other; clusters are largely independent.
+
+#### Cluster A — Lamella/Stipe authoring ecosystem
+
+SPI definition before authoring conventions; install pack last (depends on packaged skill shape being settled).
+
+| # | Handoff | Notes |
+|---|---------|-------|
+| W2p | [Lamella: Validator Plugin Architecture](lamella/validator-plugin-architecture.md) | Define the ValidatorProvider SPI first — other authoring work keys off this |
+| W2b | [Lamella: Skill Progressive Disclosure](lamella/skill-progressive-disclosure.md) | Authoring conventions and scaffold tooling; builds on W2p |
+| W3f | [Lamella: Council Role Bundles](lamella/council-role-bundles.md) | Packaged role bundles; depends on authoring conventions being stable |
+| W2q | [Lamella: Evolution Feedback Loop](lamella/evolution-feedback-loop.md) | Closes the authoring loop; needs W2b and W3f to exist |
+| W3e | [Stipe: Skill Install Pack](stipe/skill-install-pack.md) | Install side; depends on packaged skill shape settled by W2p/W2b |
+
+#### Cluster B — Hyphae depth
+
+Formalize the search surface before adding behavior on top of it.
+
+| # | Handoff | Notes |
+|---|---------|-------|
+| W2m | [Hyphae: Search Type Registry](hyphae/search-type-registry.md) | Formalizes the search surface first — subsequent items build on a stable retrieval API |
+| W2l | [Hyphae: Memoir Git Versioning](hyphae/memoir-git-versioning.md) | Adds traceability to memoirs; needs stable memoir shape |
+| W2n | [Hyphae: Shared Cross-Agent Context](hyphae/shared-cross-agent-context.md) | Multi-agent memory sharing; needs retrieval working well (W2m) |
+
+#### Cluster C — Tooling and execution
+
+Largely independent; order within cluster is advisory.
+
+| # | Handoff | Notes |
+|---|---------|-------|
+| W2i | [Volva: Checkpoint Durability Modes](volva/checkpoint-durability-modes.md) | Execution reliability; self-contained volva change |
+| W2o | [Mycelium: Content-Aware Routing](mycelium/content-aware-routing.md) | Content-type based routing; extends mycelium without touching filters |
+| W2r | [Cap: Watcher Framework](cap/watcher-framework.md) | Reactive dashboard features; cap-local TypeScript change |
+| W1d | [Rhizome: Incremental Fingerprinting](rhizome/incremental-fingerprinting.md) | Performance improvement to rhizome indexing; self-contained |
+| W3c | [Rhizome: Blast-Radius Simulation](rhizome/blast-radius-simulation.md) | Change impact analysis tool; depends on stable rhizome symbol graph |
+
+---
+
+### Background: Deferred or Larger Features
+
+Larger operator surfaces and lower-signal work. Not blocked on Tier 1–3; just lower return per effort at this stage.
 
 | # | Handoff | Priority | Depends On |
 |---|---------|----------|-----------|
 | 24 | [Cap: Live Operator Views And Browser Review Surfaces](cap/live-operator-views-and-browser-review-surfaces.md) | Medium | Volva Execution-Host Session Workspace Contract; Canopy Queue Worktree Review Orchestration; Hyphae Scoped Memory Identity And Export Contract |
-| 60 | [Cap: Status Preview And Customization Surface](cap/status-preview-and-customization-surface.md) | Medium | Septa Resolved Status And Customization Contract; Cap Live Operator Views And Browser Review Surfaces |
+| 60 | [Cap: Status Preview And Customization Surface](cap/status-preview-and-customization-surface.md) | Medium | Septa Resolved Status And Customization Contract; Cap Live Operator Views (#24) |
 | 30 | [Cap: Canopy Performance](cap/canopy-performance.md) | Medium | Deep Audit |
 | — | [Cap: Service Health Panel](cap/service-health-panel.md) | Medium | Spore graceful-degradation-classification |
-
-### Tier 7: Later Phases
-
-| # | Handoff | Priority | Depends On |
-|---|---------|----------|-----------|
+| 112 | [Mycelium: Compressed Format Experiments](mycelium/compressed-format-experiments.md) | Low | Mycelium Structural Parser Hardening (archived) |
 | 81 | [Volva: Auth and Native API Backend](volva/auth-native-api.md) | Lower | — |
 | 82 | [Cortina: Codex / Gemini Adapters](cortina/codex-gemini-adapters.md) | Lower | — |
 | 105 | [Volva: Workspace-Session Route Models](volva/workspace-session-routes.md) | Lower | Volva Hyphae Recall Injection (#71) |
