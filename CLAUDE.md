@@ -183,9 +183,19 @@ When the user asks for the implementer/auditor pattern, treat it as a strict wor
 
 Start with one implementation agent on one concrete handoff or child handoff. That agent must stay inside the owning repo, do implementation only, inspect repo state and the named target files before editing, make the code changes, update the handoff when the handoff expects verification evidence, run the repo-local verification named in the handoff, and occasionally report progress back to the parent agent. Orchestration, decomposition, relaunch decisions, dashboard edits, and archive moves stay with the parent agent. Status chatter does not count as progress.
 
-Do not start the auditor until there is a real code diff in the target repo and the implementer has reported verification results. The auditor must be a separate agent. It reviews the changed code and the handoff together, checks for regressions, incomplete work, and newly introduced bugs, and reports findings first.
+### Two-stage review — required before signoff
 
-If the auditor finds issues, fix them and rerun the relevant verification before treating the work as complete. Close the implementer when implementation is accepted. Close the auditor when the audit is accepted. Once the audit is clean and verification is green, update the handoff dashboard to reflect completion, and archive or remove the entry if the dashboard tracks active work only. Do not leave stalled or completed agents open.
+Every handoff implementation goes through two review stages before it is committed and marked Done:
+
+**Stage 1 — Code review (after implementation, before committing):**
+Run a `code-reviewer` agent against the uncommitted diff. It checks for spec compliance, correctness bugs, regressions in existing behavior, and security issues. Do not commit until Stage 1 findings are resolved. Fix all blockers and concerns before proceeding.
+
+**Stage 2 — Pre-signoff review (after fixes, before marking Done):**
+Run a second review agent against the final state. Confirms Stage 1 findings were addressed, checks the complete change holistically, and gives a final PASS or FAIL verdict. Only commit and update the dashboard after Stage 2 passes.
+
+Do not collapse both stages into one agent. Do not run either stage after committing. The sequence is: implement → Stage 1 review → fix → Stage 2 review → commit → mark Done.
+
+If the auditor finds issues, fix them and rerun the relevant verification before treating the work as complete. Close the implementer when implementation is accepted. Close both review agents when Stage 2 passes. Once the review is clean and verification is green, commit, update the handoff dashboard, and archive or remove the entry if the dashboard tracks active work only. Do not leave stalled or completed agents open.
 
 Parallel strict workflows are allowed when they target different concrete handoffs with disjoint write scopes. Parallel implementers for the same handoff, or overlapping ownership inside one repo, are not allowed.
 
@@ -205,6 +215,36 @@ If a human nickname is available, keep it secondary:
 Triage strict workflows actively. Check early for a real repo diff. If a lane is still empty, treat it as at risk. If it produces an off-scope diff, close it immediately. Only lanes with an on-scope diff and repo-local verification output should advance to audit. Workflow summaries, relaunch notes, or other meta-status replies without a repo diff count as failure and should be closed immediately.
 
 Do not spawn an implementation agent until the parent has already done a short seam-finding pass. That means the parent has identified the owning repo, the most likely files or modules to change, and the exact repo-local verification commands. If those are still unknown, keep the work local until the seam is concrete enough for a code-only worker.
+
+---
+
+## CI and Release Gates
+
+**CI must be green before committing, releasing, or marking a handoff Done.**
+
+This rule exists because red pipelines have blocked releases. A handoff marked Done with a red pipeline is not done.
+
+### Before every commit
+
+1. Run the repo-local build and test suite inside the subproject being changed.
+2. Run clippy (Rust) or lint (TypeScript/Node) and fix all errors.
+3. Do not commit if either fails. Fix the failure first.
+
+### Before marking a handoff Done
+
+1. Confirm the repo-local verification commands from the handoff pass.
+2. Check CI status for the touched repos: `gh run list --repo <owner>/<repo> --limit 5`
+3. If CI is red on main, do not mark Done — investigate and resolve the failure first.
+
+### Before cutting a release
+
+1. All touched repos must have green CI on the branch being released.
+2. No open handoffs in the release scope should be marked Done with known failing tests.
+3. Confirm with `gh run list` before tagging or publishing.
+
+### Failure mode
+
+If CI is red and you cannot determine why from local output, stop and surface the failure explicitly rather than proceeding. Do not mark work complete to make the dashboard look clean while pipelines are broken.
 
 ---
 
