@@ -59,9 +59,9 @@ Empirically validated, fix live seam gaps, or unblock the most other work.
 
 | # | Handoff | Rationale |
 |---|---------|-----------|
-| W3a | [Cortina: GateGuard Fact-Force Hook](cortina/gateguard-fact-force.md) | A/B validated +2.25 quality improvement — rare empirical evidence; standalone cortina change |
+| W3a | ~~[Cortina: GateGuard Fact-Force Hook](cortina/gateguard-fact-force.md)~~ | Done 2026-04-24 — 8 tests, 239 pass; lamella skill doc shipped |
 | W2g | [Cortina: Hook Governance and Tool Metadata](cortina/hook-governance.md) | Hook metadata contract; W3a and W3d build on it |
-| W1c | [Septa: Context Envelope V1 Contract](septa/context-envelope-v1.md) | Live seam gap from serena audit; cross-cutting contract that fixes a real integration blind spot |
+| W1c | ~~[Septa: Context Envelope V1 Contract](septa/context-envelope-v1.md)~~ | Done 2026-04-24 — 49/49 septa schemas pass |
 | W2a | [Cortina: Lifecycle Pipeline Stages](cortina/lifecycle-pipeline-stages.md) | Cortina is the signal backbone — more stages = better observability across everything |
 | W2f | [Canopy: DAG-Based Task Graph](canopy/dag-task-graph.md) | Core coordination primitive; multi-agent work has no dependency ordering without it |
 | W1a | [Canopy: Permission Memory Policy](canopy/permission-memory-policy.md) | Governs what agents can retain — security concern that touches every multi-agent session |
