@@ -54,6 +54,23 @@ All Foundation, Tier 1, Tier 2, and selected Tier 3 items are done. Files are in
 
 ## Active Handoffs
 
+### Rust Ecosystem Audit Follow-Ups — 2026-04-26
+
+Generated from the multi-agent Rust ecosystem audit focused on contracts, code quality, architecture, KISS/DRY, code splitting, wrapper overuse, docs drift, and verification gaps.
+
+| # | Handoff | Priority | Notes |
+|---|---------|----------|-------|
+| A1 | [Hymenium: Orchestration Dispatch Contracts](hymenium/orchestration-dispatch-contracts.md) | Critical | Canopy CLI adapter mismatch, phase activation, gated task creation, stale docs |
+| A2 | [Canopy: Septa Read Model Contracts](canopy/septa-read-model-contracts.md) | High | Snapshot/task-detail/handoff/outcome contract drift |
+| A3 | [Rhizome: Code Graph Contract And Install Boundary](rhizome/code-graph-contract-and-install-boundary.md) | High | Code graph Septa drift and core install-policy boundary |
+| A4 | [Hyphae: Code Graph Import And Core Boundary](hyphae/code-graph-import-and-core-boundary.md) | High | Import validation, identity storage, core adapter leakage, UTF-8 path safety |
+| A5 | [Volva: Hook Runtime Contracts](volva/hook-runtime-contracts.md) | High | Hook event DTO, timeout bounds, chat runtime path, runtime identity, failing test |
+| A6 | [Cortina: Capture Policy Boundary](cortina/capture-policy-boundary.md) | High | Capture repo has default blocking policy behavior and docs drift |
+| A7 | [Annulus: Operator Boundary And Statusline Contracts](annulus/operator-boundary-statusline-contracts.md) | High | Read-only boundary, Canopy notification write, statusline contract/registry, docs/version drift |
+| A8 | [Spore: Shared Primitive Quality](spore/shared-primitive-quality.md) | High | Logging API compatibility, subprocess wait, README version/CI drift |
+| A9 | [Stipe: Control Plane Quality](stipe/control-plane-quality.md) | Medium | Backup partial-success semantics and boolean-heavy APIs |
+| A10 | [Mycelium: Output Cleanliness](mycelium/output-cleanliness.md) | Medium | Optional Hyphae fallback warning contaminates output |
+
 ### Tier 3: Do Later
 
 Organized by cluster with internal ordering. Items within each cluster have dependencies on each other; clusters are largely independent.
@@ -86,7 +103,7 @@ Largely independent; order within cluster is advisory.
 
 | # | Handoff | Notes |
 |---|---------|-------|
-| W1d | [Rhizome: Incremental Fingerprinting](rhizome/incremental-fingerprinting.md) | Performance improvement to rhizome indexing; self-contained |
+| ~~W1d~~ | ~~[Rhizome: Incremental Fingerprinting](rhizome/incremental-fingerprinting.md)~~ | Done 2026-04-25 — Fingerprint + ChangeClass in rhizome-core; signature collision fix; schema v2 (9672800) |
 | W3c | [Rhizome: Blast-Radius Simulation](rhizome/blast-radius-simulation.md) | Change impact analysis tool; depends on stable rhizome symbol graph |
 
 ---
