@@ -77,7 +77,7 @@ Generated from the multi-agent Rust ecosystem audit focused on contracts, code q
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | ~~A1~~ | ~~[Hymenium: Orchestration Dispatch Contracts](hymenium/orchestration-dispatch-contracts.md)~~ | Critical | Done 2026-04-25 — fixed --requested-by/--required-tier/assign flags; build_assign_task_args; 6 new tests (4e53d05) |
-| A2 | [Canopy: Septa Read Model Contracts](canopy/septa-read-model-contracts.md) | High | Snapshot/task-detail/handoff/outcome contract drift |
+| ~~A2~~ | ~~[Canopy: Septa Read Model Contracts](canopy/septa-read-model-contracts.md)~~ | High | Done 2026-04-25 — allowed_actions.level enum fixed; needs_verification_count added to snapshot; schema_version validation in outcomes; contract tests; septa e37da13, canopy 447b491 |
 | A3 | [Rhizome: Code Graph Contract And Install Boundary](rhizome/code-graph-contract-and-install-boundary.md) | High | Code graph Septa drift and core install-policy boundary |
 | A4 | [Hyphae: Code Graph Import And Core Boundary](hyphae/code-graph-import-and-core-boundary.md) | High | Import validation, identity storage, core adapter leakage, UTF-8 path safety |
 | ~~A5~~ | ~~[Volva: Hook Runtime Contracts](volva/hook-runtime-contracts.md)~~ | High | Done 2026-04-25 — timeout clamped to [1,30000]; execution_session in septa schema; docs updated (49a2abb/a7971d3) |
@@ -89,7 +89,7 @@ Generated from the multi-agent Rust ecosystem audit focused on contracts, code q
 | ~~A11~~ | ~~[Canopy: Notification Contract Alignment](canopy/canopy-notification-contract-alignment.md)~~ | High | Done 2026-04-26 — notification_id/seen in schema+fixture+tests; septa c5520e3, canopy 958d3b6 |
 | A12 | [Cap: Cross-Tool Consumer Contracts](cap/cross-tool-consumer-contracts.md) | Medium | Evidence source kind and Annulus status/statusline consumer drift |
 | ~~A13~~ | ~~[Cortina: Session And Usage Event Contracts](cortina/session-usage-event-contracts.md)~~ | High | Done 2026-04-26 — SessionEventV1Dto wire DTO; wired into save paths; session-state fixture; cortina a3f6d46 |
-| A14 | [Hyphae: Read Model And Archive Contracts](hyphae/read-model-and-archive-contracts.md) | High | Hyphae CLI/Cap read model drift and archive filter mismatch |
+| ~~A14~~ | ~~[Hyphae: Read Model And Archive Contracts](hyphae/read-model-and-archive-contracts.md)~~ | High | Done 2026-04-25 — hyphae-search-v1 expanded; archive filter `until` added to schema; import pre-validation atomicity; conflict strategy tests; septa e37da13, hyphae 5e2fd49 |
 | A15 | [Mycelium: Gain And Summary Contracts](mycelium/gain-summary-contracts.md) | High | Gain JSON emits extra telemetry field; summary contract is not a real round-trip |
 | A16 | [Septa: Validation Tooling And Inventory](septa/validation-tooling-and-inventory.md) | High | Offline `$ref` validation docs, registry inventory, variant fixture coverage |
 | A17 | [Rhizome: MCP Write Boundary And Runtime Timeouts](rhizome/mcp-write-boundary-and-runtime-timeouts.md) | Critical | MCP root override can expand write authority; package-manager installs lack deadlines |
