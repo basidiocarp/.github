@@ -121,9 +121,9 @@ Largely independent; order within cluster is advisory.
 
 | # | Handoff | Notes |
 |---|---------|-------|
-| W2i | [Volva: Checkpoint Durability Modes](volva/checkpoint-durability-modes.md) | Execution reliability; self-contained volva change |
-| W2o | [Mycelium: Content-Aware Routing](mycelium/content-aware-routing.md) | Content-type based routing; extends mycelium without touching filters |
-| W2r | [Cap: Watcher Framework](cap/watcher-framework.md) | Reactive dashboard features; cap-local TypeScript change |
+| ~~W2i~~ | ~~[Volva: Checkpoint Durability Modes](volva/checkpoint-durability-modes.md)~~ | Done 2026-04-24 — CheckpointDurability enum + SqliteCheckpointSaver + config env override (bec1f54) |
+| ~~W2o~~ | ~~[Mycelium: Content-Aware Routing](mycelium/content-aware-routing.md)~~ | Done 2026-04-24 — ContentRouter heuristic detection + JSON/code filters; buffered stdout (a4cbc08) |
+| ~~W2r~~ | ~~[Cap: Watcher Framework](cap/watcher-framework.md)~~ | Done 2026-04-24 — WatcherRegistry + WebhookWatcher + GithubWatcher; timingSafeEqual on raw bytes (bfdb238) |
 | W1d | [Rhizome: Incremental Fingerprinting](rhizome/incremental-fingerprinting.md) | Performance improvement to rhizome indexing; self-contained |
 | W3c | [Rhizome: Blast-Radius Simulation](rhizome/blast-radius-simulation.md) | Change impact analysis tool; depends on stable rhizome symbol graph |
 
