@@ -36,7 +36,7 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | Campaign | Status | Phase |
 |----------|--------|-------|
 | [Ecosystem Health Audit](campaigns/ecosystem-health-audit/README.md) | All Phases Complete | 16 issues tracked — fix phase ready |
-| [Sequential Audit Hardening Campaign](campaigns/sequential-audit-hardening-2026-04-26/README.md) | In progress | Phase 5 complete; Phase 6 ready |
+| [Sequential Audit Hardening Campaign](campaigns/sequential-audit-hardening-2026-04-26/README.md) | All Phases Complete | 53 issues tracked — fix phase ready |
 | [Capability Ecosystem Control Plane](cross-project/capability-ecosystem-control-plane.md) | Ready | Umbrella for registry, discovery, registration, and typed dispatch integration |
 
 ---
@@ -86,9 +86,9 @@ Generated from the multi-agent Rust ecosystem audit focused on contracts, code q
 | ~~A8~~ | ~~[Spore: Shared Primitive Quality](spore/shared-primitive-quality.md)~~ | High | Done 2026-04-25 — logging API preserved, wait() after kill() in 3 paths, discovery 5s timeout, README v0.4.11/CI (e4cd04b) |
 | A9 | [Stipe: Control Plane Quality](stipe/control-plane-quality.md) | Medium | Backup partial-success semantics and boolean-heavy APIs |
 | A10 | [Mycelium: Output Cleanliness](mycelium/output-cleanliness.md) | Medium | Optional Hyphae fallback warning contaminates output |
-| A11 | [Canopy: Notification Contract Alignment](canopy/canopy-notification-contract-alignment.md) | High | `canopy-notification-v1` does not match Canopy/Cap/Annulus real fields |
+| ~~A11~~ | ~~[Canopy: Notification Contract Alignment](canopy/canopy-notification-contract-alignment.md)~~ | High | Done 2026-04-26 — notification_id/seen in schema+fixture+tests; septa c5520e3, canopy 958d3b6 |
 | A12 | [Cap: Cross-Tool Consumer Contracts](cap/cross-tool-consumer-contracts.md) | Medium | Evidence source kind and Annulus status/statusline consumer drift |
-| A13 | [Cortina: Session And Usage Event Contracts](cortina/session-usage-event-contracts.md) | High | Session and usage payloads do not round-trip through Septa |
+| ~~A13~~ | ~~[Cortina: Session And Usage Event Contracts](cortina/session-usage-event-contracts.md)~~ | High | Done 2026-04-26 — SessionEventV1Dto wire DTO; wired into save paths; session-state fixture; cortina a3f6d46 |
 | A14 | [Hyphae: Read Model And Archive Contracts](hyphae/read-model-and-archive-contracts.md) | High | Hyphae CLI/Cap read model drift and archive filter mismatch |
 | A15 | [Mycelium: Gain And Summary Contracts](mycelium/gain-summary-contracts.md) | High | Gain JSON emits extra telemetry field; summary contract is not a real round-trip |
 | A16 | [Septa: Validation Tooling And Inventory](septa/validation-tooling-and-inventory.md) | High | Offline `$ref` validation docs, registry inventory, variant fixture coverage |
@@ -119,6 +119,16 @@ Generated from the multi-agent Rust ecosystem audit focused on contracts, code q
 | A41 | [Cortina: Handoff Audit And Hook Secret Boundaries](cortina/handoff-audit-and-hook-secret-boundaries.md) | High | Handoff audit outside-root file oracle and PostToolUse secret redaction |
 | A42 | [Lamella: Hook Trust And Manifest Path Security](lamella/hook-trust-and-manifest-path-security.md) | High | Post-edit hook toolchain env trust, manifest traversal, raw hook payload echoing |
 | A43 | [Hymenium: Dispatch Command Trust Boundary](hymenium/dispatch-command-trust-boundary.md) | Medium | Dispatch shells out to ambient `canopy` without timeout or trusted path |
+| A44 | [Cross-Project: Rust Supply Chain Policy](cross-project/rust-supply-chain-policy.md) | High | Cargo monitoring, cargo-deny, immutable Spore source, shared dependency drift |
+| A45 | [Hyphae: Embedding Supply Chain Profile](hyphae/embedding-supply-chain-profile.md) | High | Default embedding feature pulls native/ML binary dependency chain |
+| A46 | [Cap: Node Supply Chain Script Policy](cap/node-supply-chain-script-policy.md) | Medium | `npx` scripts, release checks, install lifecycle policy |
+| A47 | [Stipe: Release Artifact Provenance](stipe/release-artifact-provenance.md) | High | Release/self-update downloads lack checksum/signature/provenance checks |
+| A48 | [Lamella: Package Provenance And Runtime Pins](lamella/package-provenance-and-runtime-pins.md) | High | Vendored license provenance, mutable marketplace refs, unpinned runtime packages |
+| A49 | [Hymenium: Docs And CLI Surface Drift](hymenium/docs-and-cli-surface-drift.md) | High | Public docs advertise unshipped commands/MCP behavior and stale module paths |
+| A50 | [Cap: Dashboard And API Docs Drift](cap/dashboard-api-docs-drift.md) | Medium | API docs, route inventory, internals docs, and UI behavior claims are stale |
+| A51 | [Lamella: Docs And Authoring Drift](lamella/docs-and-authoring-drift.md) | High | Operator commands, builder docs, hook examples, counts, and Codex manifest docs drift |
+| A52 | [Cross-Project: Workspace Docs Link Drift](cross-project/workspace-docs-link-drift.md) | Medium | Broken docs links, archived handoff references, command rendering, unavailable skill refs |
+| A53 | [Stipe: Install And Release Docs Drift](stipe/install-release-docs-drift.md) | High | Install/release docs omit registry tools and misstate profile inventory |
 
 ### Tier 3: Do Later
 
