@@ -37,56 +37,22 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 |----------|--------|-------|
 | [Ecosystem Health Audit](campaigns/ecosystem-health-audit/README.md) | All Phases Complete | 16 issues tracked — fix phase ready |
 
+---
+
+## Completed Batches
+
+All Foundation, Tier 1, Tier 2, and selected Tier 3 items are done. Files are in [archive/](archive/).
+
+| Batch | Items |
+|-------|-------|
+| Foundation (A1–A5, S1–S3, C1–C5, U1–U4, U4b) | Audit fixes, structural improvements, cohesion, uncharted — all done 2026-04-23 |
+| Tier 1 (W3a, W2g, W1c, W2a, W2f, W1a) | GateGuard, hook governance, context envelope, lifecycle stages, DAG task graph, permission memory — all done 2026-04-24 |
+| Tier 2 (W2e, W2h, W3d, W3b, W1b, W2j, W2k, W2d, W2c, U4a, St1) | Credential abstraction, dependency types, stop hooks, context metrics, declarative filters, task output, session cost, memory eviction, pluggable backends, server exposure warning, install mode — all done 2026-04-24 |
+| Tier 3 partial (W2c-b, W2i, W2o, W2r) | MemoryStore trait extension, checkpoint durability, content-aware routing, watcher framework — all done 2026-04-24 |
+
+---
+
 ## Active Handoffs
-
-### Foundation — Completed (2026-04-23)
-
-All Ecosystem Health Audit fixes and structural improvements are done. St1 and U4a were marked Done prematurely and are now in Tier 2. See the [campaign README](campaigns/ecosystem-health-audit/README.md) for full issue tracking.
-
-| # | Handoff | Status |
-|---|---------|--------|
-| A1–A5 | Audit fixes: enum drift, snapshot schema, cortina seam, spore version, cap→canopy SPOF | Done |
-| S1–S3 | Structural: canopy resilience layer, cortina session store, septa contract governance | Done |
-| C1–C5 | Cohesion: tool preference instructions, context injection, smoke test, drift signal, orchestration mode | Done |
-| U1–U4 | Uncharted: CI gates, seam test coverage, cross-tool observability, auth audit | Done |
-| U4b | [Canopy: Policy Event Log](canopy/policy-event-log.md) | Done |
-
----
-
-### Tier 1: Do First
-
-Empirically validated, fix live seam gaps, or unblock the most other work.
-
-| # | Handoff | Rationale |
-|---|---------|-----------|
-| W3a | ~~[Cortina: GateGuard Fact-Force Hook](cortina/gateguard-fact-force.md)~~ | Done 2026-04-23 — 242 tests pass; 3 blockers patched post-audit (8cce346); lamella skill doc shipped |
-| W2g | ~~[Cortina: Hook Governance and Tool Metadata](cortina/hook-governance.md)~~ | Done 2026-04-24 — 258 cortina / 193 canopy tests pass; TOML config + dispatch gate wired (60bd1cc, 0bd0fa6) |
-| W1c | ~~[Septa: Context Envelope V1 Contract](septa/context-envelope-v1.md)~~ | Done 2026-04-24 — 49/49 septa schemas pass |
-| W2a | ~~[Cortina: Lifecycle Pipeline Stages](cortina/lifecycle-pipeline-stages.md)~~ | Done 2026-04-24 — 261 tests pass; 8 named stages, fail-open, LoggingHandler wired (f8d0f5d) |
-| W2f | ~~[Canopy: DAG-Based Task Graph](canopy/dag-task-graph.md)~~ | Done 2026-04-24 — 197 tests pass; 5 MCP tools, fan-in/fan-out SQL, tool count 44 (99a3a6f) |
-| W1a | ~~[Canopy: Permission Memory Policy](canopy/permission-memory-policy.md)~~ | Done 2026-04-24 — 202 tests pass; exact-over-wildcard priority tested, fail-open dispatch (00fac69) |
-
----
-
-### Tier 2: Do Next
-
-Clear value, no unresolved prerequisites. Septa contracts run together; St1/U4a were marked Done prematurely.
-
-| # | Handoff | Rationale |
-|---|---------|-----------|
-| W2e | ~~[Septa: Credential Abstraction V1](septa/credential-abstraction-v1.md)~~ | Done 2026-04-24 — 50/50 septa schemas pass (89a6e3c) |
-| W2h | ~~[Septa: Dependency Types V1 Contract](septa/dependency-types-v1.md)~~ | Done 2026-04-24 — 51/51 septa schemas pass (e1604bf) |
-| W3d | ~~[Cortina: Stop Hook Extensions](cortina/stop-hook-extensions.md)~~ | Done 2026-04-24 — 276 cortina tests pass; FP check + trigger word processors (38055b9) |
-| W3b | ~~[Annulus: Context Window % and Pace Delta](annulus/context-metrics.md)~~ | Done 2026-04-24 — ContextMetrics + pace_delta helpers + 6 unit tests (085b7e6) |
-| W1b | ~~[Mycelium: Declarative Filter Extensions](mycelium/declarative-filter-extensions.md)~~ | Done 2026-04-24 — TOML filter layer + npm-test.toml + 7 unit tests (820c11a) |
-| W2j | ~~[Canopy: Task Output Envelope](canopy/task-output-envelope.md)~~ | Done 2026-04-24 — 101 tests pass; TaskOutput + canopy_task_output tool, 45 tools total (0bd2775) |
-| W2k | ~~[Cap: Session Persistence and Cost Tracking](cap/session-cost-tracking.md)~~ | Done 2026-04-24 — 471 tests pass; cost API + dashboard + per-session budget enforcement (281c60f, 166b54f) |
-| W2d | ~~[Hyphae: Tiered Memory Eviction](hyphae/tiered-memory-eviction.md)~~ | Done 2026-04-24 — 266 tests pass; MemoryTier enum + DefaultEvictionPolicy + tier/token_budget MCP params (9e1a12f) |
-| ~~W2c~~ | ~~[Hyphae: Pluggable Backend Adapters](hyphae/pluggable-backends.md)~~ | Done 2026-04-24 — MemoryStore trait existed; extract.rs switched to trait (9ff95d3); HYPHAE_BACKEND factory wired (26da8a6); full CLI trait migration deferred (SQLite-specific methods block it) |
-| ~~U4a~~ | ~~[Cap: Server Exposure Warning](cap/server-exposure-warning.md)~~ | Done 2026-04-24 — startup warning on non-loopback + no API key (0855b7e) |
-| ~~St1~~ | ~~[Stipe: Install Mode Prompt](stipe/install-mode-prompt.md)~~ | Done 2026-04-24 — volva GlobalVolvaConfig (730786a) + stipe mode prompt (ac3287f) |
-
----
 
 ### Tier 3: Do Later
 
@@ -110,7 +76,6 @@ Formalize the search surface before adding behavior on top of it.
 
 | # | Handoff | Notes |
 |---|---------|-------|
-| ~~W2c-b~~ | ~~[Hyphae: MemoryStore Trait Extension](hyphae/memory-store-trait-extension.md)~~ | Done 2026-04-24 — 6 _with_options methods in trait, memory.rs + auto_recall.rs migrated (d105bb9, a000fc4) |
 | W2m | [Hyphae: Search Type Registry](hyphae/search-type-registry.md) | Formalizes the search surface first — subsequent items build on a stable retrieval API |
 | W2l | [Hyphae: Memoir Git Versioning](hyphae/memoir-git-versioning.md) | Adds traceability to memoirs; needs stable memoir shape |
 | W2n | [Hyphae: Shared Cross-Agent Context](hyphae/shared-cross-agent-context.md) | Multi-agent memory sharing; needs retrieval working well (W2m) |
@@ -121,9 +86,6 @@ Largely independent; order within cluster is advisory.
 
 | # | Handoff | Notes |
 |---|---------|-------|
-| ~~W2i~~ | ~~[Volva: Checkpoint Durability Modes](volva/checkpoint-durability-modes.md)~~ | Done 2026-04-24 — CheckpointDurability enum + SqliteCheckpointSaver + config env override (bec1f54) |
-| ~~W2o~~ | ~~[Mycelium: Content-Aware Routing](mycelium/content-aware-routing.md)~~ | Done 2026-04-24 — ContentRouter heuristic detection + JSON/code filters; buffered stdout (a4cbc08) |
-| ~~W2r~~ | ~~[Cap: Watcher Framework](cap/watcher-framework.md)~~ | Done 2026-04-24 — WatcherRegistry + WebhookWatcher + GithubWatcher; timingSafeEqual on raw bytes (bfdb238) |
 | W1d | [Rhizome: Incremental Fingerprinting](rhizome/incremental-fingerprinting.md) | Performance improvement to rhizome indexing; self-contained |
 | W3c | [Rhizome: Blast-Radius Simulation](rhizome/blast-radius-simulation.md) | Change impact analysis tool; depends on stable rhizome symbol graph |
 
