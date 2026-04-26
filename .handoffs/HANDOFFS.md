@@ -36,6 +36,8 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | Campaign | Status | Phase |
 |----------|--------|-------|
 | [Ecosystem Health Audit](campaigns/ecosystem-health-audit/README.md) | All Phases Complete | 16 issues tracked — fix phase ready |
+| [Sequential Audit Hardening Campaign](campaigns/sequential-audit-hardening-2026-04-26/README.md) | In progress | Phase 2 complete; Phase 3 ready |
+| [Capability Ecosystem Control Plane](cross-project/capability-ecosystem-control-plane.md) | Ready | Umbrella for registry, discovery, registration, and typed dispatch integration |
 
 ---
 
@@ -54,22 +56,50 @@ All Foundation, Tier 1, Tier 2, and selected Tier 3 items are done. Files are in
 
 ## Active Handoffs
 
+### Capability Ecosystem Control Plane — 2026-04-26
+
+Created from the capability ecosystem design discussion: standalone tools remain usable independently, while ecosystem-mode communication moves to Septa contracts, Spore discovery, Stipe-managed registration, and typed Canopy/Hymenium dispatch.
+
+Suggested sequence: C0 defines the contracts, C1 adds shared discovery, C2 makes Stipe write and repair registry entries, C3 exposes Canopy dispatch as a typed service endpoint, and C4 migrates Hymenium to capability resolution with CLI fallback.
+
+| # | Handoff | Priority | Notes |
+|---|---------|----------|-------|
+| C0 | [Septa: Capability Registry Contracts](septa/capability-registry-contracts.md) | Critical | Defines installed capability registry and runtime lease payloads |
+| C1 | [Spore: Capability Registry Discovery](spore/capability-registry-discovery.md) | Critical | Reads registry and leases, resolves capability ids to endpoint candidates |
+| C2 | [Stipe: Capability Registration Manager](stipe/capability-registration-manager.md) | High | Writes and repairs managed capability registry entries during install/update/uninstall/doctor |
+| C3 | [Canopy: Dispatch Request Service Endpoint](canopy/dispatch-request-service-endpoint.md) | High | Accepts `dispatch-request-v1` directly so callers stop reconstructing CLI flags |
+| C4 | [Hymenium: Capability Dispatch Client](hymenium/capability-dispatch-client.md) | High | Resolves `workflow.dispatch.v1` through Spore and treats CLI as fallback |
+
 ### Rust Ecosystem Audit Follow-Ups — 2026-04-26
 
 Generated from the multi-agent Rust ecosystem audit focused on contracts, code quality, architecture, KISS/DRY, code splitting, wrapper overuse, docs drift, and verification gaps.
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
-| A1 | [Hymenium: Orchestration Dispatch Contracts](hymenium/orchestration-dispatch-contracts.md) | Critical | Canopy CLI adapter mismatch, phase activation, gated task creation, stale docs |
+| ~~A1~~ | ~~[Hymenium: Orchestration Dispatch Contracts](hymenium/orchestration-dispatch-contracts.md)~~ | Critical | Done 2026-04-25 — fixed --requested-by/--required-tier/assign flags; build_assign_task_args; 6 new tests (4e53d05) |
 | A2 | [Canopy: Septa Read Model Contracts](canopy/septa-read-model-contracts.md) | High | Snapshot/task-detail/handoff/outcome contract drift |
 | A3 | [Rhizome: Code Graph Contract And Install Boundary](rhizome/code-graph-contract-and-install-boundary.md) | High | Code graph Septa drift and core install-policy boundary |
 | A4 | [Hyphae: Code Graph Import And Core Boundary](hyphae/code-graph-import-and-core-boundary.md) | High | Import validation, identity storage, core adapter leakage, UTF-8 path safety |
-| A5 | [Volva: Hook Runtime Contracts](volva/hook-runtime-contracts.md) | High | Hook event DTO, timeout bounds, chat runtime path, runtime identity, failing test |
+| ~~A5~~ | ~~[Volva: Hook Runtime Contracts](volva/hook-runtime-contracts.md)~~ | High | Done 2026-04-25 — timeout clamped to [1,30000]; execution_session in septa schema; docs updated (49a2abb/a7971d3) |
 | A6 | [Cortina: Capture Policy Boundary](cortina/capture-policy-boundary.md) | High | Capture repo has default blocking policy behavior and docs drift |
 | A7 | [Annulus: Operator Boundary And Statusline Contracts](annulus/operator-boundary-statusline-contracts.md) | High | Read-only boundary, Canopy notification write, statusline contract/registry, docs/version drift |
 | A8 | [Spore: Shared Primitive Quality](spore/shared-primitive-quality.md) | High | Logging API compatibility, subprocess wait, README version/CI drift |
 | A9 | [Stipe: Control Plane Quality](stipe/control-plane-quality.md) | Medium | Backup partial-success semantics and boolean-heavy APIs |
 | A10 | [Mycelium: Output Cleanliness](mycelium/output-cleanliness.md) | Medium | Optional Hyphae fallback warning contaminates output |
+| A11 | [Canopy: Notification Contract Alignment](canopy/canopy-notification-contract-alignment.md) | High | `canopy-notification-v1` does not match Canopy/Cap/Annulus real fields |
+| A12 | [Cap: Cross-Tool Consumer Contracts](cap/cross-tool-consumer-contracts.md) | Medium | Evidence source kind and Annulus status/statusline consumer drift |
+| A13 | [Cortina: Session And Usage Event Contracts](cortina/session-usage-event-contracts.md) | High | Session and usage payloads do not round-trip through Septa |
+| A14 | [Hyphae: Read Model And Archive Contracts](hyphae/read-model-and-archive-contracts.md) | High | Hyphae CLI/Cap read model drift and archive filter mismatch |
+| A15 | [Mycelium: Gain And Summary Contracts](mycelium/gain-summary-contracts.md) | High | Gain JSON emits extra telemetry field; summary contract is not a real round-trip |
+| A16 | [Septa: Validation Tooling And Inventory](septa/validation-tooling-and-inventory.md) | High | Offline `$ref` validation docs, registry inventory, variant fixture coverage |
+| A17 | [Rhizome: MCP Write Boundary And Runtime Timeouts](rhizome/mcp-write-boundary-and-runtime-timeouts.md) | Critical | MCP root override can expand write authority; package-manager installs lack deadlines |
+| A18 | [Canopy: MCP Handoff Runtime Boundaries](canopy/mcp-handoff-runtime-boundaries.md) | Critical | Handoff completeness can execute sibling scripts; import and file locks are too permissive |
+| A19 | [Hyphae: Storage And Ingest Runtime Safety](hyphae/storage-and-ingest-runtime-safety.md) | High | WAL-safe backup/restore and bounded ingest/storage input policies |
+| A20 | [Stipe: Install Hooks And Secret Safety](stipe/install-hooks-and-secret-safety.md) | High | Atomic lockfile, install deadlines, provider secret writes, generated hook policy |
+| A21 | [Cap: API Auth And Webhook Defaults](cap/api-auth-and-webhook-defaults.md) | High | API and webhook routes fail open without configured secrets |
+| A22 | [Lamella: Session Logger Secret Redaction](lamella/session-logger-secret-redaction.md) | Medium | Hook session logger persists Bash command snippets without redaction or restrictive mode |
+| A23 | [Volva: Backend And Credential Runtime Safety](volva/backend-and-credential-runtime-safety.md) | Medium | Official backend timeout, project hook adapter trust/env, credential file permissions |
+| A24 | [Mycelium: Input Size Boundaries](mycelium/input-size-boundaries.md) | Medium | read/diff/json commands read unbounded file/stdin input before safeguards |
 
 ### Tier 3: Do Later
 
