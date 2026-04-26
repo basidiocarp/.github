@@ -104,7 +104,7 @@ Largely independent; order within cluster is advisory.
 | # | Handoff | Notes |
 |---|---------|-------|
 | ~~W1d~~ | ~~[Rhizome: Incremental Fingerprinting](rhizome/incremental-fingerprinting.md)~~ | Done 2026-04-25 — Fingerprint + ChangeClass in rhizome-core; signature collision fix; schema v2 (9672800) |
-| W3c | [Rhizome: Blast-Radius Simulation](rhizome/blast-radius-simulation.md) | Change impact analysis tool; depends on stable rhizome symbol graph |
+| ~~W3c~~ | ~~[Rhizome: Blast-Radius Simulation](rhizome/blast-radius-simulation.md)~~ | Done 2026-04-25 — rhizome_simulate_change MCP tool; BlastRadius/SymbolRef in rhizome-core; 40 tools total (a7ba43b) |
 
 ---
 
