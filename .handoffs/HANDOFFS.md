@@ -36,7 +36,7 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | Campaign | Status | Phase |
 |----------|--------|-------|
 | [Ecosystem Health Audit](campaigns/ecosystem-health-audit/README.md) | All Phases Complete | 16 issues tracked — fix phase ready |
-| [Sequential Audit Hardening Campaign](campaigns/sequential-audit-hardening-2026-04-26/README.md) | In progress | Phase 2 complete; Phase 3 ready |
+| [Sequential Audit Hardening Campaign](campaigns/sequential-audit-hardening-2026-04-26/README.md) | In progress | Phase 5 complete; Phase 6 ready |
 | [Capability Ecosystem Control Plane](cross-project/capability-ecosystem-control-plane.md) | Ready | Umbrella for registry, discovery, registration, and typed dispatch integration |
 
 ---
@@ -83,7 +83,7 @@ Generated from the multi-agent Rust ecosystem audit focused on contracts, code q
 | ~~A5~~ | ~~[Volva: Hook Runtime Contracts](volva/hook-runtime-contracts.md)~~ | High | Done 2026-04-25 — timeout clamped to [1,30000]; execution_session in septa schema; docs updated (49a2abb/a7971d3) |
 | A6 | [Cortina: Capture Policy Boundary](cortina/capture-policy-boundary.md) | High | Capture repo has default blocking policy behavior and docs drift |
 | A7 | [Annulus: Operator Boundary And Statusline Contracts](annulus/operator-boundary-statusline-contracts.md) | High | Read-only boundary, Canopy notification write, statusline contract/registry, docs/version drift |
-| A8 | [Spore: Shared Primitive Quality](spore/shared-primitive-quality.md) | High | Logging API compatibility, subprocess wait, README version/CI drift |
+| ~~A8~~ | ~~[Spore: Shared Primitive Quality](spore/shared-primitive-quality.md)~~ | High | Done 2026-04-25 — logging API preserved, wait() after kill() in 3 paths, discovery 5s timeout, README v0.4.11/CI (e4cd04b) |
 | A9 | [Stipe: Control Plane Quality](stipe/control-plane-quality.md) | Medium | Backup partial-success semantics and boolean-heavy APIs |
 | A10 | [Mycelium: Output Cleanliness](mycelium/output-cleanliness.md) | Medium | Optional Hyphae fallback warning contaminates output |
 | A11 | [Canopy: Notification Contract Alignment](canopy/canopy-notification-contract-alignment.md) | High | `canopy-notification-v1` does not match Canopy/Cap/Annulus real fields |
@@ -100,6 +100,25 @@ Generated from the multi-agent Rust ecosystem audit focused on contracts, code q
 | A22 | [Lamella: Session Logger Secret Redaction](lamella/session-logger-secret-redaction.md) | Medium | Hook session logger persists Bash command snippets without redaction or restrictive mode |
 | A23 | [Volva: Backend And Credential Runtime Safety](volva/backend-and-credential-runtime-safety.md) | Medium | Official backend timeout, project hook adapter trust/env, credential file permissions |
 | A24 | [Mycelium: Input Size Boundaries](mycelium/input-size-boundaries.md) | Medium | read/diff/json commands read unbounded file/stdin input before safeguards |
+| A25 | [Cross-Project: Verification Command And Script Hardening](cross-project/verification-command-and-script-hardening.md) | High | Weak verify scripts, cwd-unsafe command blocks, dashboard/script hygiene, CI parity docs |
+| A26 | [Cross-Project: Producer Contract Validation Harness](cross-project/producer-contract-validation-harness.md) | High | Real producer output is not broadly schema-validated against Septa and consumer parsers |
+| A27 | [Cap: Server And UI Verification Hardening](cap/server-and-ui-verification-hardening.md) | High | Malformed write bodies, fixture-backed consumer tests, and observable UI behavior coverage |
+| A28 | [Hymenium: Workflow Gate Integration Verification](hymenium/workflow-gate-integration-verification.md) | High | Implementer-to-auditor gate is tested with mocks, not evidence-backed integration |
+| A29 | [Rhizome: LSP And Export Verification](rhizome/lsp-and-export-verification.md) | High | Live LSP/export behavior is mostly ignored or outside default validation |
+| A30 | [Cortina: Hook Executor Verification](cortina/hook-executor-verification.md) | Medium | Hook executor tests prove a no-op stub while docs describe execution behavior |
+| A31 | [Mycelium: Git Branch Regression Verification](mycelium/git-branch-regression-verification.md) | Medium | Branch write-regression coverage is ignored by default validation |
+| A32 | [Hyphae: Memory And Document Integrity](hyphae/memory-document-integrity.md) | High | Memory/vector writes and project-scoped document identity can corrupt persisted state |
+| A33 | [Rhizome: Incremental Export Prune Integrity](rhizome/incremental-export-prune-integrity.md) | High | Partial code graph exports can prune unchanged Hyphae concepts |
+| A34 | [Cortina: Volva Event Replay Identity](cortina/volva-event-replay-identity.md) | High | Volva hook events lose session/replay identity at Cortina boundary |
+| A35 | [Canopy: Task Event And State Idempotency](canopy/task-event-and-state-idempotency.md) | High | Evidence events, repeated status writes, scoped duplicates, and queue state can drift |
+| A36 | [Hymenium: Terminal Workflow Idempotency](hymenium/terminal-workflow-idempotency.md) | High | `complete` can overwrite terminal workflow outcomes and duplicate transitions |
+| A37 | [Cap: Canopy Stale Cache Integrity](cap/canopy-stale-cache-integrity.md) | Medium | Stale snapshot fallback is global instead of project/filter keyed |
+| A38 | [Cortina: Compact Summary Artifact Integrity](cortina/compact-summary-artifact-integrity.md) | Medium | Compact summaries are stored as memories instead of typed artifacts |
+| A39 | [Cross-Project: Version Ledger Authority](cross-project/version-ledger-authority.md) | High | Ecosystem tool version authority is split across ledger, manifests, and Stipe pins |
+| A40 | [Lamella: Manifest Sync Maintenance](lamella/manifest-sync-maintenance.md) | Medium | Manifest sync maintenance script points at obsolete paths |
+| A41 | [Cortina: Handoff Audit And Hook Secret Boundaries](cortina/handoff-audit-and-hook-secret-boundaries.md) | High | Handoff audit outside-root file oracle and PostToolUse secret redaction |
+| A42 | [Lamella: Hook Trust And Manifest Path Security](lamella/hook-trust-and-manifest-path-security.md) | High | Post-edit hook toolchain env trust, manifest traversal, raw hook payload echoing |
+| A43 | [Hymenium: Dispatch Command Trust Boundary](hymenium/dispatch-command-trust-boundary.md) | Medium | Dispatch shells out to ambient `canopy` without timeout or trusted path |
 
 ### Tier 3: Do Later
 
