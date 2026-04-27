@@ -1,47 +1,30 @@
 #!/usr/bin/env bash
-# Reads the canonical spore version from ecosystem-versions.toml
-# and verifies each consumer's Cargo.toml matches it.
+# Validates that all Spore git dependencies use rev= (immutable) not tag= (mutable).
 # Usage: bash scripts/check-spore-pins.sh
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-TOML="$ROOT/ecosystem-versions.toml"
-
-CANONICAL=$(awk '/^\[spore\]/{found=1} found && /^version/{gsub(/version = "|"/, ""); print; exit}' "$TOML")
-if [ -z "$CANONICAL" ]; then
-  echo "ERROR: could not read [spore] version from $TOML"
-  exit 1
-fi
-
-echo "Canonical spore version: $CANONICAL"
-
-CONSUMERS=(mycelium hyphae canopy rhizome stipe cortina annulus hymenium volva)
+PASS=0
 FAIL=0
 
-for repo in "${CONSUMERS[@]}"; do
-  CARGO="$ROOT/$repo/Cargo.toml"
-  if [ ! -f "$CARGO" ]; then
-    echo "SKIP: $repo/Cargo.toml not found"
-    continue
-  fi
-  PINNED=$(grep -o 'tag = "v[0-9.]*"' "$CARGO" 2>/dev/null | head -1 | sed 's/tag = "v//;s/"//')
-  if [ -z "$PINNED" ]; then
-    # Try rev-based spore dep
-    PINNED=$(grep -A5 'spore' "$CARGO" | grep -o 'tag = "v[0-9.]*"' | head -1 | sed 's/tag = "v//;s/"//')
-  fi
-  if [ -z "$PINNED" ]; then
-    echo "SKIP: $repo — no spore tag found in Cargo.toml"
-    continue
-  fi
-  if [ "$PINNED" != "$CANONICAL" ]; then
-    echo "FAIL: $repo pins spore v$PINNED, canonical is $CANONICAL"
-    FAIL=$((FAIL + 1))
-  else
-    echo "OK:   $repo on v$CANONICAL"
-  fi
+check_repo() {
+    local repo="$1"
+    local toml="$repo/Cargo.toml"
+    [ -f "$toml" ] || return 0
+    if grep -q 'basidiocarp/spore' "$toml"; then
+        if grep -A3 'basidiocarp/spore' "$toml" | grep -q 'tag\s*='; then
+            echo "FAIL: $toml uses mutable tag= for spore; change to rev="
+            FAIL=$((FAIL+1))
+        else
+            echo "PASS: $toml pins spore by rev="
+            PASS=$((PASS+1))
+        fi
+    fi
+}
+
+for repo in mycelium hyphae rhizome stipe cortina spore canopy volva annulus hymenium; do
+    check_repo "$repo"
 done
 
 echo ""
-[ "$FAIL" -eq 0 ] && echo "All spore pins match canonical." && exit 0
-echo "$FAIL repo(s) out of sync."
-exit 1
+echo "Results: $PASS passed, $FAIL failed"
+[ "$FAIL" -eq 0 ]

@@ -10,10 +10,11 @@
 
 [spore]
 version = "0.4.11"
+rev = "0bc2e878010e75e30e26fa517d747e97d59628b0"
 git = "https://github.com/basidiocarp/spore"
 consumers = ["mycelium", "hyphae", "rhizome", "stipe", "cortina", "canopy", "volva", "hymenium", "annulus"]
 pending = []
-note = "All consumers pinned to v0.4.11."
+note = "All consumers must pin using rev= (immutable) not tag= (mutable)."
 
 [datetime]
 crate = "chrono"
