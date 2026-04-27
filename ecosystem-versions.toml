@@ -36,6 +36,9 @@ ulid = "1"
 which = "7"
 
 [tools]
+# Tool versions: ecosystem-versions.toml is the single authority.
+# Stipe doctor pins must match these values.
+# Update this file when a tool is released, then update Stipe pins to match.
 mycelium = "0.8.18"
 hyphae = "0.11.0"       # 5-crate workspace, version per crate
 rhizome = "0.7.14"      # 5-crate workspace, version per crate
@@ -44,9 +47,9 @@ cortina = "0.2.22"
 stipe = "0.5.24"
 volva = "0.2.4"
 hymenium = "0.5.0"
-annulus = "0.5.3"
-cap = "0.11.8"
-lamella = "0.6.0"
+annulus = "0.5.5"
+cap = "0.11.9"
+lamella = "0.5.15"
 spore = "0.4.11"
 
 [contracts]
