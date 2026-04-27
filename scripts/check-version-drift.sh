@@ -44,11 +44,15 @@ stipe_hyphae=$(grep 'pins.insert("hyphae"' "$ROOT/stipe/src/commands/doctor/plug
 stipe_canopy=$(grep 'pins.insert("canopy"' "$ROOT/stipe/src/commands/doctor/plugin_inventory_checks.rs" | head -1 | grep -o '"[0-9][^"]*"' | tail -1 | tr -d '"')
 stipe_stipe=$(grep 'pins.insert("stipe"' "$ROOT/stipe/src/commands/doctor/plugin_inventory_checks.rs" | head -1 | grep -o '"[0-9][^"]*"' | tail -1 | tr -d '"')
 stipe_spore=$(grep 'pins.insert("spore"' "$ROOT/stipe/src/commands/doctor/plugin_inventory_checks.rs" | head -1 | grep -o '"[0-9][^"]*"' | tail -1 | tr -d '"')
+stipe_annulus=$(grep 'pins.insert("annulus"' "$ROOT/stipe/src/commands/doctor/plugin_inventory_checks.rs" | head -1 | grep -o '"[0-9][^"]*"' | tail -1 | tr -d '"')
+stipe_cap=$(grep 'pins.insert("cap"' "$ROOT/stipe/src/commands/doctor/plugin_inventory_checks.rs" | head -1 | grep -o '"[0-9][^"]*"' | tail -1 | tr -d '"')
 
 check_pair "stipe doctor hyphae pin matches ledger" "$ledger_hyphae" "$stipe_hyphae"
 check_pair "stipe doctor canopy pin matches ledger" "$ledger_canopy" "$stipe_canopy"
 check_pair "stipe doctor stipe pin matches ledger" "$ledger_stipe" "$stipe_stipe"
 check_pair "stipe doctor spore pin matches ledger" "$ledger_spore" "$stipe_spore"
+check_pair "stipe doctor annulus pin matches ledger" "$ledger_annulus" "$stipe_annulus"
+check_pair "stipe doctor cap pin matches ledger" "$ledger_cap" "$stipe_cap"
 
 # Check hyphae release script includes hyphae-ingest
 if grep -q 'hyphae-ingest' "$ROOT/hyphae/scripts/release.sh"; then
