@@ -1,5 +1,9 @@
 version: 2
 updates:
+  # GitHub Actions monitoring for the basidiocarp workspace root.
+  # Rust repo Cargo monitoring lives in each sub-repo's own .github/dependabot.yml —
+  # sub-repos are separate git repositories and their Cargo.toml files are not
+  # tracked here, so directory-based Cargo entries in this file have no effect.
   - package-ecosystem: github-actions
     directory: /
     schedule:
@@ -8,84 +12,3 @@ updates:
     commit-message:
       prefix: "ci(deps):"
     open-pull-requests-limit: 5
-
-  # Cargo ecosystem monitoring per Rust repo
-  - package-ecosystem: cargo
-    directory: /mycelium
-    schedule:
-      interval: weekly
-    commit-message:
-      prefix: "deps(mycelium):"
-    open-pull-requests-limit: 3
-
-  - package-ecosystem: cargo
-    directory: /hyphae
-    schedule:
-      interval: weekly
-    commit-message:
-      prefix: "deps(hyphae):"
-    open-pull-requests-limit: 3
-
-  - package-ecosystem: cargo
-    directory: /rhizome
-    schedule:
-      interval: weekly
-    commit-message:
-      prefix: "deps(rhizome):"
-    open-pull-requests-limit: 3
-
-  - package-ecosystem: cargo
-    directory: /stipe
-    schedule:
-      interval: weekly
-    commit-message:
-      prefix: "deps(stipe):"
-    open-pull-requests-limit: 3
-
-  - package-ecosystem: cargo
-    directory: /cortina
-    schedule:
-      interval: weekly
-    commit-message:
-      prefix: "deps(cortina):"
-    open-pull-requests-limit: 3
-
-  - package-ecosystem: cargo
-    directory: /spore
-    schedule:
-      interval: weekly
-    commit-message:
-      prefix: "deps(spore):"
-    open-pull-requests-limit: 3
-
-  - package-ecosystem: cargo
-    directory: /canopy
-    schedule:
-      interval: weekly
-    commit-message:
-      prefix: "deps(canopy):"
-    open-pull-requests-limit: 3
-
-  - package-ecosystem: cargo
-    directory: /volva
-    schedule:
-      interval: weekly
-    commit-message:
-      prefix: "deps(volva):"
-    open-pull-requests-limit: 3
-
-  - package-ecosystem: cargo
-    directory: /annulus
-    schedule:
-      interval: weekly
-    commit-message:
-      prefix: "deps(annulus):"
-    open-pull-requests-limit: 3
-
-  - package-ecosystem: cargo
-    directory: /hymenium
-    schedule:
-      interval: weekly
-    commit-message:
-      prefix: "deps(hymenium):"
-    open-pull-requests-limit: 3
