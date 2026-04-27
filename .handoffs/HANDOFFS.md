@@ -37,7 +37,9 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 |----------|--------|-------|
 | [Ecosystem Health Audit](campaigns/ecosystem-health-audit/README.md) | All Phases Complete | 16 issues tracked — fix phase ready |
 | [Sequential Audit Hardening Campaign](campaigns/sequential-audit-hardening-2026-04-26/README.md) | All Phases Complete | 53 issues tracked — fix phase ready |
-| [Capability Ecosystem Control Plane](cross-project/capability-ecosystem-control-plane.md) | Ready | Umbrella for registry, discovery, registration, and typed dispatch integration |
+| [Capability Ecosystem Control Plane](cross-project/capability-ecosystem-control-plane.md) | Ready | C0-C8 tracked — registry, discovery, registration, typed local service APIs, and CLI-coupling audit |
+| [Hymenium/Canopy Dogfood Hardening](cross-project/hymenium-canopy-dogfood-hardening.md) | Ready | H0-H7 tracked — parser intake, dispatch compatibility, runtime identity, reconciliation, and operator hardening |
+| [Scope Freeze And Operator Console Reset](cross-project/core-hardening-freeze-roadmap.md) | Ready | F1-F2 tracked — freeze roadmap and Cap operator-console scope reset |
 
 ---
 
@@ -91,7 +93,7 @@ Workflow orchestration, dispatch compatibility, phase reconciliation, and runtim
 |---|---------|----------|-------|
 | ~~A1~~ | ~~[Hymenium: Orchestration Dispatch Contracts](hymenium/orchestration-dispatch-contracts.md)~~ | Critical | Done 2026-04-25 — fixed --requested-by/--required-tier/assign flags; build_assign_task_args; 6 new tests (4e53d05) |
 | H0 | [Hymenium/Canopy Dogfood Hardening](cross-project/hymenium-canopy-dogfood-hardening.md) | Critical | Umbrella for the 2026-04-26 dogfood findings |
-| H2 | [Hymenium: Canopy Dispatch Compatibility](hymenium/canopy-dispatch-compatibility.md) | Critical | Role mapping and JSON task-id parsing at the Canopy CLI boundary |
+| ~~H2~~ | ~~[Hymenium: Canopy Dispatch Compatibility](hymenium/canopy-dispatch-compatibility.md)~~ | Critical | Done 2026-04-26 — all 9 AgentRole variants covered; JSON task-id parse + raw fallback; verify script fixed (1be7dc0) |
 | H3 | [Hymenium: Task Packet Runtime Identity](hymenium/task-packet-runtime-identity.md) | Critical | Workflow/phase/task/agent/path identity carried into dispatch and status |
 | H4 | [Hymenium: Canopy Phase Reconciliation](hymenium/canopy-phase-reconciliation.md) | Critical | Completed Canopy tasks update Hymenium phase state and advance the workflow |
 | H1 | [Hymenium: Dogfood Handoff Intake Lint](hymenium/dogfood-handoff-intake-lint.md) | High | Parser/preflight diagnostics, heading variants, and read-only audit artifact scope |
@@ -100,7 +102,7 @@ Workflow orchestration, dispatch compatibility, phase reconciliation, and runtim
 | A36 | [Hymenium: Terminal Workflow Idempotency](hymenium/terminal-workflow-idempotency.md) | High | `complete` can overwrite terminal workflow outcomes and duplicate transitions |
 | A43 | [Hymenium: Dispatch Command Trust Boundary](hymenium/dispatch-command-trust-boundary.md) | Medium | Dispatch shells out to ambient `canopy` without timeout or trusted path |
 | A49 | [Hymenium: Docs And CLI Surface Drift](hymenium/docs-and-cli-surface-drift.md) | High | Public docs advertise unshipped commands/MCP behavior and stale module paths |
-| A18 | [Canopy: MCP Handoff Runtime Boundaries](canopy/mcp-handoff-runtime-boundaries.md) | Critical | Handoff completeness can execute sibling scripts; import and file locks are too permissive |
+| ~~A18~~ | ~~[Canopy: MCP Handoff Runtime Boundaries](canopy/mcp-handoff-runtime-boundaries.md)~~ | Critical | Done 2026-04-26 — verify-script gated by flag; import rejects outside-.handoffs paths + traversal; ON DELETE CASCADE on file_locks; owner-scoped unlock; MCP schema updated (a8bbe5a) |
 | A35 | [Canopy: Task Event And State Idempotency](canopy/task-event-and-state-idempotency.md) | High | Evidence events, repeated status writes, scoped duplicates, and queue state can drift |
 | H6 | [Canopy: Assigned Work Operator Surface](canopy/assigned-work-operator-surface.md) | Medium | Make current assigned work visible without manual task-id tracking |
 | H7 | [Stipe: Installed Binary Freshness](stipe/installed-binary-freshness.md) | Medium | Doctor/update guidance catches stale installed Hymenium/Canopy binaries |
@@ -115,7 +117,7 @@ Code intelligence export from Rhizome and import into Hyphae. Also covers Rhizom
 |---|---------|----------|-------|
 | A3 | [Rhizome: Code Graph Contract And Install Boundary](rhizome/code-graph-contract-and-install-boundary.md) | High | Code graph Septa drift and core install-policy boundary |
 | A4 | [Hyphae: Code Graph Import And Core Boundary](hyphae/code-graph-import-and-core-boundary.md) | High | Import validation, identity storage, core adapter leakage, UTF-8 path safety |
-| A17 | [Rhizome: MCP Write Boundary And Runtime Timeouts](rhizome/mcp-write-boundary-and-runtime-timeouts.md) | Critical | MCP root override can expand write authority; package-manager installs lack deadlines |
+| ~~A17~~ | ~~[Rhizome: MCP Write Boundary And Runtime Timeouts](rhizome/mcp-write-boundary-and-runtime-timeouts.md)~~ | Critical | Done 2026-04-26 — caller root clamped to project_root; 300s installer timeouts; probe path read-only; hostile-root tests for all write families (febd669); follow-up: symbol_tools root param description is now misleading |
 | A29 | [Rhizome: LSP And Export Verification](rhizome/lsp-and-export-verification.md) | High | Live LSP/export behavior is mostly ignored or outside default validation |
 | A33 | [Rhizome: Incremental Export Prune Integrity](rhizome/incremental-export-prune-integrity.md) | High | Partial code graph exports can prune unchanged Hyphae concepts |
 
