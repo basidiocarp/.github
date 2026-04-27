@@ -63,9 +63,11 @@
 Run these commands and **paste the full output** into the sections below.
 Do NOT mark this step complete until output is pasted.
 
+When running from the workspace root, use subshells to ensure correct working directory:
+
 <!-- AGENT: Run the command and paste output between the markers -->
 ```bash
-[verification command]
+(cd <repo> && [verification command])
 ```
 
 **Output:**
