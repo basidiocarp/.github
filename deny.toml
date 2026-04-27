@@ -1,0 +1,13 @@
+[advisories]
+ignore = []
+
+[bans]
+multiple-versions = "warn"
+deny = []
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-git = [
+    "https://github.com/basidiocarp/spore",
+]
