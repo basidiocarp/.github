@@ -94,7 +94,7 @@ Workflow orchestration, dispatch compatibility, phase reconciliation, and runtim
 | ~~A1~~ | ~~[Hymenium: Orchestration Dispatch Contracts](hymenium/orchestration-dispatch-contracts.md)~~ | Critical | Done 2026-04-25 — fixed --requested-by/--required-tier/assign flags; build_assign_task_args; 6 new tests (4e53d05) |
 | H0 | [Hymenium/Canopy Dogfood Hardening](cross-project/hymenium-canopy-dogfood-hardening.md) | Critical | Umbrella for the 2026-04-26 dogfood findings |
 | ~~H2~~ | ~~[Hymenium: Canopy Dispatch Compatibility](hymenium/canopy-dispatch-compatibility.md)~~ | Critical | Done 2026-04-26 — all 9 AgentRole variants covered; JSON task-id parse + raw fallback; verify script fixed (1be7dc0) |
-| H3 | [Hymenium: Task Packet Runtime Identity](hymenium/task-packet-runtime-identity.md) | Critical | Workflow/phase/task/agent/path identity carried into dispatch and status |
+| ~~H3~~ | ~~[Hymenium: Task Packet Runtime Identity](hymenium/task-packet-runtime-identity.md)~~ | Critical | Done 2026-04-26 — workflow_id/phase_id wired to Canopy task create; handoff_path fixed from owning_repo to real path; canopy_task_id surfaced in human status (ce11a87) |
 | H4 | [Hymenium: Canopy Phase Reconciliation](hymenium/canopy-phase-reconciliation.md) | Critical | Completed Canopy tasks update Hymenium phase state and advance the workflow |
 | H1 | [Hymenium: Dogfood Handoff Intake Lint](hymenium/dogfood-handoff-intake-lint.md) | High | Parser/preflight diagnostics, heading variants, and read-only audit artifact scope |
 | H5 | [Hymenium: Read-Only Audit Packet Quality](hymenium/read-only-audit-packet-quality.md) | High | Better task titles, constraints, non-goals, and read-only capabilities |
@@ -176,7 +176,7 @@ Read models consumed by Cap and Annulus operator surfaces.
 | ~~A11~~ | ~~[Canopy: Notification Contract Alignment](canopy/canopy-notification-contract-alignment.md)~~ | High | Done 2026-04-26 — notification_id/seen in schema+fixture+tests; septa c5520e3, canopy 958d3b6 |
 | A7 | [Annulus: Operator Boundary And Statusline Contracts](annulus/operator-boundary-statusline-contracts.md) | High | Read-only boundary, Canopy notification write, statusline contract/registry, docs/version drift |
 | A12 | [Cap: Cross-Tool Consumer Contracts](cap/cross-tool-consumer-contracts.md) | Medium | Evidence source kind and Annulus status/statusline consumer drift |
-| A21 | [Cap: API Auth And Webhook Defaults](cap/api-auth-and-webhook-defaults.md) | High | API and webhook routes fail open without configured secrets |
+| ~~A21~~ | ~~[Cap: API Auth And Webhook Defaults](cap/api-auth-and-webhook-defaults.md)~~ | High | Done 2026-04-26 — non-loopback + no API key → 503; startup host closed over not re-read; webhook validate() pure HMAC; bypass at route layer; localStorage documented (ed61c88) |
 | A27 | [Cap: Server And UI Verification Hardening](cap/server-and-ui-verification-hardening.md) | High | Malformed write bodies, fixture-backed consumer tests, and observable UI behavior coverage |
 | A37 | [Cap: Canopy Stale Cache Integrity](cap/canopy-stale-cache-integrity.md) | Medium | Stale snapshot fallback is global instead of project/filter keyed |
 | A46 | [Cap: Node Supply Chain Script Policy](cap/node-supply-chain-script-policy.md) | Medium | `npx` scripts, release checks, install lifecycle policy |
