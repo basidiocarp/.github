@@ -212,9 +212,9 @@ Read models consumed by Cap and Annulus operator surfaces.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | ~~A8~~ | ~~[Spore: Shared Primitive Quality](spore/shared-primitive-quality.md)~~ | High | Done 2026-04-25 — logging API preserved, wait() after kill() in 3 paths, discovery 5s timeout, README v0.4.11/CI (e4cd04b) |
-| A25 | [Cross-Project: Verification Command And Script Hardening](cross-project/verification-command-and-script-hardening.md) | High | Weak verify scripts, cwd-unsafe command blocks, dashboard/script hygiene, CI parity docs |
+| ~~A25~~ | ~~[Cross-Project: Verification Command And Script Hardening](cross-project/verification-command-and-script-hardening.md)~~ | High | Done 2026-04-27 — A19/A23/A24 scripts hardened with check_test_count guards; A18/A21 orphan scripts archived; template updated for cwd-safe subshells (4824ff1) |
 | A39 | [Cross-Project: Version Ledger Authority](cross-project/version-ledger-authority.md) | High | Ecosystem tool version authority is split across ledger, manifests, and Stipe pins |
-| A44 | [Cross-Project: Rust Supply Chain Policy](cross-project/rust-supply-chain-policy.md) | High | Cargo monitoring, cargo-deny, immutable Spore source, shared dependency drift |
+| ~~A44~~ | ~~[Cross-Project: Rust Supply Chain Policy](cross-project/rust-supply-chain-policy.md)~~ | High | Done 2026-04-27 — deny.toml + [licenses]; Dependabot Cargo coverage for all 10 repos (subrepo-local configs for volva/annulus/hymenium); Spore pinned by rev= across all 9 consumers; check-spore-pins.sh (4fbfc6b) |
 | A52 | [Cross-Project: Workspace Docs Link Drift](cross-project/workspace-docs-link-drift.md) | Medium | Broken docs links, archived handoff references, command rendering, unavailable skill refs |
 
 ---
