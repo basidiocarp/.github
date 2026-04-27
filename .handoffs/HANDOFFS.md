@@ -66,7 +66,7 @@ Septa schema work and the cross-project validation harness. Settle these before 
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
-| A16 | [Septa: Validation Tooling And Inventory](septa/validation-tooling-and-inventory.md) | High | Offline `$ref` validation docs, registry inventory, variant fixture coverage |
+| ~~A16~~ | ~~[Septa: Validation Tooling And Inventory](septa/validation-tooling-and-inventory.md)~~ | High | Done 2026-04-26 — validate-all.sh covers variant fixtures (55 pass), README primary workflow updated, CROSS-TOOL-PAYLOADS.md complete, workflow-template version fixed 1.0→1.1 (8d5ace4, 7adc3e9) |
 | A26 | [Cross-Project: Producer Contract Validation Harness](cross-project/producer-contract-validation-harness.md) | High | Real producer output is not broadly schema-validated against Septa and consumer parsers |
 
 ---
@@ -99,7 +99,7 @@ Workflow orchestration, dispatch compatibility, phase reconciliation, and runtim
 | ~~H1~~ | ~~[Hymenium: Dogfood Handoff Intake Lint](hymenium/dogfood-handoff-intake-lint.md)~~ | High | Done 2026-04-26 — SectionType alias map, normalize_heading, extract_section_by_type, source_scope field, 4 parser tests + umbrella fixture; H4 residuals (engine/reconcile/main) also shipped (07978a2) |
 | H5 | [Hymenium: Read-Only Audit Packet Quality](hymenium/read-only-audit-packet-quality.md) | High | Better task titles, constraints, non-goals, and read-only capabilities |
 | A28 | [Hymenium: Workflow Gate Integration Verification](hymenium/workflow-gate-integration-verification.md) | High | Implementer-to-auditor gate is tested with mocks, not evidence-backed integration |
-| A36 | [Hymenium: Terminal Workflow Idempotency](hymenium/terminal-workflow-idempotency.md) | High | `complete` can overwrite terminal workflow outcomes and duplicate transitions |
+| ~~A36~~ | ~~[Hymenium: Terminal Workflow Idempotency](hymenium/terminal-workflow-idempotency.md)~~ | High | Done 2026-04-26 — complete/fail get already-terminal guard (Ok no-op with message); 6 new tests; cancel.rs unchanged (already had guard) (9565796) |
 | A43 | [Hymenium: Dispatch Command Trust Boundary](hymenium/dispatch-command-trust-boundary.md) | Medium | Dispatch shells out to ambient `canopy` without timeout or trusted path |
 | A49 | [Hymenium: Docs And CLI Surface Drift](hymenium/docs-and-cli-surface-drift.md) | High | Public docs advertise unshipped commands/MCP behavior and stale module paths |
 | ~~A18~~ | ~~[Canopy: MCP Handoff Runtime Boundaries](canopy/mcp-handoff-runtime-boundaries.md)~~ | Critical | Done 2026-04-26 — verify-script gated by flag; import rejects outside-.handoffs paths + traversal; ON DELETE CASCADE on file_locks; owner-scoped unlock; MCP schema updated (a8bbe5a) |
