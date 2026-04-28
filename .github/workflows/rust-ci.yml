@@ -72,7 +72,7 @@ jobs:
         with:
           toolchain: ${{ inputs.rust-toolchain }}
       - name: Install cargo-audit
-        uses: taiki-e/install-action@v2.69.7
+        uses: taiki-e/install-action@v2.75.25
         with:
           tool: cargo-audit
       - name: Audit dependencies
