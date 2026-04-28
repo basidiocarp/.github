@@ -200,8 +200,8 @@ Read models consumed by Cap and Annulus operator surfaces.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | A22 | [Lamella: Session Logger Secret Redaction](lamella/session-logger-secret-redaction.md) | Medium | Hook session logger persists Bash command snippets without redaction or restrictive mode |
-| A42 | [Lamella: Hook Trust And Manifest Path Security](lamella/hook-trust-and-manifest-path-security.md) | High | Post-edit hook toolchain env trust, manifest traversal, raw hook payload echoing |
-| A48 | [Lamella: Package Provenance And Runtime Pins](lamella/package-provenance-and-runtime-pins.md) | High | Vendored license provenance, mutable marketplace refs, unpinned runtime packages |
+| ~~A42~~ | ~~[Lamella: Hook Trust And Manifest Path Security](lamella/hook-trust-and-manifest-path-security.md)~~ | High | Done 2026-04-27 — scrubEnv() in post-edit-format/typecheck/auto-format; path containment check in validate-manifests; lamella 64a661c |
+| ~~A48~~ | ~~[Lamella: Package Provenance And Runtime Pins](lamella/package-provenance-and-runtime-pins.md)~~ | High | Done 2026-04-27 — @latest and -y removed from mcp-configs; ccstatusline pinned @1.0; provenance doc added; lamella 143d4eb |
 | A40 | [Lamella: Manifest Sync Maintenance](lamella/manifest-sync-maintenance.md) | Medium | Manifest sync maintenance script points at obsolete paths |
 | A51 | [Lamella: Docs And Authoring Drift](lamella/docs-and-authoring-drift.md) | High | Operator commands, builder docs, hook examples, counts, and Codex manifest docs drift |
 
