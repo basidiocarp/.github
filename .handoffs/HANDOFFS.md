@@ -216,7 +216,7 @@ Read models consumed by Cap and Annulus operator surfaces.
 | ~~A39~~ | ~~[Cross-Project: Version Ledger Authority](cross-project/version-ledger-authority.md)~~ | High | Done 2026-04-27 — ecosystem-versions.toml is authority; Stipe pins aligned (hyphae/canopy/stipe/spore/annulus/cap); lamella/annulus/cap ledger corrected; hyphae-ingest added to release.sh; check-version-drift.sh (1d3bd90) |
 | ~~A44~~ | ~~[Cross-Project: Rust Supply Chain Policy](cross-project/rust-supply-chain-policy.md)~~ | High | Done 2026-04-27 — deny.toml + [licenses]; Dependabot Cargo coverage for all 10 repos (subrepo-local configs for volva/annulus/hymenium); Spore pinned by rev= across all 9 consumers; check-spore-pins.sh (4fbfc6b) |
 | A52 | [Cross-Project: Workspace Docs Link Drift](cross-project/workspace-docs-link-drift.md) | Medium | Broken docs links, archived handoff references, command rendering, unavailable skill refs |
-| A54 | [Cross-Project: Release Smoke Tests](cross-project/release-smoke-tests.md) | Medium | Add Smoke test step to canopy, stipe, hymenium, cortina, annulus, volva release.yml — L0 `--version` + L1 read-only command; rhizome is the reference pattern |
+| ~~A54~~ | ~~[Cross-Project: Release Smoke Tests](cross-project/release-smoke-tests.md)~~ | Medium | Done 2026-04-28 — Smoke test step added to canopy, stipe, hymenium, cortina, annulus, volva release.yml; L0 `--version` + per-repo L1; cross-skip guard; verify 36/36 |
 
 ---
 
