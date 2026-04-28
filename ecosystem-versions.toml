@@ -10,7 +10,7 @@
 
 [spore]
 version = "0.4.11"
-rev = "0bc2e878010e75e30e26fa517d747e97d59628b0"
+rev = "a3c7f5bf8f4025b7a507f44d68a338244ad2d6e4"
 git = "https://github.com/basidiocarp/spore"
 consumers = ["mycelium", "hyphae", "rhizome", "stipe", "cortina", "canopy", "volva", "hymenium", "annulus"]
 pending = []
@@ -39,14 +39,14 @@ which = "7"
 # Tool versions: ecosystem-versions.toml is the single authority.
 # Stipe doctor pins must match these values.
 # Update this file when a tool is released, then update Stipe pins to match.
-mycelium = "0.8.18"
-hyphae = "0.11.0"       # 5-crate workspace, version per crate
-rhizome = "0.7.14"      # 5-crate workspace, version per crate
-canopy = "0.5.23"
-cortina = "0.2.22"
-stipe = "0.5.24"
+mycelium = "0.9.0"
+hyphae = "0.12.0"       # 5-crate workspace, version per crate
+rhizome = "0.8.0"       # 5-crate workspace, version per crate
+canopy = "0.6.0"
+cortina = "0.3.0"
+stipe = "0.6.0"
 volva = "0.2.4"
-hymenium = "0.5.0"
+hymenium = "0.6.0"
 annulus = "0.5.5"
 cap = "0.11.9"
 lamella = "0.5.15"
@@ -108,3 +108,5 @@ host-identifier = "1.0"
 task-output = "1.0"
 task-packet = "1.0"
 workflow-outcome = "1.0"
+capability-registry = "1.0"
+capability-runtime-lease = "1.0"
