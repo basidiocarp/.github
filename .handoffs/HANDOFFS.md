@@ -134,9 +134,9 @@ Hook lifecycle capture chain: Volva emits hook envelopes, Cortina classifies and
 | A6 | [Cortina: Capture Policy Boundary](cortina/capture-policy-boundary.md) | High | Capture repo has default blocking policy behavior and docs drift |
 | ~~A13~~ | ~~[Cortina: Session And Usage Event Contracts](cortina/session-usage-event-contracts.md)~~ | High | Done 2026-04-26 — SessionEventV1Dto wire DTO; wired into save paths; session-state fixture; cortina a3f6d46 |
 | A30 | [Cortina: Hook Executor Verification](cortina/hook-executor-verification.md) | Medium | Hook executor tests prove a no-op stub while docs describe execution behavior |
-| A34 | [Cortina: Volva Event Replay Identity](cortina/volva-event-replay-identity.md) | High | Volva hook events lose session/replay identity at Cortina boundary |
+| ~~A34~~ | ~~[Cortina: Volva Event Replay Identity](cortina/volva-event-replay-identity.md)~~ | High | Done 2026-04-27 — VolvaExecutionSession; session_id wired into NormalizedLifecycleEvent; (session_id, phase) dedupe; cortina e985edf |
 | A38 | [Cortina: Compact Summary Artifact Integrity](cortina/compact-summary-artifact-integrity.md) | Medium | Compact summaries are stored as memories instead of typed artifacts |
-| A41 | [Cortina: Handoff Audit And Hook Secret Boundaries](cortina/handoff-audit-and-hook-secret-boundaries.md) | High | Handoff audit outside-root file oracle and PostToolUse secret redaction |
+| ~~A41~~ | ~~[Cortina: Handoff Audit And Hook Secret Boundaries](cortina/handoff-audit-and-hook-secret-boundaries.md)~~ | High | Done 2026-04-27 — canonicalize_and_gate; secret_redaction.rs; safe_command all Hyphae paths; cortina 1e062ac |
 
 ---
 
@@ -189,9 +189,9 @@ Read models consumed by Cap and Annulus operator surfaces.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | A9 | [Stipe: Control Plane Quality](stipe/control-plane-quality.md) | Medium | Backup partial-success semantics and boolean-heavy APIs |
-| A20 | [Stipe: Install Hooks And Secret Safety](stipe/install-hooks-and-secret-safety.md) | High | Atomic lockfile, install deadlines, provider secret writes, generated hook policy |
-| A47 | [Stipe: Release Artifact Provenance](stipe/release-artifact-provenance.md) | High | Release/self-update downloads lack checksum/signature/provenance checks |
-| A53 | [Stipe: Install And Release Docs Drift](stipe/install-release-docs-drift.md) | High | Install/release docs omit registry tools and misstate profile inventory |
+| ~~A20~~ | ~~[Stipe: Install Hooks And Secret Safety](stipe/install-hooks-and-secret-safety.md)~~ | High | Done 2026-04-27 — validate_key_for_shell_export; quoted export; 0600 perms; gitignore check; stipe 8acd92b |
+| ~~A47~~ | ~~[Stipe: Release Artifact Provenance](stipe/release-artifact-provenance.md)~~ | High | Done 2026-04-27 — SHA-256 verify, 100MB cap, TempDir extraction, version match; stipe 9905deb |
+| ~~A53~~ | ~~[Stipe: Install And Release Docs Drift](stipe/install-release-docs-drift.md)~~ | High | Done 2026-04-27 — matrix/scope/README updated; validate-docs.py fixed; stipe 8acd92b, root 0b37df9 |
 
 ---
 
