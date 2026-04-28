@@ -16,6 +16,9 @@ Use this page to answer:
 | `rhizome`  | Yes   | Yes   | Yes     | Yes                            | No               | No                          |
 | `cortina`  | Yes   | Yes   | Yes     | Yes                            | No               | No                          |
 | `canopy`   | Yes   | Yes   | Yes     | No                             | Yes              | No                          |
+| `annulus`  | Yes   | Yes   | Yes     | No                             | Yes              | No                          |
+| `hymenium` | Yes   | Yes   | Yes     | No                             | Yes              | No                          |
+| `volva`    | Yes   | Yes   | Yes     | No                             | Yes              | No                          |
 | `cap`      | Yes   | Yes   | Yes     | No                             | No               | Yes                         |
 | `lamella`  | Yes   | Yes   | Yes     | No                             | No               | Yes                         |
 | `spore`    | Yes   | Yes   | Yes     | No                             | No               | Yes                         |
@@ -31,9 +34,18 @@ Use this page to answer:
 
 ## Practical Notes
 
+- `annulus`
+  - operator utilities and statusline tooling
+  - install it for local status and operator surfaces
 - `canopy`
   - optional coordination runtime
   - install it when you need multi-agent runtime state
+- `hymenium`
+  - workflow orchestration engine
+  - install it for advanced workflow automation
+- `volva`
+  - execution-host runtime layer
+  - install it for enhanced execution environments
 - `cap`
   - dashboard surface
   - run or deploy it separately
