@@ -162,7 +162,7 @@ Internal Hyphae integrity items not driven by a specific inbound producer.
 | ~~A14~~ | ~~[Hyphae: Read Model And Archive Contracts](hyphae/read-model-and-archive-contracts.md)~~ | High | Done 2026-04-26 — hyphae-search-v1 expanded; archive filter `until` added to schema; import pre-validation atomicity; conflict strategy tests; septa e37da13, hyphae 5e2fd49 |
 | ~~A19~~ | ~~[Hyphae: Storage And Ingest Runtime Safety](hyphae/storage-and-ingest-runtime-safety.md)~~ | High | Done 2026-04-27 — VACUUM INTO WAL-safe backup, atomic restore via rename, OsString sidecars, 10MB ingest cap, case-split secret detection, UTF-8 lossy stdin; hyphae f82c46b bd94de7 |
 | ~~A32~~ | ~~[Hyphae: Memory And Document Integrity](hyphae/memory-document-integrity.md)~~ | High | Done 2026-04-27 — unchecked_transaction wraps memory+embedding writes, project-scoped UNIQUE(project,source_path) with inline migration, NULL-semantics documented; hyphae c6446e3 |
-| A45 | [Hyphae: Embedding Supply Chain Profile](hyphae/embedding-supply-chain-profile.md) | High | Default embedding feature pulls native/ML binary dependency chain |
+| ~~A45~~ | ~~[Hyphae: Embedding Supply Chain Profile](hyphae/embedding-supply-chain-profile.md)~~ | High | Done 2026-04-27 — supply chain documented in README+AGENTS.md; CI split into ci-embeddings/ci-no-embeddings; verify script 4/4 passed; hyphae edc0c49 |
 
 ---
 
