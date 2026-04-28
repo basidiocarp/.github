@@ -77,7 +77,7 @@ New capability registry contracts flowing through Septa → Spore → Stipe → 
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
-| C0 | [Septa: Capability Registry Contracts](septa/capability-registry-contracts.md) | Critical | Defines installed capability registry and runtime lease payloads |
+| ~~C0~~ | ~~[Septa: Capability Registry Contracts](septa/capability-registry-contracts.md)~~ | Critical | Done 2026-04-28 — capability-registry-v1 + capability-runtime-lease-v1 schemas; fixtures; CROSS-TOOL-PAYLOADS.md + README inventory updated; verify 6/6; septa 0ba1de1 |
 | C1 | [Spore: Capability Registry Discovery](spore/capability-registry-discovery.md) | Critical | Reads registry and leases, resolves capability ids to endpoint candidates |
 | C2 | [Stipe: Capability Registration Manager](stipe/capability-registration-manager.md) | High | Writes and repairs managed capability registry entries during install/update/uninstall/doctor |
 | C3 | [Canopy: Dispatch Request Service Endpoint](canopy/dispatch-request-service-endpoint.md) | High | Accepts `dispatch-request-v1` directly so callers stop reconstructing CLI flags |
