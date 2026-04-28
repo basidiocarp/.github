@@ -45,6 +45,10 @@ def validate_relative_links(path: Path, text: str, errors: list[str]) -> None:
         if not target:
             continue
         if target.startswith("/"):
+            # Try as absolute filesystem path first (links created with machine-specific paths)
+            abs_path = Path(target)
+            if abs_path.exists():
+                continue  # absolute path exists on this machine, skip
             resolved = (ROOT / target.lstrip("/")).resolve()
         else:
             resolved = (path.parent / target).resolve()

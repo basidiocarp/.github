@@ -59,6 +59,4 @@ Guidelines:
 
 ## References
 
-- [Orchestration Reset Campaign](../../.handoffs/campaigns/orchestration-reset/README.md) — Campaign sequencing and detailed authority model
-- [Umbrella Handoff: Orchestration Reset](../../.handoffs/cross-project/orchestration-reset.md) — Top-level work structure
 - [Multi-Agent Orchestration System (Research)](./README.md) — Analytical foundation

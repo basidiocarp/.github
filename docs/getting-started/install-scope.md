@@ -28,6 +28,7 @@ flowchart TD
   Optional["Optional runtime install"] --> Canopy["canopy"]
   Optional --> Hymenium["hymenium"]
   Optional --> Annulus["annulus"]
+  Optional --> Volva["volva"]
   Separate["Separate source or deploy surface"] --> Cap["cap"]
   Separate --> Lamella["lamella"]
   Separate --> Spore["spore"]
@@ -35,14 +36,15 @@ flowchart TD
 
 ## Optional Runtime Tools
 
-`canopy`, `hymenium`, and `annulus` are part of the ecosystem, but they are not installed by the bootstrap scripts today.
+`annulus`, `canopy`, `hymenium`, and `volva` are part of the ecosystem, but they are not installed by the bootstrap scripts today.
 
-`canopy` is part of the ecosystem, but it is not installed by the bootstrap scripts today.
-
-Install it when you want local coordination-runtime coverage:
+Install them when you want the broader runtime coverage:
 
 ```bash
+stipe install annulus
 stipe install canopy
+stipe install hymenium
+stipe install volva
 ```
 
 Or install the broader runtime profile:
@@ -51,8 +53,7 @@ Or install the broader runtime profile:
 stipe install --profile full-stack
 ```
 
-`canopy` is optional outside the coordination path. `stipe doctor` should surface it without failing the whole stack
-when it is absent.
+These tools are optional outside their specific use cases. `stipe doctor` should surface their absence without failing the whole stack.
 
 ## Source or Build Surfaces
 
