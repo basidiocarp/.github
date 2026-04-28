@@ -79,7 +79,7 @@ New capability registry contracts flowing through Septa → Spore → Stipe → 
 |---|---------|----------|-------|
 | ~~C0~~ | ~~[Septa: Capability Registry Contracts](septa/capability-registry-contracts.md)~~ | Critical | Done 2026-04-28 — capability-registry-v1 + capability-runtime-lease-v1 schemas; fixtures; CROSS-TOOL-PAYLOADS.md + README inventory updated; verify 6/6; septa 0ba1de1 |
 | ~~C1~~ | ~~[Spore: Capability Registry Discovery](spore/capability-registry-discovery.md)~~ | Critical | Done 2026-04-28 — capability.rs: CapabilityRegistry/RuntimeLease parse + load, resolve_capability lease-first fallback, 18 tests; path helpers in paths.rs; spore a3c7f5b; verify 7/7 |
-| C2 | [Stipe: Capability Registration Manager](stipe/capability-registration-manager.md) | High | Writes and repairs managed capability registry entries during install/update/uninstall/doctor |
+| ~~C2~~ | ~~[Stipe: Capability Registration Manager](stipe/capability-registration-manager.md)~~ | High | Done 2026-04-28 — capability_ids+contract_ids on ToolSpec; write_capability_registry (serde_json::json!, spore pin constraint); capability registry doctor check; wired into stipe init; stipe 2d289ec; verify 8/8 |
 | C3 | [Canopy: Dispatch Request Service Endpoint](canopy/dispatch-request-service-endpoint.md) | High | Accepts `dispatch-request-v1` directly so callers stop reconstructing CLI flags |
 | C4 | [Hymenium: Capability Dispatch Client](hymenium/capability-dispatch-client.md) | High | Resolves `workflow.dispatch.v1` through Spore and treats CLI as fallback |
 
