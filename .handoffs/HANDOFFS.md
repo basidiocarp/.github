@@ -118,8 +118,8 @@ Code intelligence export from Rhizome and import into Hyphae. Also covers Rhizom
 | ~~A3~~ | ~~[Rhizome: Code Graph Contract And Install Boundary](rhizome/code-graph-contract-and-install-boundary.md)~~ | High | Done 2026-04-28 — metadata HashMap<String,Value> so line_start/end are JSON integers; file node zero-line metadata removed; backend_selector decoupled from installer; rhizome b02f4e9 |
 | ~~A4~~ | ~~[Hyphae: Code Graph Import And Core Boundary](hyphae/code-graph-import-and-core-boundary.md)~~ | High | Done 2026-04-28 — edge weight range 0.0..=1.0 validated at import; out-of-range error with index+value; test for weight 2.5; hyphae b43c4f2 |
 | ~~A17~~ | ~~[Rhizome: MCP Write Boundary And Runtime Timeouts](rhizome/mcp-write-boundary-and-runtime-timeouts.md)~~ | Critical | Done 2026-04-26 — caller root clamped to project_root; 300s installer timeouts; probe path read-only; hostile-root tests for all write families (febd669); follow-up: symbol_tools root param description is now misleading |
-| A29 | [Rhizome: LSP And Export Verification](rhizome/lsp-and-export-verification.md) | High | Live LSP/export behavior is mostly ignored or outside default validation |
-| A33 | [Rhizome: Incremental Export Prune Integrity](rhizome/incremental-export-prune-integrity.md) | High | Partial code graph exports can prune unchanged Hyphae concepts |
+| ~~A29~~ | ~~[Rhizome: LSP And Export Verification](rhizome/lsp-and-export-verification.md)~~ | High | Done 2026-04-28 — deterministic.rs: 4 non-ignored LspClient/LspBackend error tests; live_lsp.rs stays optional; AGENTS.md documents --ignored commands; verify 3/3 |
+| ~~A33~~ | ~~[Rhizome: Incremental Export Prune Integrity](rhizome/incremental-export-prune-integrity.md)~~ | High | Done 2026-04-28 — export_graph takes prune: bool; export_to_hyphae passes prune=files_skipped_cached==0; 2 regression tests (incremental→false, full→true); verify 3/3; rhizome e27508a |
 
 ---
 
