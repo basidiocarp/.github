@@ -146,7 +146,7 @@ Command output compression (Mycelium) and storage into Hyphae. Includes Mycelium
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
-| A15 | [Mycelium: Gain And Summary Contracts](mycelium/gain-summary-contracts.md) | High | Gain JSON emits extra telemetry field; summary contract is not a real round-trip |
+| ~~A15~~ | ~~[Mycelium: Gain And Summary Contracts](mycelium/gain-summary-contracts.md)~~ | High | Done 2026-04-28 — telemetry_summary excluded from public JSON (skip_serializing); gain output now validates against mycelium-gain-v1 (additionalProperties:false); verify 4/4; mycelium 7321725 |
 | A10 | [Mycelium: Output Cleanliness](mycelium/output-cleanliness.md) | Medium | Optional Hyphae fallback warning contaminates output |
 | A24 | [Mycelium: Input Size Boundaries](mycelium/input-size-boundaries.md) | Medium | read/diff/json commands read unbounded file/stdin input before safeguards |
 | A31 | [Mycelium: Git Branch Regression Verification](mycelium/git-branch-regression-verification.md) | Medium | Branch write-regression coverage is ignored by default validation |
