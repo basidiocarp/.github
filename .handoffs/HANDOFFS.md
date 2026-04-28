@@ -80,8 +80,8 @@ New capability registry contracts flowing through Septa → Spore → Stipe → 
 | ~~C0~~ | ~~[Septa: Capability Registry Contracts](septa/capability-registry-contracts.md)~~ | Critical | Done 2026-04-28 — capability-registry-v1 + capability-runtime-lease-v1 schemas; fixtures; CROSS-TOOL-PAYLOADS.md + README inventory updated; verify 6/6; septa 0ba1de1 |
 | ~~C1~~ | ~~[Spore: Capability Registry Discovery](spore/capability-registry-discovery.md)~~ | Critical | Done 2026-04-28 — capability.rs: CapabilityRegistry/RuntimeLease parse + load, resolve_capability lease-first fallback, 18 tests; path helpers in paths.rs; spore a3c7f5b; verify 7/7 |
 | ~~C2~~ | ~~[Stipe: Capability Registration Manager](stipe/capability-registration-manager.md)~~ | High | Done 2026-04-28 — capability_ids+contract_ids on ToolSpec; write_capability_registry (serde_json::json!, spore pin constraint); capability registry doctor check; wired into stipe init; stipe 2d289ec; verify 8/8 |
-| C3 | [Canopy: Dispatch Request Service Endpoint](canopy/dispatch-request-service-endpoint.md) | High | Accepts `dispatch-request-v1` directly so callers stop reconstructing CLI flags |
-| C4 | [Hymenium: Capability Dispatch Client](hymenium/capability-dispatch-client.md) | High | Resolves `workflow.dispatch.v1` through Spore and treats CLI as fallback |
+| ~~C3~~ | ~~[Canopy: Dispatch Request Service Endpoint](canopy/dispatch-request-service-endpoint.md)~~ | High | Done 2026-04-28 — `dispatch.rs` intake/read_request; `DispatchPriority`/`DispatchAgentTier` → `TaskPriority`/`AgentRole`; `canopy dispatch submit`; `workflow.dispatch.v1` CAPABILITY_ID; verify 8/8; canopy 5cf7f35 |
+| ~~C4~~ | ~~[Hymenium: Capability Dispatch Client](hymenium/capability-dispatch-client.md)~~ | High | Done 2026-04-28 — `CapabilityCanopyClient<C>` resolves `workflow.dispatch.v1` via Spore lease/registry, falls back to `CliCanopyClient`; wired into `commands/dispatch.rs`; `path = "../spore"` TODO for git pin; verify 8/8; hymenium 84f689a |
 
 ---
 
