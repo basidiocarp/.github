@@ -131,7 +131,7 @@ Hook lifecycle capture chain: Volva emits hook envelopes, Cortina classifies and
 |---|---------|----------|-------|
 | ~~A5~~ | ~~[Volva: Hook Runtime Contracts](volva/hook-runtime-contracts.md)~~ | High | Done 2026-04-25 — timeout clamped to [1,30000]; execution_session in septa schema; docs updated (49a2abb/a7971d3) |
 | A23 | [Volva: Backend And Credential Runtime Safety](volva/backend-and-credential-runtime-safety.md) | Medium | Official backend timeout, project hook adapter trust/env, credential file permissions |
-| A6 | [Cortina: Capture Policy Boundary](cortina/capture-policy-boundary.md) | High | Capture repo has default blocking policy behavior and docs drift |
+| ~~A6~~ | ~~[Cortina: Capture Policy Boundary](cortina/capture-policy-boundary.md)~~ | High | Done 2026-04-28 — GateGuard advisory default verified; verify 5/5 passed; no code changes needed |
 | ~~A13~~ | ~~[Cortina: Session And Usage Event Contracts](cortina/session-usage-event-contracts.md)~~ | High | Done 2026-04-26 — SessionEventV1Dto wire DTO; wired into save paths; session-state fixture; cortina a3f6d46 |
 | A30 | [Cortina: Hook Executor Verification](cortina/hook-executor-verification.md) | Medium | Hook executor tests prove a no-op stub while docs describe execution behavior |
 | ~~A34~~ | ~~[Cortina: Volva Event Replay Identity](cortina/volva-event-replay-identity.md)~~ | High | Done 2026-04-27 — VolvaExecutionSession; session_id wired into NormalizedLifecycleEvent; (session_id, phase) dedupe; cortina e985edf |
@@ -174,7 +174,7 @@ Read models consumed by Cap and Annulus operator surfaces.
 |---|---------|----------|-------|
 | ~~A2~~ | ~~[Canopy: Septa Read Model Contracts](canopy/septa-read-model-contracts.md)~~ | High | Done 2026-04-26 — allowed_actions.level enum fixed; needs_verification_count added to snapshot; schema_version validation in outcomes; contract tests; septa e37da13, canopy 447b491 |
 | ~~A11~~ | ~~[Canopy: Notification Contract Alignment](canopy/canopy-notification-contract-alignment.md)~~ | High | Done 2026-04-26 — notification_id/seen in schema+fixture+tests; septa c5520e3, canopy 958d3b6 |
-| A7 | [Annulus: Operator Boundary And Statusline Contracts](annulus/operator-boundary-statusline-contracts.md) | High | Read-only boundary, Canopy notification write, statusline contract/registry, docs/version drift |
+| ~~A7~~ | ~~[Annulus: Operator Boundary And Statusline Contracts](annulus/operator-boundary-statusline-contracts.md)~~ | High | Done 2026-04-28 — notify write boundary documented (notification acknowledgement); degradation+hyphae segments added to septa schema; annulus b9ed99c, septa 70e3867; verify 5/5 |
 | A12 | [Cap: Cross-Tool Consumer Contracts](cap/cross-tool-consumer-contracts.md) | Medium | Evidence source kind and Annulus status/statusline consumer drift |
 | ~~A21~~ | ~~[Cap: API Auth And Webhook Defaults](cap/api-auth-and-webhook-defaults.md)~~ | High | Done 2026-04-26 — non-loopback + no API key → 503; startup host closed over not re-read; webhook validate() pure HMAC; bypass at route layer; localStorage documented (ed61c88) |
 | A27 | [Cap: Server And UI Verification Hardening](cap/server-and-ui-verification-hardening.md) | High | Malformed write bodies, fixture-backed consumer tests, and observable UI behavior coverage |
