@@ -67,7 +67,7 @@ Septa schema work and the cross-project validation harness. Settle these before 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | ~~A16~~ | ~~[Septa: Validation Tooling And Inventory](septa/validation-tooling-and-inventory.md)~~ | High | Done 2026-04-26 — validate-all.sh covers variant fixtures (55 pass), README primary workflow updated, CROSS-TOOL-PAYLOADS.md complete, workflow-template version fixed 1.0→1.1 (8d5ace4, 7adc3e9) |
-| A26 | [Cross-Project: Producer Contract Validation Harness](cross-project/producer-contract-validation-harness.md) | High | Real producer output is not broadly schema-validated against Septa and consumer parsers |
+| ~~A26~~ | ~~[Cross-Project: Producer Contract Validation Harness](cross-project/producer-contract-validation-harness.md)~~ | High | Done 2026-04-28 — validate-producer-output.py + contract-harness-demo.sh; 9 priority surfaces validated; README three-step pattern documented; septa 05a46cc |
 
 ---
 
@@ -115,8 +115,8 @@ Code intelligence export from Rhizome and import into Hyphae. Also covers Rhizom
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
-| A3 | [Rhizome: Code Graph Contract And Install Boundary](rhizome/code-graph-contract-and-install-boundary.md) | High | Code graph Septa drift and core install-policy boundary |
-| A4 | [Hyphae: Code Graph Import And Core Boundary](hyphae/code-graph-import-and-core-boundary.md) | High | Import validation, identity storage, core adapter leakage, UTF-8 path safety |
+| ~~A3~~ | ~~[Rhizome: Code Graph Contract And Install Boundary](rhizome/code-graph-contract-and-install-boundary.md)~~ | High | Done 2026-04-28 — metadata HashMap<String,Value> so line_start/end are JSON integers; file node zero-line metadata removed; backend_selector decoupled from installer; rhizome b02f4e9 |
+| ~~A4~~ | ~~[Hyphae: Code Graph Import And Core Boundary](hyphae/code-graph-import-and-core-boundary.md)~~ | High | Done 2026-04-28 — edge weight range 0.0..=1.0 validated at import; out-of-range error with index+value; test for weight 2.5; hyphae b43c4f2 |
 | ~~A17~~ | ~~[Rhizome: MCP Write Boundary And Runtime Timeouts](rhizome/mcp-write-boundary-and-runtime-timeouts.md)~~ | Critical | Done 2026-04-26 — caller root clamped to project_root; 300s installer timeouts; probe path read-only; hostile-root tests for all write families (febd669); follow-up: symbol_tools root param description is now misleading |
 | A29 | [Rhizome: LSP And Export Verification](rhizome/lsp-and-export-verification.md) | High | Live LSP/export behavior is mostly ignored or outside default validation |
 | A33 | [Rhizome: Incremental Export Prune Integrity](rhizome/incremental-export-prune-integrity.md) | High | Partial code graph exports can prune unchanged Hyphae concepts |
