@@ -24,7 +24,8 @@ check_test_count() {
   test_output=$(cd "$ROOT/mycelium" && cargo test "$filter" 2>&1 | grep -E "test result:|running" || true)
   if echo "$test_output" | grep -q "test result:"; then
     local count
-    count=$(echo "$test_output" | grep -oE "[0-9]+ passed" | grep -oE "[0-9]+" | head -1)
+    # Take the max across all test binaries (lib/main/integration may each report separately)
+    count=$(echo "$test_output" | grep -oE "[0-9]+ passed" | grep -oE "[0-9]+" | sort -n | tail -1)
     if [ -n "$count" ] && [ "$count" -gt 0 ]; then
       printf 'PASS: %s\n' "$name"
       PASS=$((PASS + 1))

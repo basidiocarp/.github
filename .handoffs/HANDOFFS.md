@@ -147,9 +147,9 @@ Command output compression (Mycelium) and storage into Hyphae. Includes Mycelium
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | ~~A15~~ | ~~[Mycelium: Gain And Summary Contracts](mycelium/gain-summary-contracts.md)~~ | High | Done 2026-04-28 — telemetry_summary excluded from public JSON (skip_serializing); gain output now validates against mycelium-gain-v1 (additionalProperties:false); verify 4/4; mycelium 7321725 |
-| A10 | [Mycelium: Output Cleanliness](mycelium/output-cleanliness.md) | Medium | Optional Hyphae fallback warning contaminates output |
-| A24 | [Mycelium: Input Size Boundaries](mycelium/input-size-boundaries.md) | Medium | read/diff/json commands read unbounded file/stdin input before safeguards |
-| A31 | [Mycelium: Git Branch Regression Verification](mycelium/git-branch-regression-verification.md) | Medium | Branch write-regression coverage is ignored by default validation |
+| ~~A10~~ | ~~[Mycelium: Output Cleanliness](mycelium/output-cleanliness.md)~~ | Medium | Done 2026-04-28 — Hyphae fallback uses tracing::warn! (not eprintln!); test_hyphae_fallback_stderr_not_polluted confirms clean output; verify 3/3; already implemented |
+| ~~A24~~ | ~~[Mycelium: Input Size Boundaries](mycelium/input-size-boundaries.md)~~ | Medium | Done 2026-04-28 — 10MB limit on read/diff file+stdin; 1MB limit on json; reject_if_oversized helper; 3 named rejection tests; verify 6/6 |
+| ~~A31~~ | ~~[Mycelium: Git Branch Regression Verification](mycelium/git-branch-regression-verification.md)~~ | Medium | Done 2026-04-28 — is_branch_write_op extracted; 7 non-ignored unit tests (branch_creation filter); 2 ignored integration tests kept; verify 2/2 |
 
 ---
 
