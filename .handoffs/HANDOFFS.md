@@ -39,7 +39,7 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | [Sequential Audit Hardening Campaign](campaigns/sequential-audit-hardening-2026-04-26/README.md) | All Phases Complete | 53 issues tracked — fix phase ready |
 | [Capability Ecosystem Control Plane](cross-project/capability-ecosystem-control-plane.md) | Complete | C0-C8 all done 2026-04-29 — typed endpoint schema, transport primitives, CLI audit, boundary policy |
 | [Scope Freeze And Operator Console Reset](cross-project/core-hardening-freeze-roadmap.md) | Complete | F1 done 2026-04-29 — freeze roadmap; F2 done 2026-04-29 — cap scope reset |
-| [Post-Execution Boundary Compliance Audit](campaigns/post-execution-boundary-audit-2026-04-29/README.md) | Active | 3 parallel lanes — boundary compliance, septa contract accuracy, Low item prioritization |
+| [Post-Execution Boundary Compliance Audit](campaigns/post-execution-boundary-audit-2026-04-29/README.md) | Complete | 22 findings closed 2026-04-29 — 3 blockers, 11 concerns, 4 nits + 36-item Low queue triage |
 
 ---
 
@@ -71,14 +71,14 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | ~~A50~~ | ~~[Cap: Dashboard And API Docs Drift](cap/dashboard-api-docs-drift.md)~~ | ~~Medium~~ | Done 2026-04-29 — 4 missing namespaces added to api.md; route count 9→13 in internals; 4 factual fixes in getting-started; 4 missing pages in README |
 | ~~F2~~ | ~~[Cap: Operator Console Scope Reset](cap/operator-console-scope-reset.md)~~ | ~~Medium~~ | Done 2026-04-29 — decision report: partial rebuild, cut /code and /symbols, migrate CLI couplings, freeze new features |
 | ~~F2.1+F2.3~~ | ~~[Cap: Stipe Validators Accept Null](cap/stipe-validators-accept-null.md)~~ | ~~Medium~~ | Done 2026-04-29 — `isRepairAction` accepts null description; `isInitStep` accepts null/missing detail; 6 contract tests added |
-| F2.2+F2.4 | [Cap: Stipe Init Repair Action Shape](cap/stipe-init-repair-action-shape.md) | Medium | Audit concern — init plan repair_actions over-required by reused doctor predicate; missing action_key validation |
-| F2.5 | [Cap: Mycelium Gain Validates Weekly/Monthly](cap/mycelium-gain-weekly-monthly.md) | Medium | Audit concern — consumer skips weekly/monthly arrays declared in mycelium-gain-v1 |
-| F2.6+F2.7+F2.9 | [Cap: Canopy Consumer Tightening](cap/canopy-consumer-tightening.md) | Medium | Audit concern — snapshot/task-detail validators skip required fields; notification event_type opaque |
+| ~~F2.2+F2.4~~ | ~~[Cap: Stipe Init Repair Action Shape](cap/stipe-init-repair-action-shape.md)~~ | ~~Medium~~ | Done 2026-04-29 — `isInitPlanRepairAction` predicate added; init repair_actions validate `action_key` and accept optional `args`/`tier`/`description` |
+| ~~F2.5~~ | ~~[Cap: Mycelium Gain Validates Weekly/Monthly](cap/mycelium-gain-weekly-monthly.md)~~ | ~~Medium~~ | Done 2026-04-29 — `isGainCliOutput` validates weekly/monthly arrays via reused `isGainDailyStats` predicate (schemas identical); 7 tests added |
+| ~~F2.6+F2.7+F2.9~~ | ~~[Cap: Canopy Consumer Tightening](cap/canopy-consumer-tightening.md)~~ | ~~Medium~~ | Done 2026-04-29 — snapshot validates `attention`/`sla_summary`/`drift_signals`; task-detail validates `attention`/`sla_summary`; notification `event_type` validated against septa enum, unknowns logged + skipped |
 | — | [Cap: Canopy Performance And Decomposition](cap/canopy-performance.md) | Low | Canopy query performance and decomposition for large handoffs |
 | — | [Cap: Inline Diff-Comment Review Loops](cap/inline-diff-review.md) | Low | Inline diff-comment and review-loop surfaces in the dashboard |
 | — | [Cap: Live Operator Views And Browser Review Surfaces](cap/live-operator-views-and-browser-review-surfaces.md) | Low | Live workflow/agent views and browser-side review integration |
-| — | [Cap: Service Health Panel](cap/service-health-panel.md) | Low | Ecosystem service health panel in the operator console |
 | — | [Cap: Status Preview And Customization Surface](cap/status-preview-and-customization-surface.md) | Low | Status segment preview and operator customization UI |
+| — | [Cap: Operator Surface Socket Endpoints](cap/operator-surface-socket-endpoints.md) | Low | Migrate cap backend from CLI spawning to socket endpoints; blocked on sibling tool endpoint registration |
 
 ---
 
@@ -112,11 +112,9 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 |---|---------|----------|-------|
 | ~~—~~ | ~~[Hyphae: Rhizome CLI → MCP Migration](hyphae/rhizome-mcp-migration.md)~~ | ~~Medium~~ | Done 2026-04-29 — McpClient::spawn + get_symbols; 6 edge-case tests added |
 | — | [Hyphae: Memoir Git Versioning](hyphae/memoir-git-versioning.md) | Low | Track memoir changes in git for diff and rollback |
-| — | [Hyphae: Memory-Use Protocol](hyphae/memory-use-protocol.md) | Low | Shared protocol spec for how agents read and write hyphae memory |
 | — | [Hyphae: Obsidian Second-Brain Export](hyphae/obsidian-second-brain-export.md) | Low | Export hyphae memoirs and memories to Obsidian-compatible vault |
 | — | [Hyphae: Search Type Registry](hyphae/search-type-registry.md) | Low | Typed registry for search modes (semantic, keyword, memoir, etc.) |
 | — | [Hyphae: Shared Cross-Agent Context](hyphae/shared-cross-agent-context.md) | Low | Shared context surface for multi-agent sessions via hyphae |
-| — | [Hyphae: Structured Export And Archive](hyphae/structured-export-archive.md) | Low | Structured memory export and archive format for long-term storage |
 
 ---
 
@@ -154,7 +152,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | ~~C5~~ | ~~[Septa: Local Service Endpoint Contracts](septa/local-service-endpoint-contracts.md)~~ | ~~Medium~~ | Done 2026-04-29 — schema, fixtures, CLI classification, foundation doc |
-| F2.10 | [Septa: Orphan Schema Triage](septa/orphan-schema-triage.md) | Medium | Audit concern — 12 schemas with no first-party producer or consumer; needs delete/draft/keep-and-plan triage |
+| ~~F2.10~~ | ~~[Septa: Orphan Schema Triage](septa/orphan-schema-triage.md)~~ | ~~Medium~~ | Done 2026-04-29 — 9 schemas moved to `septa/draft/`, 2 deleted, 1 kept (host-identifier-v1, `$ref` target); validate-all 60→48 |
 | — | [Septa: Contract Governance Enforcement](septa/contract-governance-enforcement.md) | Low | Tooling to enforce contract ownership rules — **Decision Required before starting** |
 
 ---
@@ -172,7 +170,6 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | — | [Canopy: Dispatch Request Service Endpoint](canopy/dispatch-request-service-endpoint.md) | Low | Replace hymenium→canopy CLI dispatch with typed local service endpoint; part of C8 |
-| — | [Cap: Operator Surface Socket Endpoints](cap/operator-surface-socket-endpoints.md) | Low | Migrate cap backend from CLI spawning to socket endpoints; blocked on sibling tool endpoint registration |
 
 ---
 
@@ -203,9 +200,5 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | ~~C7~~ | ~~[Cross-Project: CLI Coupling Exemption Audit](cross-project/cli-coupling-exemption-audit.md)~~ | ~~Medium~~ | Done 2026-04-29 — 14-row CLI coupling table in septa, verify script 28/28 |
 | ~~C8~~ | ~~[Cross-Project: System-To-System Communication Boundary](cross-project/system-to-system-communication-boundary.md)~~ | ~~Medium~~ | Done 2026-04-29 — AGENTS.md CLI boundary rule, 3-tier hierarchy, canopy/hymenium stub handoffs, verify 5/5 |
 | ~~F2.8~~ | ~~[Cross-Project: Add `annulus-status-v1` Septa Schema](cross-project/annulus-status-v1-schema.md)~~ | ~~Medium~~ | Done 2026-04-29 — schema + fixture landed; cap parseAnnulusOutput validates schema/version consts and degrades soft; validate-all 60/60 |
-| F1.1+F1.2+F1.3 | [Cross-Project: C7 CLI Coupling Table Refresh](cross-project/c7-cli-coupling-table-refresh.md) | Medium | Audit concern — stipe→hyphae and stipe→lamella couplings missing from table; stipe→annulus row understates the contract |
-| Lane3 | [Cross-Project: Dashboard Low Queue Cleanup](cross-project/dashboard-low-queue-cleanup.md) | Medium | Audit concern — close 7 stale umbrella handoffs (children already archived); move misfiled cap row from Canopy section |
-| — | [Cross-Project: Cache-Friendly Context Layout](cross-project/cache-friendly-context-layout.md) | Low | Prompt and context layout patterns that maximize cache hit rates |
-| — | [Cross-Project: Graceful Degradation Classification](cross-project/graceful-degradation-classification.md) | Low | Classify ecosystem degradation modes and define fallback contracts |
-| — | [Cross-Project: Lamella→Cortina Boundary Phase 2](cross-project/lamella-cortina-boundary-phase2.md) | Low | Phase 2 cleanup of the lamella/cortina hook dispatch boundary |
-| — | [Cross-Project: Summary + Detail-on-Demand Pattern](cross-project/summary-detail-on-demand.md) | Low | Shared pattern for summary views with expandable detail surfaces |
+| ~~F1.1+F1.2+F1.3~~ | ~~[Cross-Project: C7 CLI Coupling Table Refresh](cross-project/c7-cli-coupling-table-refresh.md)~~ | ~~Medium~~ | Done 2026-04-29 — added stipe→hyphae and stipe→lamella rows; reworded stipe→annulus row from `--version` to `validate-hooks --json` |
+| ~~Lane3~~ | ~~[Cross-Project: Dashboard Low Queue Cleanup](cross-project/dashboard-low-queue-cleanup.md)~~ | ~~Medium~~ | Done 2026-04-29 — 7 stale umbrellas archived; misfiled cap row moved from Canopy to Cap section; Low queue 36→29 |

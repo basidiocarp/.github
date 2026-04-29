@@ -32,11 +32,13 @@ else
 fi
 echo ""
 
-echo "[Check 4] Per-item predicate exists for periods"
-if grep -qE "isGainWeeklyEntry|isGainMonthlyEntry|isGainPeriodEntry" "$GAIN"; then
+echo "[Check 4] Per-item predicate wired into weekly/monthly validation"
+# Either a dedicated predicate (isGainWeeklyEntry / isGainMonthlyEntry / isGainPeriodEntry)
+# OR reuse of the existing isGainDailyStats predicate (preferred when schemas are identical).
+if grep -A 14 "function isGainCliOutput" "$GAIN" | grep -E "weekly|monthly" | grep -qE "isGainWeeklyEntry|isGainMonthlyEntry|isGainPeriodEntry|isGainDailyStats"; then
   echo "  ✓"; PASS=$((PASS+1))
 else
-  echo "  ✗ no per-item predicate"; FAIL=$((FAIL+1))
+  echo "  ✗ no per-item predicate wired into weekly/monthly path"; FAIL=$((FAIL+1))
 fi
 echo ""
 

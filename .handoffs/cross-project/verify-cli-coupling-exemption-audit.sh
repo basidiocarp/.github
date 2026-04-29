@@ -43,6 +43,10 @@ KNOWN_SITES=(
   "stipe/src/commands/claude_hooks.rs"
   "stipe/src/commands/backup.rs"
   "stipe/src/commands/rollback.rs"
+  "stipe/src/commands/init/seed.rs"
+  "stipe/src/commands/doctor/plugin_inventory_checks.rs"
+  "stipe/src/commands/package_repair.rs"
+  "stipe/src/ecosystem/configure.rs"
   "annulus/src/notify.rs"
 )
 
