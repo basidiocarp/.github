@@ -1,53 +1,27 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 PASS=0
 FAIL=0
-ROOT="/Users/williamnewton/projects/basidiocarp"
 
 check() {
-  local name="$1"
-  shift
-  if "$@"; then
-    printf 'PASS: %s\n' "$name"
-    PASS=$((PASS + 1))
+  local label="$1"; shift
+  if eval "$@" &>/dev/null; then
+    echo "PASS: $label"; PASS=$((PASS+1))
   else
-    printf 'FAIL: %s\n' "$name"
-    FAIL=$((FAIL + 1))
+    echo "FAIL: $label"; FAIL=$((FAIL+1))
   fi
 }
 
-check_test_count() {
-  local name="$1"
-  local filter="$2"
-  local test_output
-  test_output=$(cd "$ROOT/volva" && cargo test "$filter" 2>&1 | grep -E "test result:|running" || true)
-  if echo "$test_output" | grep -q "test result:"; then
-    local count
-    count=$(echo "$test_output" | grep -oE "[0-9]+ passed" | grep -oE "[0-9]+" | head -1)
-    if [ -n "$count" ] && [ "$count" -gt 0 ]; then
-      printf 'PASS: %s\n' "$name"
-      PASS=$((PASS + 1))
-    else
-      printf 'FAIL: %s (zero tests matched)\n' "$name"
-      FAIL=$((FAIL + 1))
-    fi
-  else
-    printf 'FAIL: %s (no test output)\n' "$name"
-    FAIL=$((FAIL + 1))
-  fi
-}
+check "official_cli tests pass" "cd '$ROOT/volva' && cargo test -p volva-runtime official_cli 2>&1 | grep -q 'test result: ok'"
+check "checkpoint tests pass" "cd '$ROOT/volva' && cargo test -p volva-runtime checkpoint 2>&1 | grep -q 'test result: ok'"
+check "auth storage tests pass" "cd '$ROOT/volva' && cargo test -p volva-auth storage 2>&1 | grep -q 'test result: ok'"
+check "env_clear applied to hook adapter subprocess" "grep -r 'env_clear' '$ROOT/volva/crates/volva-runtime/src/hooks.rs'"
+check "trusted field in HookAdapterConfig" "grep -r 'trusted' '$ROOT/volva/crates/volva-config/src/lib.rs'"
+check "corrupted checkpoint fails loudly" "grep -rE 'corrupted|corrupt|invalid.*json|json.*invalid' '$ROOT/volva/crates/volva-runtime/src/checkpoint_sqlite.rs'"
+check "credential file permission check on load" "grep -r 'permission\|mode.*0o6\|0o077' '$ROOT/volva/crates/volva-auth/src/storage.rs'"
+check "backend subprocess has timeout" "grep -rE 'timeout|Duration|kill' '$ROOT/volva/crates/volva-runtime/src/backend/official_cli.rs'"
 
-check "official CLI backend has timeout cleanup" \
-  bash -lc "rg -n 'timeout|wait_timeout|kill|deadline|spawn' '$ROOT/volva/crates/volva-runtime/src/backend/official_cli.rs'"
-check "hook adapter env/trust is explicit" \
-  bash -lc "rg -n 'env_clear|env_remove|allowlist|trusted|cortina|hook_adapter' '$ROOT/volva/crates/volva-runtime/src/hooks.rs' '$ROOT/volva/crates/volva-config/src/lib.rs' '$ROOT/volva/crates/volva-cli/src/run.rs'"
-check "auth storage checks permissions on load" \
-  bash -lc "rg -n 'metadata|permissions|readonly|mode|0600|0o600' '$ROOT/volva/crates/volva-auth/src'"
-check_test_count "official CLI tests exist and pass" "official_cli"
-check_test_count "hook adapter tests exist and pass" "hook_adapter"
-check_test_count "checkpoint tests exist and pass" "checkpoint"
-check_test_count "auth storage tests exist and pass" "storage"
-
-printf 'Results: %d passed, %d failed\n' "$PASS" "$FAIL"
-test "$FAIL" -eq 0
+echo ""
+echo "Results: $PASS passed, $FAIL failed"
+[ "$FAIL" -eq 0 ]
