@@ -81,7 +81,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
-| A9 | [Stipe: Control Plane Quality](stipe/control-plane-quality.md) | Medium | Backup partial-success semantics and boolean-heavy APIs |
+| ~~A9~~ | ~~[Stipe: Control Plane Quality](stipe/control-plane-quality.md)~~ | ~~Medium~~ | Done 2026-04-29 — BackupOutcome struct, InstallOptions/InitOptions, fn_params_excessive_bools removed |
 | ~~—~~ | ~~[Stipe: Rollback Self-Invocation → Library Call](stipe/rollback-library-call-migration.md)~~ | ~~Medium~~ | Done 2026-04-29 — direct doctor::run() call; added check_health() to detect unhealthy state |
 | — | [Stipe: Skill Install Pack](stipe/skill-install-pack.md) | Low | Skill pack install and lifecycle management in the installer |
 
@@ -91,7 +91,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
-| A40 | [Lamella: Manifest Sync Maintenance](lamella/manifest-sync-maintenance.md) | Medium | Manifest sync maintenance script points at obsolete paths |
+| ~~A40~~ | ~~[Lamella: Manifest Sync Maintenance](lamella/manifest-sync-maintenance.md)~~ | ~~Medium~~ | Done 2026-04-29 — corrected paths to resources/skills/ and manifests/claude/, guard added |
 | — | [Lamella: Council Role Bundles](lamella/council-role-bundles.md) | Low | Council role bundle packaging and skill grouping by role |
 | — | [Lamella: Evolution Feedback Loop](lamella/evolution-feedback-loop.md) | Low | Feedback loop for skill and hook evolution based on usage signals |
 | — | [Lamella: General And Ecosystem Skill Pack Split](lamella/general-and-ecosystem-skill-pack-split.md) | Low | Separate general-purpose skills from ecosystem-specific packs |
@@ -193,7 +193,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
-| A52 | [Cross-Project: Workspace Docs Link Drift](cross-project/workspace-docs-link-drift.md) | Medium | Broken docs links, archived handoff references, command rendering, unavailable skill refs |
+| ~~A52~~ | ~~[Cross-Project: Workspace Docs Link Drift](cross-project/workspace-docs-link-drift.md)~~ | ~~Medium~~ | Done 2026-04-29 — absolute paths fixed, stale skill refs removed, verify script bug fixed |
 | ~~C7~~ | ~~[Cross-Project: CLI Coupling Exemption Audit](cross-project/cli-coupling-exemption-audit.md)~~ | ~~Medium~~ | Done 2026-04-29 — 14-row CLI coupling table in septa, verify script 28/28 |
 | ~~C8~~ | ~~[Cross-Project: System-To-System Communication Boundary](cross-project/system-to-system-communication-boundary.md)~~ | ~~Medium~~ | Done 2026-04-29 — AGENTS.md CLI boundary rule, 3-tier hierarchy, canopy/hymenium stub handoffs, verify 5/5 |
 | — | [Cross-Project: Cache-Friendly Context Layout](cross-project/cache-friendly-context-layout.md) | Low | Prompt and context layout patterns that maximize cache hit rates |
