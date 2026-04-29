@@ -60,7 +60,7 @@ All Foundation, Tier 1, Tier 2, selected Tier 3, and the full audit hardening ca
 
 ### Cap
 
-Consumer contracts, stale cache, supply chain, and docs drift.
+Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
@@ -68,6 +68,12 @@ Consumer contracts, stale cache, supply chain, and docs drift.
 | A37 | [Cap: Canopy Stale Cache Integrity](cap/canopy-stale-cache-integrity.md) | Medium | Stale snapshot fallback is global instead of project/filter keyed |
 | A46 | [Cap: Node Supply Chain Script Policy](cap/node-supply-chain-script-policy.md) | Medium | `npx` scripts, release checks, install lifecycle policy |
 | A50 | [Cap: Dashboard And API Docs Drift](cap/dashboard-api-docs-drift.md) | Medium | API docs, route inventory, internals docs, and UI behavior claims are stale |
+| F2 | [Cap: Operator Console Scope Reset](cap/operator-console-scope-reset.md) | Medium | Scope reset doc — what cap is vs. is not; part of freeze roadmap |
+| — | [Cap: Canopy Performance And Decomposition](cap/canopy-performance.md) | Low | Canopy query performance and decomposition for large handoffs |
+| — | [Cap: Inline Diff-Comment Review Loops](cap/inline-diff-review.md) | Low | Inline diff-comment and review-loop surfaces in the dashboard |
+| — | [Cap: Live Operator Views And Browser Review Surfaces](cap/live-operator-views-and-browser-review-surfaces.md) | Low | Live workflow/agent views and browser-side review integration |
+| — | [Cap: Service Health Panel](cap/service-health-panel.md) | Low | Ecosystem service health panel in the operator console |
+| — | [Cap: Status Preview And Customization Surface](cap/status-preview-and-customization-surface.md) | Low | Status segment preview and operator customization UI |
 
 ---
 
@@ -76,6 +82,7 @@ Consumer contracts, stale cache, supply chain, and docs drift.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | A9 | [Stipe: Control Plane Quality](stipe/control-plane-quality.md) | Medium | Backup partial-success semantics and boolean-heavy APIs |
+| — | [Stipe: Skill Install Pack](stipe/skill-install-pack.md) | Low | Skill pack install and lifecycle management in the installer |
 
 ---
 
@@ -84,6 +91,79 @@ Consumer contracts, stale cache, supply chain, and docs drift.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | A40 | [Lamella: Manifest Sync Maintenance](lamella/manifest-sync-maintenance.md) | Medium | Manifest sync maintenance script points at obsolete paths |
+| — | [Lamella: Council Role Bundles](lamella/council-role-bundles.md) | Low | Council role bundle packaging and skill grouping by role |
+| — | [Lamella: Evolution Feedback Loop](lamella/evolution-feedback-loop.md) | Low | Feedback loop for skill and hook evolution based on usage signals |
+| — | [Lamella: General And Ecosystem Skill Pack Split](lamella/general-and-ecosystem-skill-pack-split.md) | Low | Separate general-purpose skills from ecosystem-specific packs |
+| — | [Lamella: Session-End Direct Hook Cutover](lamella/session-end-direct-hook-cutover.md) | Low | Migrate session-end hooks from adapter invocation to direct cortina call |
+| — | [Lamella: Skill Progressive Disclosure Convention](lamella/skill-progressive-disclosure.md) | Low | Convention for progressive disclosure in skill prompts |
+| — | [Lamella: Validator Plugin Architecture](lamella/validator-plugin-architecture.md) | Low | Plugin architecture for lamella content validators |
+
+---
+
+### Hyphae
+
+| # | Handoff | Priority | Notes |
+|---|---------|----------|-------|
+| — | [Hyphae: Memoir Git Versioning](hyphae/memoir-git-versioning.md) | Low | Track memoir changes in git for diff and rollback |
+| — | [Hyphae: Memory-Use Protocol](hyphae/memory-use-protocol.md) | Low | Shared protocol spec for how agents read and write hyphae memory |
+| — | [Hyphae: Obsidian Second-Brain Export](hyphae/obsidian-second-brain-export.md) | Low | Export hyphae memoirs and memories to Obsidian-compatible vault |
+| — | [Hyphae: Search Type Registry](hyphae/search-type-registry.md) | Low | Typed registry for search modes (semantic, keyword, memoir, etc.) |
+| — | [Hyphae: Shared Cross-Agent Context](hyphae/shared-cross-agent-context.md) | Low | Shared context surface for multi-agent sessions via hyphae |
+| — | [Hyphae: Structured Export And Archive](hyphae/structured-export-archive.md) | Low | Structured memory export and archive format for long-term storage |
+
+---
+
+### Cortina
+
+| # | Handoff | Priority | Notes |
+|---|---------|----------|-------|
+| — | [Cortina: Codex / Gemini Adapters](cortina/codex-gemini-adapters.md) | Low | Hook adapters for Codex and Gemini CLI lifecycles |
+| — | [Cortina: Session State Store](cortina/session-state-store.md) | Low | Persistent session state store in cortina — **Decision Required before starting** |
+
+---
+
+### Rhizome
+
+| # | Handoff | Priority | Notes |
+|---|---------|----------|-------|
+| — | [Rhizome: Analyzer Plugin Extensibility](rhizome/analyzer-plugin-extensibility.md) | Low | Plugin interface for custom analyzer passes in rhizome |
+| — | [Rhizome: Blast-Radius Simulation](rhizome/blast-radius-simulation.md) | Low | Simulate change blast radius from a symbol or file set |
+| — | [Rhizome: Incremental Fingerprinting And Change Classification](rhizome/incremental-fingerprinting.md) | Low | Incremental file fingerprinting and semantic change classification |
+
+---
+
+### Mycelium
+
+| # | Handoff | Priority | Notes |
+|---|---------|----------|-------|
+| — | [Mycelium: Compressed Format Experiments](mycelium/compressed-format-experiments.md) | Low | Experiments with alternative compressed output formats |
+
+---
+
+### Septa
+
+| # | Handoff | Priority | Notes |
+|---|---------|----------|-------|
+| C5 | [Septa: Local Service Endpoint Contracts](septa/local-service-endpoint-contracts.md) | Medium | Typed schemas for local MCP/IPC service endpoints; part of C5-C8 |
+| — | [Septa: Contract Governance Enforcement](septa/contract-governance-enforcement.md) | Low | Tooling to enforce contract ownership rules — **Decision Required before starting** |
+
+---
+
+### Spore
+
+| # | Handoff | Priority | Notes |
+|---|---------|----------|-------|
+| C6 | [Spore: Local Service Transport Primitives](spore/local-service-transport-primitives.md) | Medium | Typed transport primitives for local service communication; part of C5-C8 |
+
+---
+
+### Volva
+
+| # | Handoff | Priority | Notes |
+|---|---------|----------|-------|
+| — | [Volva: Auth And Native API Backend](volva/auth-native-api.md) | Low | Native API backend and auth integration for volva runtime |
+| — | [Volva: Orchestration Mode Definition](volva/orchestration-mode-definition.md) | Low | Define orchestration mode boundaries — **Decision Required before starting** |
+| — | [Volva: Workspace-Session Route Models](volva/workspace-session-routes.md) | Low | Route model for workspace-scoped sessions in volva |
 
 ---
 
@@ -92,3 +172,9 @@ Consumer contracts, stale cache, supply chain, and docs drift.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | A52 | [Cross-Project: Workspace Docs Link Drift](cross-project/workspace-docs-link-drift.md) | Medium | Broken docs links, archived handoff references, command rendering, unavailable skill refs |
+| C7 | [Cross-Project: CLI Coupling Exemption Audit](cross-project/cli-coupling-exemption-audit.md) | Medium | Audit CLI-coupled call sites for typed API exemptions; part of C5-C8 |
+| C8 | [Cross-Project: System-To-System Communication Boundary](cross-project/system-to-system-communication-boundary.md) | Medium | Define and enforce system-to-system boundary contracts; part of C5-C8 |
+| — | [Cross-Project: Cache-Friendly Context Layout](cross-project/cache-friendly-context-layout.md) | Low | Prompt and context layout patterns that maximize cache hit rates |
+| — | [Cross-Project: Graceful Degradation Classification](cross-project/graceful-degradation-classification.md) | Low | Classify ecosystem degradation modes and define fallback contracts |
+| — | [Cross-Project: Lamella→Cortina Boundary Phase 2](cross-project/lamella-cortina-boundary-phase2.md) | Low | Phase 2 cleanup of the lamella/cortina hook dispatch boundary |
+| — | [Cross-Project: Summary + Detail-on-Demand Pattern](cross-project/summary-detail-on-demand.md) | Low | Shared pattern for summary views with expandable detail surfaces |
