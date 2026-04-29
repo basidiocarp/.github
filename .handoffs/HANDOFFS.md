@@ -66,8 +66,8 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 |---|---------|----------|-------|
 | ~~A12~~ | ~~[Cap: Cross-Tool Consumer Contracts](cap/cross-tool-consumer-contracts.md)~~ | ~~Medium~~ | Done 2026-04-29 — script_verification added, annulus fixture test, all septa kinds covered |
 | ~~A37~~ | ~~[Cap: Canopy Stale Cache Integrity](cap/canopy-stale-cache-integrity.md)~~ | ~~Medium~~ | Done 2026-04-29 — per-request cache key, two-project and two-filter isolation tests |
-| A46 | [Cap: Node Supply Chain Script Policy](cap/node-supply-chain-script-policy.md) | Medium | `npx` scripts, release checks, install lifecycle policy |
-| A50 | [Cap: Dashboard And API Docs Drift](cap/dashboard-api-docs-drift.md) | Medium | API docs, route inventory, internals docs, and UI behavior claims are stale |
+| ~~A46~~ | ~~[Cap: Node Supply Chain Script Policy](cap/node-supply-chain-script-policy.md)~~ | ~~Medium~~ | Done 2026-04-29 — npx removed from package.json scripts and release.sh; supply chain policy doc added |
+| ~~A50~~ | ~~[Cap: Dashboard And API Docs Drift](cap/dashboard-api-docs-drift.md)~~ | ~~Medium~~ | Done 2026-04-29 — 4 missing namespaces added to api.md; route count 9→13 in internals; 4 factual fixes in getting-started; 4 missing pages in README |
 | ~~F2~~ | ~~[Cap: Operator Console Scope Reset](cap/operator-console-scope-reset.md)~~ | ~~Medium~~ | Done 2026-04-29 — decision report: partial rebuild, cut /code and /symbols, migrate CLI couplings, freeze new features |
 | — | [Cap: Canopy Performance And Decomposition](cap/canopy-performance.md) | Low | Canopy query performance and decomposition for large handoffs |
 | — | [Cap: Inline Diff-Comment Review Loops](cap/inline-diff-review.md) | Low | Inline diff-comment and review-loop surfaces in the dashboard |
