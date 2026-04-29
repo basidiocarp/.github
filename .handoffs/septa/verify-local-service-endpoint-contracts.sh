@@ -23,21 +23,21 @@ else
   FAIL=$((FAIL+1))
 fi
 
-# Check 2: Unix socket fixture exists
-if [ -f "$SEPTA_DIR/fixtures/local-service-endpoint-v1.unix.json" ]; then
-  echo "PASS  Unix socket fixture exists"
+# Check 2: Primary (unix-socket) fixture exists
+if [ -f "$SEPTA_DIR/fixtures/local-service-endpoint-v1.example.json" ]; then
+  echo "PASS  Primary unix-socket fixture exists (local-service-endpoint-v1.example.json)"
   PASS=$((PASS+1))
 else
-  echo "FAIL  Unix socket fixture missing: $SEPTA_DIR/fixtures/local-service-endpoint-v1.unix.json"
+  echo "FAIL  Primary fixture missing: $SEPTA_DIR/fixtures/local-service-endpoint-v1.example.json"
   FAIL=$((FAIL+1))
 fi
 
-# Check 3: Loopback fixture exists
-if [ -f "$SEPTA_DIR/fixtures/local-service-endpoint-v1.loopback.json" ]; then
-  echo "PASS  Loopback fixture exists"
+# Check 3: Alternate transport fixture exists (tcp/loopback variant, registered as .full.json)
+if [ -f "$SEPTA_DIR/fixtures/local-service-endpoint-v1.full.json" ]; then
+  echo "PASS  TCP/loopback fixture exists (local-service-endpoint-v1.full.json)"
   PASS=$((PASS+1))
 else
-  echo "FAIL  Loopback fixture missing: $SEPTA_DIR/fixtures/local-service-endpoint-v1.loopback.json"
+  echo "FAIL  TCP/loopback fixture missing: $SEPTA_DIR/fixtures/local-service-endpoint-v1.full.json"
   FAIL=$((FAIL+1))
 fi
 
