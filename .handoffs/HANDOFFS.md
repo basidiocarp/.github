@@ -71,6 +71,9 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | ~~A50~~ | ~~[Cap: Dashboard And API Docs Drift](cap/dashboard-api-docs-drift.md)~~ | ~~Medium~~ | Done 2026-04-29 — 4 missing namespaces added to api.md; route count 9→13 in internals; 4 factual fixes in getting-started; 4 missing pages in README |
 | ~~F2~~ | ~~[Cap: Operator Console Scope Reset](cap/operator-console-scope-reset.md)~~ | ~~Medium~~ | Done 2026-04-29 — decision report: partial rebuild, cut /code and /symbols, migrate CLI couplings, freeze new features |
 | ~~F2.1+F2.3~~ | ~~[Cap: Stipe Validators Accept Null](cap/stipe-validators-accept-null.md)~~ | ~~Medium~~ | Done 2026-04-29 — `isRepairAction` accepts null description; `isInitStep` accepts null/missing detail; 6 contract tests added |
+| F2.2+F2.4 | [Cap: Stipe Init Repair Action Shape](cap/stipe-init-repair-action-shape.md) | Medium | Audit concern — init plan repair_actions over-required by reused doctor predicate; missing action_key validation |
+| F2.5 | [Cap: Mycelium Gain Validates Weekly/Monthly](cap/mycelium-gain-weekly-monthly.md) | Medium | Audit concern — consumer skips weekly/monthly arrays declared in mycelium-gain-v1 |
+| F2.6+F2.7+F2.9 | [Cap: Canopy Consumer Tightening](cap/canopy-consumer-tightening.md) | Medium | Audit concern — snapshot/task-detail validators skip required fields; notification event_type opaque |
 | — | [Cap: Canopy Performance And Decomposition](cap/canopy-performance.md) | Low | Canopy query performance and decomposition for large handoffs |
 | — | [Cap: Inline Diff-Comment Review Loops](cap/inline-diff-review.md) | Low | Inline diff-comment and review-loop surfaces in the dashboard |
 | — | [Cap: Live Operator Views And Browser Review Surfaces](cap/live-operator-views-and-browser-review-surfaces.md) | Low | Live workflow/agent views and browser-side review integration |
@@ -151,6 +154,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | ~~C5~~ | ~~[Septa: Local Service Endpoint Contracts](septa/local-service-endpoint-contracts.md)~~ | ~~Medium~~ | Done 2026-04-29 — schema, fixtures, CLI classification, foundation doc |
+| F2.10 | [Septa: Orphan Schema Triage](septa/orphan-schema-triage.md) | Medium | Audit concern — 12 schemas with no first-party producer or consumer; needs delete/draft/keep-and-plan triage |
 | — | [Septa: Contract Governance Enforcement](septa/contract-governance-enforcement.md) | Low | Tooling to enforce contract ownership rules — **Decision Required before starting** |
 
 ---
@@ -199,6 +203,8 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | ~~C7~~ | ~~[Cross-Project: CLI Coupling Exemption Audit](cross-project/cli-coupling-exemption-audit.md)~~ | ~~Medium~~ | Done 2026-04-29 — 14-row CLI coupling table in septa, verify script 28/28 |
 | ~~C8~~ | ~~[Cross-Project: System-To-System Communication Boundary](cross-project/system-to-system-communication-boundary.md)~~ | ~~Medium~~ | Done 2026-04-29 — AGENTS.md CLI boundary rule, 3-tier hierarchy, canopy/hymenium stub handoffs, verify 5/5 |
 | ~~F2.8~~ | ~~[Cross-Project: Add `annulus-status-v1` Septa Schema](cross-project/annulus-status-v1-schema.md)~~ | ~~Medium~~ | Done 2026-04-29 — schema + fixture landed; cap parseAnnulusOutput validates schema/version consts and degrades soft; validate-all 60/60 |
+| F1.1+F1.2+F1.3 | [Cross-Project: C7 CLI Coupling Table Refresh](cross-project/c7-cli-coupling-table-refresh.md) | Medium | Audit concern — stipe→hyphae and stipe→lamella couplings missing from table; stipe→annulus row understates the contract |
+| Lane3 | [Cross-Project: Dashboard Low Queue Cleanup](cross-project/dashboard-low-queue-cleanup.md) | Medium | Audit concern — close 7 stale umbrella handoffs (children already archived); move misfiled cap row from Canopy section |
 | — | [Cross-Project: Cache-Friendly Context Layout](cross-project/cache-friendly-context-layout.md) | Low | Prompt and context layout patterns that maximize cache hit rates |
 | — | [Cross-Project: Graceful Degradation Classification](cross-project/graceful-degradation-classification.md) | Low | Classify ecosystem degradation modes and define fallback contracts |
 | — | [Cross-Project: Lamella→Cortina Boundary Phase 2](cross-project/lamella-cortina-boundary-phase2.md) | Low | Phase 2 cleanup of the lamella/cortina hook dispatch boundary |
