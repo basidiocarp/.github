@@ -157,6 +157,22 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 
 ---
 
+### Canopy
+
+| # | Handoff | Priority | Notes |
+|---|---------|----------|-------|
+| — | [Canopy: Dispatch Request Service Endpoint](canopy/dispatch-request-service-endpoint.md) | Low | Replace hymenium→canopy CLI dispatch with typed local service endpoint; part of C8 |
+
+---
+
+### Hymenium
+
+| # | Handoff | Priority | Notes |
+|---|---------|----------|-------|
+| — | [Hymenium: Capability Dispatch Client](hymenium/capability-dispatch-client.md) | Low | Replace CLI dispatch with typed endpoint client via spore::LocalServiceClient; part of C8 |
+
+---
+
 ### Volva
 
 | # | Handoff | Priority | Notes |

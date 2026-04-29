@@ -63,16 +63,21 @@ bash .handoffs/cross-project/verify-system-to-system-communication-boundary.sh
 
 **Output:**
 <!-- PASTE START -->
-
+PASS: AGENTS states CLI is not preferred system-to-system protocol
+PASS: contracts or foundations document the integration hierarchy
+PASS: Canopy dispatch endpoint handoff treats CLI as operator surface
+PASS: Hymenium capability client handoff treats CLI as fallback only
+PASS: dashboard tracks the communication boundary handoff
+Results: 5 passed, 0 failed
 <!-- PASTE END -->
 
 **Checklist:**
-- [ ] workspace guidance states that CLI is a human/operator interface, not the preferred system-to-system protocol
-- [ ] Septa or foundations docs define the integration hierarchy
-- [ ] endpoint contracts and transport primitives have repo-owned handoffs
-- [ ] any retained CLI fallback is marked compatibility-only and has a replacement handoff
-- [ ] new system-to-system dispatch path uses a typed contract or library/service API
-- [ ] verify script passes with `Results: N passed, 0 failed`
+- [x] workspace guidance states that CLI is a human/operator interface, not the preferred system-to-system protocol
+- [x] Septa or foundations docs define the integration hierarchy
+- [x] endpoint contracts and transport primitives have repo-owned handoffs
+- [x] any retained CLI fallback is marked compatibility-only and has a replacement handoff
+- [x] new system-to-system dispatch path uses a typed contract or library/service API
+- [x] verify script passes with `Results: N passed, 0 failed`
 
 ## Context
 
