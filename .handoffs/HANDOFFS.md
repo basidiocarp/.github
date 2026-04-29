@@ -133,9 +133,9 @@ Hook lifecycle capture chain: Volva emits hook envelopes, Cortina classifies and
 | A23 | [Volva: Backend And Credential Runtime Safety](volva/backend-and-credential-runtime-safety.md) | Medium | Official backend timeout, project hook adapter trust/env, credential file permissions |
 | ~~A6~~ | ~~[Cortina: Capture Policy Boundary](cortina/capture-policy-boundary.md)~~ | High | Done 2026-04-28 — GateGuard advisory default verified; verify 5/5 passed; no code changes needed |
 | ~~A13~~ | ~~[Cortina: Session And Usage Event Contracts](cortina/session-usage-event-contracts.md)~~ | High | Done 2026-04-26 — SessionEventV1Dto wire DTO; wired into save paths; session-state fixture; cortina a3f6d46 |
-| A30 | [Cortina: Hook Executor Verification](cortina/hook-executor-verification.md) | Medium | Hook executor tests prove a no-op stub while docs describe execution behavior |
+| ~~A30~~ | ~~[Cortina: Hook Executor Verification](cortina/hook-executor-verification.md)~~ | Medium | Done 2026-04-28 — docs updated to accurate stub description; tests/ stub file created; verify 2/2; cortina 879dfe2 |
 | ~~A34~~ | ~~[Cortina: Volva Event Replay Identity](cortina/volva-event-replay-identity.md)~~ | High | Done 2026-04-27 — VolvaExecutionSession; session_id wired into NormalizedLifecycleEvent; (session_id, phase) dedupe; cortina e985edf |
-| A38 | [Cortina: Compact Summary Artifact Integrity](cortina/compact-summary-artifact-integrity.md) | Medium | Compact summaries are stored as memories instead of typed artifacts |
+| ~~A38~~ | ~~[Cortina: Compact Summary Artifact Integrity](cortina/compact-summary-artifact-integrity.md)~~ | Medium | Done 2026-04-28 — artifact/compact_summary/{session_id} already implemented; verify script two-arg fix; verify 3/3 |
 | ~~A41~~ | ~~[Cortina: Handoff Audit And Hook Secret Boundaries](cortina/handoff-audit-and-hook-secret-boundaries.md)~~ | High | Done 2026-04-27 — canonicalize_and_gate; secret_redaction.rs; safe_command all Hyphae paths; cortina 1e062ac |
 
 ---
