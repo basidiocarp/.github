@@ -64,8 +64,8 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
-| A12 | [Cap: Cross-Tool Consumer Contracts](cap/cross-tool-consumer-contracts.md) | Medium | Evidence source kind and Annulus status/statusline consumer drift |
-| A37 | [Cap: Canopy Stale Cache Integrity](cap/canopy-stale-cache-integrity.md) | Medium | Stale snapshot fallback is global instead of project/filter keyed |
+| ~~A12~~ | ~~[Cap: Cross-Tool Consumer Contracts](cap/cross-tool-consumer-contracts.md)~~ | ~~Medium~~ | Done 2026-04-29 — script_verification added, annulus fixture test, all septa kinds covered |
+| ~~A37~~ | ~~[Cap: Canopy Stale Cache Integrity](cap/canopy-stale-cache-integrity.md)~~ | ~~Medium~~ | Done 2026-04-29 — per-request cache key, two-project and two-filter isolation tests |
 | A46 | [Cap: Node Supply Chain Script Policy](cap/node-supply-chain-script-policy.md) | Medium | `npx` scripts, release checks, install lifecycle policy |
 | A50 | [Cap: Dashboard And API Docs Drift](cap/dashboard-api-docs-drift.md) | Medium | API docs, route inventory, internals docs, and UI behavior claims are stale |
 | ~~F2~~ | ~~[Cap: Operator Console Scope Reset](cap/operator-console-scope-reset.md)~~ | ~~Medium~~ | Done 2026-04-29 — decision report: partial rebuild, cut /code and /symbols, migrate CLI couplings, freeze new features |
