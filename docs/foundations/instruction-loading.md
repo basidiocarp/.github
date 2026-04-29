@@ -33,7 +33,7 @@ Examples (from basidiocarp):
 
 ### L2 — Project Level
 
-**Location**: `<project>/CLAUDE.md` (e.g., `stipe/CLAUDE.md`)
+**Location**: `<project>/CLAUDE.md` (e.g., `cortina/CLAUDE.md`)
 
 Project-specific guidance that narrows and contextualizes L1 for a single tool or service. This layer speaks to the project's role in the ecosystem, its key design decisions, and its local operating conventions.
 
@@ -94,6 +94,6 @@ Warnings help keep the ecosystem well-documented without blocking operation.
 
 ## Related Files
 
-- [CLAUDE.md](/Users/williamnewton/projects/basidiocarp/CLAUDE.md) — workspace root L1 guidance
-- [AGENTS.md](/Users/williamnewton/projects/basidiocarp/AGENTS.md) — workspace root L1 delegation patterns
-- [stipe/CLAUDE.md](/Users/williamnewton/projects/basidiocarp/stipe/CLAUDE.md) — stipe L2 project guidance
+- [CLAUDE.md](../../CLAUDE.md) — workspace root L1 guidance
+- [AGENTS.md](../../AGENTS.md) — workspace root L1 delegation patterns
+- [stipe/CLAUDE.md](../../stipe/CLAUDE.md) — stipe L2 project guidance

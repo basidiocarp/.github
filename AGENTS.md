@@ -229,14 +229,11 @@ Use these for most work in this workspace:
 
 - `basidiocarp-workspace-router`: routes the task to the right repo and command set.
 - `basidiocarp-implementer-auditor`: use when the user explicitly asks for the strict implementer-then-auditor workflow.
-- `writing-voice`: use when touching READMEs, `CLAUDE.md`, `AGENTS.md`, or authoring docs.
 - `systematic-debugging`: use before changing code in response to a failure you have not explained yet.
 
 Use these when the task needs them:
 
 - `basidiocarp-lamella`: when editing Lamella skills, agents, manifests, hooks, or authoring docs.
-- `tool-preferences`: when you need a reminder to stay token-efficient during exploration.
-- `test-writing`: when behavior changes need new tests rather than just code edits.
 
 ---
 

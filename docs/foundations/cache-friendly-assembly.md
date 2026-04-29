@@ -49,7 +49,7 @@ This is the order in which instruction layers should be assembled in the system 
 
 ### 3. L2 — Project-Specific Guidance
 
-**Location**: `<project>/CLAUDE.md` (e.g., `stipe/CLAUDE.md`)
+**Location**: `<project>/CLAUDE.md` (e.g., `cortina/CLAUDE.md`)
 
 **Why third**: Project guidance is more dynamic than L1 but more stable than L3. It changes when the project's design or responsibilities shift.
 
@@ -275,4 +275,4 @@ When implementing system prompt loading, follow cache-friendly assembly order. W
 
 - [Anthropic Prompt Caching Documentation](https://docs.anthropic.com/en/docs/build-a-system/prompt-caching) — details on TTL, granularity, and cost reduction
 - [instruction-loading.md](./instruction-loading.md) — layer semantics and precedence rules
-- [CLAUDE.md](/Users/williamnewton/projects/basidiocarp/CLAUDE.md) — workspace root L1 guidance
+- [CLAUDE.md](../../CLAUDE.md) — workspace root L1 guidance
