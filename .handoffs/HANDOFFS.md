@@ -70,7 +70,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | ~~A46~~ | ~~[Cap: Node Supply Chain Script Policy](cap/node-supply-chain-script-policy.md)~~ | ~~Medium~~ | Done 2026-04-29 — npx removed from package.json scripts and release.sh; supply chain policy doc added |
 | ~~A50~~ | ~~[Cap: Dashboard And API Docs Drift](cap/dashboard-api-docs-drift.md)~~ | ~~Medium~~ | Done 2026-04-29 — 4 missing namespaces added to api.md; route count 9→13 in internals; 4 factual fixes in getting-started; 4 missing pages in README |
 | ~~F2~~ | ~~[Cap: Operator Console Scope Reset](cap/operator-console-scope-reset.md)~~ | ~~Medium~~ | Done 2026-04-29 — decision report: partial rebuild, cut /code and /symbols, migrate CLI couplings, freeze new features |
-| F2.1+F2.3 | [Cap: Stipe Validators Accept Null](cap/stipe-validators-accept-null.md) | Medium | Audit blocker — `repair_action.description` and step `detail` consumers reject schema-permitted null |
+| ~~F2.1+F2.3~~ | ~~[Cap: Stipe Validators Accept Null](cap/stipe-validators-accept-null.md)~~ | ~~Medium~~ | Done 2026-04-29 — `isRepairAction` accepts null description; `isInitStep` accepts null/missing detail; 6 contract tests added |
 | — | [Cap: Canopy Performance And Decomposition](cap/canopy-performance.md) | Low | Canopy query performance and decomposition for large handoffs |
 | — | [Cap: Inline Diff-Comment Review Loops](cap/inline-diff-review.md) | Low | Inline diff-comment and review-loop surfaces in the dashboard |
 | — | [Cap: Live Operator Views And Browser Review Surfaces](cap/live-operator-views-and-browser-review-surfaces.md) | Low | Live workflow/agent views and browser-side review integration |
@@ -198,7 +198,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | ~~A52~~ | ~~[Cross-Project: Workspace Docs Link Drift](cross-project/workspace-docs-link-drift.md)~~ | ~~Medium~~ | Done 2026-04-29 — absolute paths fixed, stale skill refs removed, verify script bug fixed |
 | ~~C7~~ | ~~[Cross-Project: CLI Coupling Exemption Audit](cross-project/cli-coupling-exemption-audit.md)~~ | ~~Medium~~ | Done 2026-04-29 — 14-row CLI coupling table in septa, verify script 28/28 |
 | ~~C8~~ | ~~[Cross-Project: System-To-System Communication Boundary](cross-project/system-to-system-communication-boundary.md)~~ | ~~Medium~~ | Done 2026-04-29 — AGENTS.md CLI boundary rule, 3-tier hierarchy, canopy/hymenium stub handoffs, verify 5/5 |
-| F2.8 | [Cross-Project: Add `annulus-status-v1` Septa Schema](cross-project/annulus-status-v1-schema.md) | Medium | Audit blocker — septa missing schema for `annulus status --json`; cap consumes off-contract |
+| ~~F2.8~~ | ~~[Cross-Project: Add `annulus-status-v1` Septa Schema](cross-project/annulus-status-v1-schema.md)~~ | ~~Medium~~ | Done 2026-04-29 — schema + fixture landed; cap parseAnnulusOutput validates schema/version consts and degrades soft; validate-all 60/60 |
 | — | [Cross-Project: Cache-Friendly Context Layout](cross-project/cache-friendly-context-layout.md) | Low | Prompt and context layout patterns that maximize cache hit rates |
 | — | [Cross-Project: Graceful Degradation Classification](cross-project/graceful-degradation-classification.md) | Low | Classify ecosystem degradation modes and define fallback contracts |
 | — | [Cross-Project: Lamella→Cortina Boundary Phase 2](cross-project/lamella-cortina-boundary-phase2.md) | Low | Phase 2 cleanup of the lamella/cortina hook dispatch boundary |
