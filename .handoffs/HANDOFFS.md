@@ -38,7 +38,7 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | [Ecosystem Health Audit](campaigns/ecosystem-health-audit/README.md) | All Phases Complete | 16 issues tracked — fix phase ready |
 | [Sequential Audit Hardening Campaign](campaigns/sequential-audit-hardening-2026-04-26/README.md) | All Phases Complete | 53 issues tracked — fix phase ready |
 | [Capability Ecosystem Control Plane](cross-project/capability-ecosystem-control-plane.md) | Complete | C0-C8 all done 2026-04-29 — typed endpoint schema, transport primitives, CLI audit, boundary policy |
-| [Scope Freeze And Operator Console Reset](cross-project/core-hardening-freeze-roadmap.md) | Ready | F1-F2 tracked — freeze roadmap and Cap operator-console scope reset |
+| [Scope Freeze And Operator Console Reset](cross-project/core-hardening-freeze-roadmap.md) | F2 Complete | F1 open — freeze roadmap; F2 done 2026-04-29 |
 
 ---
 
@@ -68,7 +68,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | A37 | [Cap: Canopy Stale Cache Integrity](cap/canopy-stale-cache-integrity.md) | Medium | Stale snapshot fallback is global instead of project/filter keyed |
 | A46 | [Cap: Node Supply Chain Script Policy](cap/node-supply-chain-script-policy.md) | Medium | `npx` scripts, release checks, install lifecycle policy |
 | A50 | [Cap: Dashboard And API Docs Drift](cap/dashboard-api-docs-drift.md) | Medium | API docs, route inventory, internals docs, and UI behavior claims are stale |
-| F2 | [Cap: Operator Console Scope Reset](cap/operator-console-scope-reset.md) | Medium | Scope reset doc — what cap is vs. is not; part of freeze roadmap |
+| ~~F2~~ | ~~[Cap: Operator Console Scope Reset](cap/operator-console-scope-reset.md)~~ | ~~Medium~~ | Done 2026-04-29 — decision report: partial rebuild, cut /code and /symbols, migrate CLI couplings, freeze new features |
 | — | [Cap: Canopy Performance And Decomposition](cap/canopy-performance.md) | Low | Canopy query performance and decomposition for large handoffs |
 | — | [Cap: Inline Diff-Comment Review Loops](cap/inline-diff-review.md) | Low | Inline diff-comment and review-loop surfaces in the dashboard |
 | — | [Cap: Live Operator Views And Browser Review Surfaces](cap/live-operator-views-and-browser-review-surfaces.md) | Low | Live workflow/agent views and browser-side review integration |
