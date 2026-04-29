@@ -4,7 +4,7 @@ set -euo pipefail
 
 PASS=0
 FAIL=0
-ROOT="/Users/williamnewton/projects/basidiocarp"
+ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 
 check() {
   local name="$1"

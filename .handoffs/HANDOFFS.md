@@ -39,6 +39,7 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | [Sequential Audit Hardening Campaign](campaigns/sequential-audit-hardening-2026-04-26/README.md) | All Phases Complete | 53 issues tracked — fix phase ready |
 | [Capability Ecosystem Control Plane](cross-project/capability-ecosystem-control-plane.md) | Complete | C0-C8 all done 2026-04-29 — typed endpoint schema, transport primitives, CLI audit, boundary policy |
 | [Scope Freeze And Operator Console Reset](cross-project/core-hardening-freeze-roadmap.md) | Complete | F1 done 2026-04-29 — freeze roadmap; F2 done 2026-04-29 — cap scope reset |
+| [Post-Execution Boundary Compliance Audit](campaigns/post-execution-boundary-audit-2026-04-29/README.md) | Active | 3 parallel lanes — boundary compliance, septa contract accuracy, Low item prioritization |
 
 ---
 
