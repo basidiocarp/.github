@@ -1,41 +1,93 @@
 #!/usr/bin/env bash
+# Verify C5: Local Service Endpoint Contracts
+# Checks schema creation, fixture validity, integration patterns update, and foundation doc.
 
 set -euo pipefail
 
+BASEDIR="/Users/williamnewton/projects/basidiocarp"
+SEPTA_DIR="$BASEDIR/septa"
+DOCS_DIR="$BASEDIR/docs/foundations"
+
 PASS=0
 FAIL=0
-ROOT="/Users/williamnewton/projects/basidiocarp"
 
-check() {
-  local name="$1"
-  shift
-  if "$@"; then
-    printf 'PASS: %s\n' "$name"
-    PASS=$((PASS + 1))
+echo "=== C5: Local Service Endpoint Contracts Verification ==="
+echo
+
+# Check 1: Schema exists
+if [ -f "$SEPTA_DIR/local-service-endpoint-v1.schema.json" ]; then
+  echo "PASS  Schema file exists"
+  PASS=$((PASS+1))
+else
+  echo "FAIL  Schema file missing: $SEPTA_DIR/local-service-endpoint-v1.schema.json"
+  FAIL=$((FAIL+1))
+fi
+
+# Check 2: Unix socket fixture exists
+if [ -f "$SEPTA_DIR/fixtures/local-service-endpoint-v1.unix.json" ]; then
+  echo "PASS  Unix socket fixture exists"
+  PASS=$((PASS+1))
+else
+  echo "FAIL  Unix socket fixture missing: $SEPTA_DIR/fixtures/local-service-endpoint-v1.unix.json"
+  FAIL=$((FAIL+1))
+fi
+
+# Check 3: Loopback fixture exists
+if [ -f "$SEPTA_DIR/fixtures/local-service-endpoint-v1.loopback.json" ]; then
+  echo "PASS  Loopback fixture exists"
+  PASS=$((PASS+1))
+else
+  echo "FAIL  Loopback fixture missing: $SEPTA_DIR/fixtures/local-service-endpoint-v1.loopback.json"
+  FAIL=$((FAIL+1))
+fi
+
+# Check 4: Run validate-all.sh
+echo
+if cd "$SEPTA_DIR" && bash validate-all.sh > /tmp/validate-all.log 2>&1; then
+  if grep -q "0 failed" /tmp/validate-all.log; then
+    echo "PASS  validate-all.sh passed"
+    PASS=$((PASS+1))
   else
-    printf 'FAIL: %s\n' "$name"
-    FAIL=$((FAIL + 1))
+    echo "FAIL  validate-all.sh reported failures"
+    cat /tmp/validate-all.log
+    FAIL=$((FAIL+1))
   fi
-}
+else
+  echo "FAIL  validate-all.sh exited with error"
+  cat /tmp/validate-all.log
+  FAIL=$((FAIL+1))
+fi
 
-check "foundation communication standard exists" \
-  test -f "$ROOT/docs/foundations/inter-app-communication.md"
+# Check 5: Integration patterns updated
+if grep -q "CLI Coupling Classification" "$SEPTA_DIR/integration-patterns.md"; then
+  echo "PASS  integration-patterns.md has CLI Coupling Classification section"
+  PASS=$((PASS+1))
+else
+  echo "FAIL  integration-patterns.md missing CLI Coupling Classification section"
+  FAIL=$((FAIL+1))
+fi
 
-check "endpoint descriptor contract exists" \
-  /bin/zsh -lc "ls '$ROOT'/septa/*endpoint*.schema.json >/dev/null 2>&1"
+# Check 6: Foundation doc exists
+if [ -f "$DOCS_DIR/inter-app-communication.md" ]; then
+  echo "PASS  inter-app-communication.md exists"
+  PASS=$((PASS+1))
+else
+  echo "FAIL  inter-app-communication.md missing: $DOCS_DIR/inter-app-communication.md"
+  FAIL=$((FAIL+1))
+fi
 
-check "endpoint fixtures exist" \
-  /bin/zsh -lc "ls '$ROOT'/septa/fixtures/*endpoint*.json >/dev/null 2>&1"
+# Check 7: Foundation doc has required sections
+if grep -q "^## Rule$" "$DOCS_DIR/inter-app-communication.md" && \
+   grep -q "^## Integration Hierarchy$" "$DOCS_DIR/inter-app-communication.md" && \
+   grep -q "^## Contract References$" "$DOCS_DIR/inter-app-communication.md"; then
+  echo "PASS  inter-app-communication.md has all required sections"
+  PASS=$((PASS+1))
+else
+  echo "FAIL  inter-app-communication.md missing required sections"
+  FAIL=$((FAIL+1))
+fi
 
-check "integration docs mention CLI exceptions or compatibility debt" \
-  /bin/zsh -lc "rg -q 'CLI.*exception|compatibility debt|operator surface|system-to-system' '$ROOT/septa/integration-patterns.md' '$ROOT/docs/foundations/inter-app-communication.md'"
+echo
+echo "Results: $PASS passed, $FAIL failed"
 
-check "capability and endpoint docs mention transport kinds" \
-  /bin/zsh -lc "rg -q 'unix-socket|loopback|named pipe|transport' '$ROOT/septa' '$ROOT/docs/foundations/inter-app-communication.md'"
-
-check "canonical Septa validation passes" \
-  /bin/zsh -lc "cd '$ROOT/septa' && bash validate-all.sh"
-
-printf 'Results: %d passed, %d failed\n' "$PASS" "$FAIL"
-test "$FAIL" -eq 0
-
+[ $FAIL -eq 0 ]
