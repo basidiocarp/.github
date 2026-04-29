@@ -82,6 +82,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | A9 | [Stipe: Control Plane Quality](stipe/control-plane-quality.md) | Medium | Backup partial-success semantics and boolean-heavy APIs |
+| — | [Stipe: Rollback Self-Invocation → Library Call](stipe/rollback-library-call-migration.md) | Medium | Replace `Command::new("stipe").arg("doctor")` in rollback.rs with direct `doctor::run()` call |
 | — | [Stipe: Skill Install Pack](stipe/skill-install-pack.md) | Low | Skill pack install and lifecycle management in the installer |
 
 ---
@@ -104,6 +105,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
+| — | [Hyphae: Rhizome CLI → MCP Migration](hyphae/rhizome-mcp-migration.md) | Medium | Replace `rhizome symbols <file>` CLI with rhizome MCP `get_symbols` via spore::McpClient |
 | — | [Hyphae: Memoir Git Versioning](hyphae/memoir-git-versioning.md) | Low | Track memoir changes in git for diff and rollback |
 | — | [Hyphae: Memory-Use Protocol](hyphae/memory-use-protocol.md) | Low | Shared protocol spec for how agents read and write hyphae memory |
 | — | [Hyphae: Obsidian Second-Brain Export](hyphae/obsidian-second-brain-export.md) | Low | Export hyphae memoirs and memories to Obsidian-compatible vault |
@@ -119,6 +121,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 |---|---------|----------|-------|
 | — | [Cortina: Codex / Gemini Adapters](cortina/codex-gemini-adapters.md) | Low | Hook adapters for Codex and Gemini CLI lifecycles |
 | — | [Cortina: Session State Store](cortina/session-state-store.md) | Low | Persistent session state store in cortina — **Decision Required before starting** |
+| — | [Cortina: Hyphae Hook-Time CLI → Socket Endpoint](cortina/hyphae-hook-time-endpoint-registry.md) | Low | Replace CLI store calls with socket endpoint; blocked on hyphae endpoint registration |
 
 ---
 
@@ -136,6 +139,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
+| — | [Mycelium: Rhizome CLI → MCP Migration](mycelium/rhizome-mcp-migration.md) | Medium | Replace `rhizome structure <file>` CLI with rhizome MCP `get_structure` via spore::McpClient |
 | — | [Mycelium: Compressed Format Experiments](mycelium/compressed-format-experiments.md) | Low | Experiments with alternative compressed output formats |
 
 ---
@@ -162,6 +166,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | — | [Canopy: Dispatch Request Service Endpoint](canopy/dispatch-request-service-endpoint.md) | Low | Replace hymenium→canopy CLI dispatch with typed local service endpoint; part of C8 |
+| — | [Cap: Operator Surface Socket Endpoints](cap/operator-surface-socket-endpoints.md) | Low | Migrate cap backend from CLI spawning to socket endpoints; blocked on sibling tool endpoint registration |
 
 ---
 
@@ -177,6 +182,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
+| — | [Volva: Canopy Availability → Spore Discovery](volva/canopy-discovery-migration.md) | Medium | Replace `Command::new("canopy").arg("--version")` with `spore::discover(Tool::Canopy).is_some()` |
 | — | [Volva: Auth And Native API Backend](volva/auth-native-api.md) | Low | Native API backend and auth integration for volva runtime |
 | — | [Volva: Orchestration Mode Definition](volva/orchestration-mode-definition.md) | Low | Define orchestration mode boundaries — **Decision Required before starting** |
 | — | [Volva: Workspace-Session Route Models](volva/workspace-session-routes.md) | Low | Route model for workspace-scoped sessions in volva |
