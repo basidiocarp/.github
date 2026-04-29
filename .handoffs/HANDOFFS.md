@@ -92,7 +92,7 @@ Workflow orchestration, dispatch compatibility, phase reconciliation, and runtim
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | ~~A1~~ | ~~[Hymenium: Orchestration Dispatch Contracts](hymenium/orchestration-dispatch-contracts.md)~~ | Critical | Done 2026-04-25 — fixed --requested-by/--required-tier/assign flags; build_assign_task_args; 6 new tests (4e53d05) |
-| H0 | [Hymenium/Canopy Dogfood Hardening](cross-project/hymenium-canopy-dogfood-hardening.md) | Critical | Umbrella for the 2026-04-26 dogfood findings |
+| ~~H0~~ | ~~[Hymenium/Canopy Dogfood Hardening](cross-project/hymenium-canopy-dogfood-hardening.md)~~ | Critical | Done 2026-04-28 — all 7 children complete (H1-H7); dispatch loop, runtime identity, reconciliation, operator surfaces, and binary freshness all shipped |
 | ~~H2~~ | ~~[Hymenium: Canopy Dispatch Compatibility](hymenium/canopy-dispatch-compatibility.md)~~ | Critical | Done 2026-04-26 — all 9 AgentRole variants covered; JSON task-id parse + raw fallback; verify script fixed (1be7dc0) |
 | ~~H3~~ | ~~[Hymenium: Task Packet Runtime Identity](hymenium/task-packet-runtime-identity.md)~~ | Critical | Done 2026-04-26 — workflow_id/phase_id wired to Canopy task create; handoff_path fixed from owning_repo to real path; canopy_task_id surfaced in human status (ce11a87) |
 | ~~H4~~ | ~~[Hymenium: Canopy Phase Reconciliation](hymenium/canopy-phase-reconciliation.md)~~ | Critical | Done 2026-04-26 — reconcile_phases(), PermissiveGateEvaluator, reconcile command; only "completed" = success, only "cancelled"/"canceled" = fail; 9 integration tests (b60ead7) |
@@ -104,8 +104,8 @@ Workflow orchestration, dispatch compatibility, phase reconciliation, and runtim
 | ~~A49~~ | ~~[Hymenium: Docs And CLI Surface Drift](hymenium/docs-and-cli-surface-drift.md)~~ | High | Done 2026-04-26 — positional args corrected, decompose marked stub, src/commands/ added to tree, MCP claim removed, mod.rs paths fixed (8b57fac) |
 | ~~A18~~ | ~~[Canopy: MCP Handoff Runtime Boundaries](canopy/mcp-handoff-runtime-boundaries.md)~~ | Critical | Done 2026-04-26 — verify-script gated by flag; import rejects outside-.handoffs paths + traversal; ON DELETE CASCADE on file_locks; owner-scoped unlock; MCP schema updated (a8bbe5a) |
 | ~~A35~~ | ~~[Canopy: Task Event And State Idempotency](canopy/task-event-and-state-idempotency.md)~~ | High | Done 2026-04-26 — scoped dedup (all 5 non-terminal statuses), terminal no-op guard, EvidenceAttached from store layer, migration drops old partial unique index (81a9db4) |
-| H6 | [Canopy: Assigned Work Operator Surface](canopy/assigned-work-operator-surface.md) | Medium | Make current assigned work visible without manual task-id tracking |
-| H7 | [Stipe: Installed Binary Freshness](stipe/installed-binary-freshness.md) | Medium | Doctor/update guidance catches stale installed Hymenium/Canopy binaries |
+| ~~H6~~ | ~~[Canopy: Assigned Work Operator Surface](canopy/assigned-work-operator-surface.md)~~ | Medium | Done 2026-04-28 — `--include-assigned` on work-queue; merges claimable+assigned (active only); 4 tests incl. terminal-status exclusion; verify 4/4; canopy 6b82ef7 |
+| ~~H7~~ | ~~[Stipe: Installed Binary Freshness](stipe/installed-binary-freshness.md)~~ | Medium | Done 2026-04-28 — pinned_ecosystem_versions() covers all 12 tools; check_version_drift() in tool_checks; stipe update repair action on drift; 4 unit tests; verify 5/5; stipe ddf3260 |
 
 ---
 
