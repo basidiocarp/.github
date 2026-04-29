@@ -153,7 +153,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
-| C6 | [Spore: Local Service Transport Primitives](spore/local-service-transport-primitives.md) | Medium | Typed transport primitives for local service communication; part of C5-C8 |
+| ~~C6~~ | ~~[Spore: Local Service Transport Primitives](spore/local-service-transport-primitives.md)~~ | ~~Medium~~ | Done 2026-04-29 — transport client, schema_version validation, timeout mapping, write timeout, probe.method |
 
 ---
 
@@ -172,7 +172,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | A52 | [Cross-Project: Workspace Docs Link Drift](cross-project/workspace-docs-link-drift.md) | Medium | Broken docs links, archived handoff references, command rendering, unavailable skill refs |
-| C7 | [Cross-Project: CLI Coupling Exemption Audit](cross-project/cli-coupling-exemption-audit.md) | Medium | Audit CLI-coupled call sites for typed API exemptions; part of C5-C8 |
+| ~~C7~~ | ~~[Cross-Project: CLI Coupling Exemption Audit](cross-project/cli-coupling-exemption-audit.md)~~ | ~~Medium~~ | Done 2026-04-29 — 14-row CLI coupling table in septa, verify script 28/28 |
 | C8 | [Cross-Project: System-To-System Communication Boundary](cross-project/system-to-system-communication-boundary.md) | Medium | Define and enforce system-to-system boundary contracts; part of C5-C8 |
 | — | [Cross-Project: Cache-Friendly Context Layout](cross-project/cache-friendly-context-layout.md) | Low | Prompt and context layout patterns that maximize cache hit rates |
 | — | [Cross-Project: Graceful Degradation Classification](cross-project/graceful-degradation-classification.md) | Low | Classify ecosystem degradation modes and define fallback contracts |
