@@ -22,7 +22,7 @@ Choose the lowest layer that fits your use case:
 
 ### 2. Local Service Endpoint (Preferred for Cross-Binary)
 
-- **Transport:** Unix socket or loopback TCP, typed via `local-service-endpoint-v1.schema.json`, registered in `septa/integration-patterns.md`.
+- **Transport:** Unix socket, loopback TCP, or HTTP, typed via `local-service-endpoint-v1.schema.json`, registered in `septa/integration-patterns.md`.
 - **Use when:** Producer and consumer are separate binaries and compile-time linking is not practical.
 - **Example:** cap backend queries hyphae via a Unix socket at `~/.basidiocarp/hyphae.sock` instead of spawning the CLI.
 
