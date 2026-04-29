@@ -144,7 +144,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
-| C5 | [Septa: Local Service Endpoint Contracts](septa/local-service-endpoint-contracts.md) | Medium | Typed schemas for local MCP/IPC service endpoints; part of C5-C8 |
+| ~~C5~~ | ~~[Septa: Local Service Endpoint Contracts](septa/local-service-endpoint-contracts.md)~~ | ~~Medium~~ | Done 2026-04-29 — schema, fixtures, CLI classification, foundation doc |
 | — | [Septa: Contract Governance Enforcement](septa/contract-governance-enforcement.md) | Low | Tooling to enforce contract ownership rules — **Decision Required before starting** |
 
 ---
