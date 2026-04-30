@@ -35,7 +35,7 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 
 | Campaign | Status | Phase |
 |----------|--------|-------|
-| [Ecosystem Health Audit](campaigns/ecosystem-health-audit/README.md) | All Phases Complete | 16 issues tracked — fix phase ready |
+| [Ecosystem Health Audit](campaigns/ecosystem-health-audit/README.md) | Fix Phase In Progress | 16 issues tracked — 5 already fixed in codebase, 3 open (cortina session resilience, hyphae protocol schema, hook envelope schema); fix campaign: [ecosystem-health-audit-fix-2026-04-30](campaigns/ecosystem-health-audit-fix-2026-04-30/README.md) |
 | [Sequential Audit Hardening Campaign](campaigns/sequential-audit-hardening-2026-04-26/README.md) | All Phases Complete | 53 issues tracked — fix phase ready |
 | [Capability Ecosystem Control Plane](cross-project/capability-ecosystem-control-plane.md) | Complete | C0-C8 all done 2026-04-29 — typed endpoint schema, transport primitives, CLI audit, boundary policy |
 | [Scope Freeze And Operator Console Reset](cross-project/core-hardening-freeze-roadmap.md) | Complete | F1 done 2026-04-29 — freeze roadmap; F2 done 2026-04-29 — cap scope reset |
@@ -128,6 +128,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | ~~F2.17~~ | ~~[Cortina: tool-usage-event Skip-Serializing Fix](cortina/tool-usage-event-skip-serializing-fix.md)~~ | ~~Tier C blocker~~ | Done 2026-04-30 — `skip_serializing_if` removed from required fields; empty arrays now serialize as `[]` |
+| #9+#15 | [Cortina: Session Resilience — Timeout and Cleanup](cortina/session-resilience-timeout-and-cleanup.md) | Medium | State file not removed on hyphae failure; no internal subprocess timeout on hyphae write |
 | — | [Cortina: Codex / Gemini Adapters](cortina/codex-gemini-adapters.md) | Low | Hook adapters for Codex and Gemini CLI lifecycles |
 | — | [Cortina: Session State Store](cortina/session-state-store.md) | Low | Persistent session state store in cortina — **Decision Required before starting** |
 | — | [Cortina: Hyphae Hook-Time CLI → Socket Endpoint](cortina/hyphae-hook-time-endpoint-registry.md) | Low | Replace CLI store calls with socket endpoint; blocked on hyphae endpoint registration |
@@ -160,6 +161,8 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 |---|---------|----------|-------|
 | ~~C5~~ | ~~[Septa: Local Service Endpoint Contracts](septa/local-service-endpoint-contracts.md)~~ | ~~Medium~~ | Done 2026-04-29 — schema, fixtures, CLI classification, foundation doc |
 | ~~F2.10~~ | ~~[Septa: Orphan Schema Triage](septa/orphan-schema-triage.md)~~ | ~~Medium~~ | Done 2026-04-29 — 9 schemas moved to `septa/draft/`, 2 deleted, 1 kept (host-identifier-v1, `$ref` target); validate-all 60→48 |
+| #11 | [Septa: Hyphae Protocol Schema](septa/hyphae-protocol-schema.md) | Medium | MemoryProtocolSurface is unseamed — hyphae emits it, volva consumes it, no septa schema |
+| #13 | [Septa: Hook Envelope Schema](septa/hook-envelope-schema.md) | Low | Claude Code hook envelope format not schema-backed; low urgency |
 | — | [Septa: Contract Governance Enforcement](septa/contract-governance-enforcement.md) | Low | Tooling to enforce contract ownership rules — **Decision Required before starting** |
 
 ---
