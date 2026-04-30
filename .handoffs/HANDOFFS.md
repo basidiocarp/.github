@@ -87,7 +87,7 @@ All Foundation, Tier 1, Tier 2, selected Tier 3, and the full audit hardening ca
 | — | [Lamella: Council Role Bundles](lamella/council-role-bundles.md) | Low | Council role bundle packaging and skill grouping by role |
 | — | [Lamella: Evolution Feedback Loop](lamella/evolution-feedback-loop.md) | Low | Feedback loop for skill and hook evolution based on usage signals |
 | — | [Lamella: General And Ecosystem Skill Pack Split](lamella/general-and-ecosystem-skill-pack-split.md) | Low | Separate general-purpose skills from ecosystem-specific packs |
-| — | [Lamella: Session-End Direct Hook Cutover](lamella/session-end-direct-hook-cutover.md) | Low | Migrate session-end hooks from adapter invocation to direct cortina call |
+| ~~—~~ | ~~[Lamella: Session-End Direct Hook Cutover](lamella/session-end-direct-hook-cutover.md)~~ | ~~Low~~ | Done — hooks.json already has cortina adapter claude-code session-end in the SessionEnd block; verified 2026-04-30 |
 | — | [Lamella: Skill Progressive Disclosure Convention](lamella/skill-progressive-disclosure.md) | Low | Convention for progressive disclosure in skill prompts |
 | — | [Lamella: Validator Plugin Architecture](lamella/validator-plugin-architecture.md) | Low | Plugin architecture for lamella content validators |
 
