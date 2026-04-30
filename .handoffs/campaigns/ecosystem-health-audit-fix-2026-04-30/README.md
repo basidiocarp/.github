@@ -32,10 +32,11 @@ Before creating handoffs, each open issue was verified against current code.
 
 | Handoff | Repos | Priority | Status |
 |---------|-------|----------|--------|
-| [Cortina: Session Resilience — Timeout and Cleanup](../../cortina/session-resilience-timeout-and-cleanup.md) | cortina | Medium | Open |
 | [Septa: Hyphae Protocol Schema](../../septa/hyphae-protocol-schema.md) | septa | Medium | Open |
 | [Septa: Hook Envelope Schema](../../septa/hook-envelope-schema.md) | septa | Low | Open |
 
 ## Done
 
-None yet.
+| Handoff | Done | Notes |
+|---------|------|-------|
+| [Cortina: Session Resilience — Timeout and Cleanup](../../cortina/session-resilience-timeout-and-cleanup.md) | 2026-04-30 | State file removed on both failure paths; run_with_timeout (5s) wired into end_scoped_hyphae_session |

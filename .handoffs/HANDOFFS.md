@@ -128,7 +128,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | ~~F2.17~~ | ~~[Cortina: tool-usage-event Skip-Serializing Fix](cortina/tool-usage-event-skip-serializing-fix.md)~~ | ~~Tier C blocker~~ | Done 2026-04-30 — `skip_serializing_if` removed from required fields; empty arrays now serialize as `[]` |
-| #9+#15 | [Cortina: Session Resilience — Timeout and Cleanup](cortina/session-resilience-timeout-and-cleanup.md) | Medium | State file not removed on hyphae failure; no internal subprocess timeout on hyphae write |
+| ~~#9+#15~~ | ~~[Cortina: Session Resilience — Timeout and Cleanup](cortina/session-resilience-timeout-and-cleanup.md)~~ | ~~Medium~~ | Done 2026-04-30 — state file removed on both failure paths; run_with_timeout (5s mpsc deadline) wired into end_scoped_hyphae_session |
 | — | [Cortina: Codex / Gemini Adapters](cortina/codex-gemini-adapters.md) | Low | Hook adapters for Codex and Gemini CLI lifecycles |
 | — | [Cortina: Session State Store](cortina/session-state-store.md) | Low | Persistent session state store in cortina — **Decision Required before starting** |
 | — | [Cortina: Hyphae Hook-Time CLI → Socket Endpoint](cortina/hyphae-hook-time-endpoint-registry.md) | Low | Replace CLI store calls with socket endpoint; blocked on hyphae endpoint registration |
