@@ -109,8 +109,8 @@ All Foundation, Tier 1, Tier 2, selected Tier 3, and the full audit hardening ca
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | — | [Cortina: Codex / Gemini Adapters](cortina/codex-gemini-adapters.md) | Low | Hook adapters for Codex and Gemini CLI lifecycles |
-| — | [Cortina: Session State Store](cortina/session-state-store.md) | Low | Persistent session state store in cortina — **Decision Required before starting** |
-| — | [Cortina: Hyphae Hook-Time CLI → Socket Endpoint](cortina/hyphae-hook-time-endpoint-registry.md) | Low | Replace CLI store calls with socket endpoint; blocked on hyphae endpoint registration |
+| ~~—~~ | ~~[Cortina: Session State Store](cortina/session-state-store.md)~~ | ~~Low~~ | Done — SQLite store at `basidiocarp/cortina/`; wired into session_scope; 296 tests pass 2026-04-30 |
+| ~~—~~ | ~~[Cortina: Hyphae Hook-Time CLI → Socket Endpoint](cortina/hyphae-hook-time-endpoint-registry.md)~~ | ~~Low~~ | Done — hyphae `serve-socket` command added; cortina reads `~/.config/hyphae/hyphae.endpoint.json`; socket preferred, CLI fallback with warning; all tests pass 2026-04-30 |
 
 ---
 
@@ -136,7 +136,7 @@ All Foundation, Tier 1, Tier 2, selected Tier 3, and the full audit hardening ca
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
-| — | [Septa: Contract Governance Enforcement](septa/contract-governance-enforcement.md) | Low | Tooling to enforce contract ownership rules — **Decision Required before starting** |
+| ~~—~~ | ~~[Septa: Contract Governance Enforcement](septa/contract-governance-enforcement.md)~~ | ~~Low~~ | Done — governance scripts in place; 3 payloads promoted to schemas; 50/50 validation 2026-04-30 |
 
 ---
 
@@ -144,7 +144,7 @@ All Foundation, Tier 1, Tier 2, selected Tier 3, and the full audit hardening ca
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
-| — | [Canopy: Dispatch Request Service Endpoint](canopy/dispatch-request-service-endpoint.md) | Low | Replace hymenium→canopy CLI dispatch with typed local service endpoint; part of C8 |
+| ~~—~~ | ~~[Canopy: Dispatch Request Service Endpoint](archive/canopy/dispatch-request-service-endpoint.md)~~ | ~~Low~~ | Done — `intake()` + `read_request()` + `canopy dispatch submit` CLI + all dispatch tests green 2026-04-30 |
 
 ---
 
@@ -152,7 +152,7 @@ All Foundation, Tier 1, Tier 2, selected Tier 3, and the full audit hardening ca
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
-| — | [Hymenium: Capability Dispatch Client](hymenium/capability-dispatch-client.md) | Low | Replace CLI dispatch with typed endpoint client via spore::LocalServiceClient; part of C8 |
+| ~~—~~ | ~~[Hymenium: Capability Dispatch Client](archive/hymenium/capability-dispatch-client.md)~~ | ~~Low~~ | Done — `CapabilityCanopyClient` with capability resolution + CLI fallback + 63 dispatch tests green 2026-04-30 |
 
 ---
 
@@ -161,5 +161,13 @@ All Foundation, Tier 1, Tier 2, selected Tier 3, and the full audit hardening ca
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | — | [Volva: Auth And Native API Backend](volva/auth-native-api.md) | Low | Native API backend and auth integration for volva runtime |
-| — | [Volva: Orchestration Mode Definition](volva/orchestration-mode-definition.md) | Low | Define orchestration mode boundaries — **Decision Required before starting** |
+| ~~—~~ | ~~[Volva: Orchestration Mode Definition](volva/orchestration-mode-definition.md)~~ | ~~Low~~ | Done — `Capabilities`/`OperationMode` wired; `--mode` flag; canopy probe; recall limits 20/50; stderr announce; clippy clean 2026-04-30 |
 | — | [Volva: Workspace-Session Route Models](volva/workspace-session-routes.md) | Low | Route model for workspace-scoped sessions in volva |
+
+---
+
+### Cross-Project
+
+| # | Handoff | Priority | Notes |
+|---|---------|----------|-------|
+| ~~—~~ | ~~[Cross-Project: Shared Storage Root](cross-project/shared-storage-root.md)~~ | ~~Low~~ | Done — all 3 phases complete 2026-04-30; hyphae migrated, cortina DB placed, stipe doctor reports root |
