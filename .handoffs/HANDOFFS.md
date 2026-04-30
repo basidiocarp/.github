@@ -89,6 +89,9 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 |---|---------|----------|-------|
 | ~~A9~~ | ~~[Stipe: Control Plane Quality](stipe/control-plane-quality.md)~~ | ~~Medium~~ | Done 2026-04-29 — BackupOutcome struct, InstallOptions/InitOptions, fn_params_excessive_bools removed |
 | ~~—~~ | ~~[Stipe: Rollback Self-Invocation → Library Call](stipe/rollback-library-call-migration.md)~~ | ~~Medium~~ | Done 2026-04-29 — direct doctor::run() call; added check_health() to detect unhealthy state |
+| F2.16 | [Stipe: Init-Plan Repair Action Producer Fix](stipe/init-plan-repair-action-producer-fix.md) | Tier A blocker | `RepairAction::manual` emits `tier:"manual"` (not in init-plan enum) and omits required `action_key`; will trip C1/F2.4 cap validator |
+| F2.19 | [Stipe: Capability-Registry Schema-Version Fix](stipe/capability-registry-schema-version-fix.md) | Tier C blocker | Producer emits `schema_version:"capability-registry-v1"` instead of required `"1.0"` |
+| Lane1 | [Stipe: Doctor Cursor Host Gating](stipe/doctor-cursor-host-gating.md) | Tier D concern | Doctor returns `healthy:false` when Cursor isn't installed; gate behind detection or opt-in |
 | — | [Stipe: Skill Install Pack](stipe/skill-install-pack.md) | Low | Skill pack install and lifecycle management in the installer |
 
 ---
@@ -123,6 +126,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
+| F2.17 | [Cortina: tool-usage-event Skip-Serializing Fix](cortina/tool-usage-event-skip-serializing-fix.md) | Tier C blocker | Producer's `skip_serializing_if = Vec::is_empty` drops schema-required `tools_available`/`tools_relevant_unused` on every emission |
 | — | [Cortina: Codex / Gemini Adapters](cortina/codex-gemini-adapters.md) | Low | Hook adapters for Codex and Gemini CLI lifecycles |
 | — | [Cortina: Session State Store](cortina/session-state-store.md) | Low | Persistent session state store in cortina — **Decision Required before starting** |
 | — | [Cortina: Hyphae Hook-Time CLI → Socket Endpoint](cortina/hyphae-hook-time-endpoint-registry.md) | Low | Replace CLI store calls with socket endpoint; blocked on hyphae endpoint registration |
@@ -144,6 +148,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | ~~—~~ | ~~[Mycelium: Rhizome CLI → MCP Migration](mycelium/rhizome-mcp-migration.md)~~ | ~~Medium~~ | Done 2026-04-29 — McpClient::spawn + get_structure; trim_end preserved |
+| F2.13 | [Mycelium: Gain Weekly/Monthly Producer Fix](mycelium/gain-weekly-monthly-producer-fix.md) | Tier A blocker | Producer emits `week_start`/`week_end`/`month` instead of schema-required `date`; will trip C2/F2.5 cap validator |
 | — | [Mycelium: Compressed Format Experiments](mycelium/compressed-format-experiments.md) | Low | Experiments with alternative compressed output formats |
 
 ---
@@ -203,3 +208,8 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | ~~F2.8~~ | ~~[Cross-Project: Add `annulus-status-v1` Septa Schema](cross-project/annulus-status-v1-schema.md)~~ | ~~Medium~~ | Done 2026-04-29 — schema + fixture landed; cap parseAnnulusOutput validates schema/version consts and degrades soft; validate-all 60/60 |
 | ~~F1.1+F1.2+F1.3~~ | ~~[Cross-Project: C7 CLI Coupling Table Refresh](cross-project/c7-cli-coupling-table-refresh.md)~~ | ~~Medium~~ | Done 2026-04-29 — added stipe→hyphae and stipe→lamella rows; reworded stipe→annulus row from `--version` to `validate-hooks --json` |
 | ~~Lane3~~ | ~~[Cross-Project: Dashboard Low Queue Cleanup](cross-project/dashboard-low-queue-cleanup.md)~~ | ~~Medium~~ | Done 2026-04-29 — 7 stale umbrellas archived; misfiled cap row moved from Canopy to Cap section; Low queue 36→29 |
+| F3.1 | [Cross-Project: Spore Rev Pin Decision](cross-project/spore-rev-pin-decision.md) | Tier B blocker | 8 of 9 consumers ahead of `ecosystem-versions.toml` spore rev — **Decision Required before starting** |
+| F3.2-F3.7 | [Cross-Project: Tier B Pin Alignment Sweep](cross-project/tier-b-pin-alignment-sweep.md) | Tier B mixed | volva rusqlite/thiserror, hymenium which, cortina toml, ecosystem-versions.toml clap_complete + 1.1 alignment |
+| F2.14+F2.15 | [Cross-Project: canopy-task-detail additionalProperties Decision](cross-project/canopy-task-detail-additional-properties-decision.md) | Tier C blocker | Schema declares `additionalProperties:false` but producer emits ~24 extra fields — **Decision Required before starting** |
+| F4.3+F4.4 | [Cross-Project: Workspace CLAUDE.md MCP Tool Coverage](cross-project/workspace-claude-md-mcp-tool-coverage.md) | Tier D concern | Workspace doc names only 5/80 MCP tools; per-repo CLAUDE.md count drift |
+| Lane1 | [Cross-Project: Hyphae recall→search Doc Fix](cross-project/hyphae-recall-vs-search-doc-fix.md) | Tier D concern | Workspace docs say `hyphae memory recall`; real CLI subcommand is `hyphae search` |
