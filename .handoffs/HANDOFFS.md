@@ -40,7 +40,7 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | [Capability Ecosystem Control Plane](cross-project/capability-ecosystem-control-plane.md) | Complete | C0-C8 all done 2026-04-29 — typed endpoint schema, transport primitives, CLI audit, boundary policy |
 | [Scope Freeze And Operator Console Reset](cross-project/core-hardening-freeze-roadmap.md) | Complete | F1 done 2026-04-29 — freeze roadmap; F2 done 2026-04-29 — cap scope reset |
 | [Post-Execution Boundary Compliance Audit](campaigns/post-execution-boundary-audit-2026-04-29/README.md) | Complete | 22 findings closed 2026-04-29 — 3 blockers, 11 concerns, 4 nits + 36-item Low queue triage |
-| [Ecosystem Drift Follow-Up Audit](campaigns/ecosystem-drift-followup-audit-2026-04-30/README.md) | Complete | 4 lanes done 2026-04-30 — 8 blockers, 9 concerns, 5 nits across smoke, producer-schema, version-pin, MCP-surface; fix phase complete 2026-04-30 (10 of 10 dispatchable handoffs landed; 1 follow-up handoff opened for hymenium spore capability API migration) |
+| [Ecosystem Drift Follow-Up Audit](campaigns/ecosystem-drift-followup-audit-2026-04-30/README.md) | Complete | 4 lanes done 2026-04-30 — 8 blockers, 9 concerns, 5 nits across smoke, producer-schema, version-pin, MCP-surface; fix phase complete 2026-04-30 (10 of 10 dispatchable handoffs landed; follow-up F3.1-followup also closed 2026-04-30) |
 
 ---
 
@@ -185,7 +185,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | — | [Hymenium: Capability Dispatch Client](hymenium/capability-dispatch-client.md) | Low | Replace CLI dispatch with typed endpoint client via spore::LocalServiceClient; part of C8 |
-| F3.1-followup | [Hymenium: Migrate to Post-`0bc2e878` Spore Capability API](hymenium/spore-capability-api-migration.md) | Medium | Hymenium held at older spore rev because dispatch/capability_client.rs uses removed `spore::capability` + `spore::paths::capability_*` helpers; migrate to the post-bump API |
+| ~~F3.1-followup~~ | ~~[Hymenium: Migrate to Post-`0bc2e878` Spore Capability API](hymenium/spore-capability-api-migration.md)~~ | ~~Medium~~ | Done 2026-04-30 — inlined capability types + resolve_capability into capability_client.rs (both the module and path helpers absent from v0.4.11); Cargo.toml bumped to 0bc2e878; ecosystem-versions.toml pending cleared; 269 tests pass |
 
 ---
 
