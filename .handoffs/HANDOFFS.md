@@ -90,8 +90,8 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | ~~A9~~ | ~~[Stipe: Control Plane Quality](stipe/control-plane-quality.md)~~ | ~~Medium~~ | Done 2026-04-29 — BackupOutcome struct, InstallOptions/InitOptions, fn_params_excessive_bools removed |
 | ~~—~~ | ~~[Stipe: Rollback Self-Invocation → Library Call](stipe/rollback-library-call-migration.md)~~ | ~~Medium~~ | Done 2026-04-29 — direct doctor::run() call; added check_health() to detect unhealthy state |
 | ~~F2.16~~ | ~~[Stipe: Init-Plan Repair Action Producer Fix](stipe/init-plan-repair-action-producer-fix.md)~~ | ~~Tier A blocker~~ | Done 2026-04-30 — `RepairAction::manual` requires `action_key`; init-plan call sites use Primary/Secondary; doctor paths keep Manual |
-| F2.19 | [Stipe: Capability-Registry Schema-Version Fix](stipe/capability-registry-schema-version-fix.md) | Tier C blocker | Producer emits `schema_version:"capability-registry-v1"` instead of required `"1.0"` |
-| Lane1 | [Stipe: Doctor Cursor Host Gating](stipe/doctor-cursor-host-gating.md) | Tier D concern | Doctor returns `healthy:false` when Cursor isn't installed; gate behind detection or opt-in |
+| ~~F2.19~~ | ~~[Stipe: Capability-Registry Schema-Version Fix](stipe/capability-registry-schema-version-fix.md)~~ | ~~Tier C blocker~~ | Done 2026-04-30 — producer emits `"schema_version":"1.0"` via new `CAPABILITY_REGISTRY_SCHEMA_VERSION` constant; doctor fixture aligned |
+| ~~Lane1~~ | ~~[Stipe: Doctor Cursor Host Gating](stipe/doctor-cursor-host-gating.md)~~ | ~~Tier D concern~~ | Done 2026-04-30 — Cursor gated by `STIPE_CURSOR_HOST` env var or `cursor` on PATH; refactored to pure helper for deterministic tests; 5 new tests cover the decision matrix |
 | — | [Stipe: Skill Install Pack](stipe/skill-install-pack.md) | Low | Skill pack install and lifecycle management in the installer |
 
 ---
