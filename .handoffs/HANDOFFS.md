@@ -68,7 +68,7 @@ All Foundation, Tier 1, Tier 2, selected Tier 3, and the full audit hardening ca
 | — | [Cap: Inline Diff-Comment Review Loops](cap/inline-diff-review.md) | Low | Inline diff-comment and review-loop surfaces in the dashboard |
 | — | [Cap: Live Operator Views And Browser Review Surfaces](cap/live-operator-views-and-browser-review-surfaces.md) | Low | Live workflow/agent views and browser-side review integration |
 | — | [Cap: Status Preview And Customization Surface](cap/status-preview-and-customization-surface.md) | Low | Status segment preview and operator customization UI |
-| — | [Cap: Operator Surface Socket Endpoints](cap/operator-surface-socket-endpoints.md) | Low | Migrate cap backend from CLI spawning to socket endpoints; blocked on sibling tool endpoint registration |
+| — | [Cap: Operator Surface Socket Endpoints](cap/operator-surface-socket-endpoints.md) | Low | Migrate cap backend from CLI spawning to socket endpoints; mycelium + stipe + hyphae endpoints done 2026-04-30; canopy read endpoints still needed |
 
 ---
 
