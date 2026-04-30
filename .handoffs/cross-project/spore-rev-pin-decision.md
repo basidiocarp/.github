@@ -21,15 +21,9 @@
 
 Option A is mechanically smaller and matches what's actually been built/tested across most consumers. Option B is more conservative but requires more change (and likely retesting all 8 consumers).
 
-## ⚠ Decision needed
+## Decision (recorded 2026-04-30)
 
-Before dispatch, the operator must record:
-
-1. Which rev becomes the workspace pin (likely `0bc2e878…` — Option A).
-2. Whether any consumer needs to ship at the older rev for compatibility (if so, document an exception in `ecosystem-versions.toml`).
-3. Whether this drift indicates the version-pin process needs better hygiene (CI gate? release-time check?).
-
-Capture the decision inline in this file (replace this section with the chosen direction) before dispatching.
+**Option A chosen.** Bump `ecosystem-versions.toml` workspace pin to `0bc2e878…` (the rev 8 of 9 consumers already pin) and update hymenium to match. Rationale: 8 consumers moving together is strong evidence the rev is intentional and tested; reverting them would be net-new risk for no benefit. No consumer-specific exceptions. Process-hygiene improvements (CI gate / release-time pin check) deferred to a separate Low handoff post-sweep.
 
 ## Scope (after decision)
 

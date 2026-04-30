@@ -10,11 +10,11 @@
 
 [spore]
 version = "0.4.11"
-rev = "a3c7f5bf8f4025b7a507f44d68a338244ad2d6e4"
+rev = "0bc2e878010e75e30e26fa517d747e97d59628b0"
 git = "https://github.com/basidiocarp/spore"
-consumers = ["mycelium", "hyphae", "rhizome", "stipe", "cortina", "canopy", "volva", "hymenium", "annulus"]
-pending = []
-note = "All consumers must pin using rev= (immutable) not tag= (mutable)."
+consumers = ["mycelium", "hyphae", "rhizome", "stipe", "cortina", "canopy", "volva", "annulus"]
+pending = ["hymenium"]
+note = "All consumers must pin using rev= (immutable) not tag= (mutable). hymenium is held at the prior rev (a3c7f5bf) because its dispatch/capability_client.rs uses spore::capability and spore::paths::{capability_registry_path,capability_lease_dir}, which were removed in the rev bump. A follow-up handoff migrates hymenium to the post-bump spore API."
 
 [datetime]
 crate = "chrono"
@@ -24,13 +24,14 @@ rationale = "Canonical datetime crate for the ecosystem: already used by spore a
 [shared-deps]
 anyhow = "1"
 clap = "4"
+clap_complete = "4"      # aligned: mycelium on 4
 chrono = "0.4"       # canonical datetime crate
 regex = "1"
 rusqlite = "0.39"       # aligned: mycelium, hyphae, canopy, cortina all on 0.39
 serde = "1"
 serde_json = "1"
 thiserror = "2"
-toml = "1"              # aligned: spore, hyphae, stipe on 1.1; mycelium on 1
+toml = "1"              # aligned: all consumers on 1
 tracing = "0.1"
 ulid = "1"
 which = "7"

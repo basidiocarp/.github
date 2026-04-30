@@ -38,12 +38,23 @@ Define a dedicated `TaskDetailWire` (or similar) struct that contains only the s
 
 Add the legitimately-shared fields to the schema; keep producer-only fields out. Requires going through each of the ~24 fields and classifying.
 
-## Operator decision capture
+## Decision (recorded 2026-04-30)
 
-Before dispatch, record:
-1. Chosen direction (A / B / C).
-2. If C: the field-by-field classification (which fields belong in the schema, which stay producer-only).
-3. Whether `cap` should also tighten its consumer to validate `additionalProperties: false` (currently it doesn't).
+**Option C chosen — Hybrid.** Audit each of the ~24 extra fields. Promote fields that are useful to consumers (cap dashboard, future operator-facing surfaces) to the schema; demote producer-only fields to internal struct state via a `TaskDetailWire`/`TaskAttentionWire` split (or `#[serde(skip_serializing)]` if a wire struct is overkill).
+
+**Outcome (after first pass + Stage 1 review + scope expansion)**: 22 fields promoted to the schema (every field that had at least one observable consumer signal — named in cap consumer code OR asserted by canopy's CLI integration tests in `tests/api_snapshot.rs` / `tests/cli.rs`). 6 fields stayed pure-internal and are dropped at the wire boundary: `agent_attention`, `deadline_summary`, `execution_summary`, `messages`, `council_session`, `tool_adoption_score`. The promotion bar was higher than the initial 5–10 estimate because canopy's CLI integration tests use 18+ task-detail fields, which counts as a real consumer signal under the heuristic.
+
+**Implementer judgment**: classify each field per the heuristic below. Bias toward "promote" when the field has clear operator/consumer value; bias toward "internal" when it's a serde artifact of an in-memory bookkeeping type that nobody outside canopy needs to see.
+
+| Field characteristic | Disposition |
+|----------------------|-------------|
+| Already referenced by cap or another sibling consumer | Promote |
+| Documented in canopy's public API surface (api.rs return type that flows out) | Promote |
+| Internal cache, lookup, or runtime-only state (e.g. last-touch timestamps, in-flight flags) | Internal |
+| Bookkeeping for canopy's own future code (no current consumer) | Internal |
+| Ambiguous | Internal — promote later if a consumer materialises |
+
+Cap consumer **does not** need additional tightening in this handoff. C3/F2.6+F2.7 already added `attention` and `sla_summary` presence checks. Whether cap should also enforce `additionalProperties: false` against the schema is a separate concern (Low priority); not in scope here.
 
 ## Scope (depends on direction)
 

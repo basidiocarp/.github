@@ -40,7 +40,7 @@ Delegated execution note: if a task is run with the implementer/auditor pattern,
 | [Capability Ecosystem Control Plane](cross-project/capability-ecosystem-control-plane.md) | Complete | C0-C8 all done 2026-04-29 — typed endpoint schema, transport primitives, CLI audit, boundary policy |
 | [Scope Freeze And Operator Console Reset](cross-project/core-hardening-freeze-roadmap.md) | Complete | F1 done 2026-04-29 — freeze roadmap; F2 done 2026-04-29 — cap scope reset |
 | [Post-Execution Boundary Compliance Audit](campaigns/post-execution-boundary-audit-2026-04-29/README.md) | Complete | 22 findings closed 2026-04-29 — 3 blockers, 11 concerns, 4 nits + 36-item Low queue triage |
-| [Ecosystem Drift Follow-Up Audit](campaigns/ecosystem-drift-followup-audit-2026-04-30/README.md) | Complete | 4 lanes done 2026-04-30 — 8 blockers, 9 concerns, 5 nits across smoke, producer-schema, version-pin, MCP-surface |
+| [Ecosystem Drift Follow-Up Audit](campaigns/ecosystem-drift-followup-audit-2026-04-30/README.md) | Complete | 4 lanes done 2026-04-30 — 8 blockers, 9 concerns, 5 nits across smoke, producer-schema, version-pin, MCP-surface; fix phase complete 2026-04-30 (10 of 10 dispatchable handoffs landed; 1 follow-up handoff opened for hymenium spore capability API migration) |
 
 ---
 
@@ -92,7 +92,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | ~~F2.16~~ | ~~[Stipe: Init-Plan Repair Action Producer Fix](stipe/init-plan-repair-action-producer-fix.md)~~ | ~~Tier A blocker~~ | Done 2026-04-30 — `RepairAction::manual` requires `action_key`; init-plan call sites use Primary/Secondary; doctor paths keep Manual |
 | ~~F2.19~~ | ~~[Stipe: Capability-Registry Schema-Version Fix](stipe/capability-registry-schema-version-fix.md)~~ | ~~Tier C blocker~~ | Done 2026-04-30 — producer emits `"schema_version":"1.0"` via new `CAPABILITY_REGISTRY_SCHEMA_VERSION` constant; doctor fixture aligned |
 | ~~Lane1~~ | ~~[Stipe: Doctor Cursor Host Gating](stipe/doctor-cursor-host-gating.md)~~ | ~~Tier D concern~~ | Done 2026-04-30 — Cursor gated by `STIPE_CURSOR_HOST` env var or `cursor` on PATH; refactored to pure helper for deterministic tests; 5 new tests cover the decision matrix |
-| Backup-path | [Stipe: Move package_repair Backups Out of Harness Load Tree](stipe/backup-path-out-of-harness-load-tree.md) | Medium | `sibling_backup_path` puts backups inside `~/.claude/{rules,skills,hooks,...}/` which the harness loads as duplicate user-private global instructions; converge on `~/.claude/backups/` convention from `stipe/src/backup.rs` |
+| ~~Backup-path~~ | ~~[Stipe: Move package_repair Backups Out of Harness Load Tree](stipe/backup-path-out-of-harness-load-tree.md)~~ | ~~Medium~~ | Done 2026-04-30 — backups now under `~/.local/share/stipe/backups/<ts>-<idx>-pre-package-repair/<flattened>/`; pure helper API; `..`-segment guard; index-bucket collision-safe |
 | — | [Stipe: Skill Install Pack](stipe/skill-install-pack.md) | Low | Skill pack install and lifecycle management in the installer |
 
 ---
@@ -185,6 +185,7 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | # | Handoff | Priority | Notes |
 |---|---------|----------|-------|
 | — | [Hymenium: Capability Dispatch Client](hymenium/capability-dispatch-client.md) | Low | Replace CLI dispatch with typed endpoint client via spore::LocalServiceClient; part of C8 |
+| F3.1-followup | [Hymenium: Migrate to Post-`0bc2e878` Spore Capability API](hymenium/spore-capability-api-migration.md) | Medium | Hymenium held at older spore rev because dispatch/capability_client.rs uses removed `spore::capability` + `spore::paths::capability_*` helpers; migrate to the post-bump API |
 
 ---
 
@@ -209,8 +210,8 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 | ~~F2.8~~ | ~~[Cross-Project: Add `annulus-status-v1` Septa Schema](cross-project/annulus-status-v1-schema.md)~~ | ~~Medium~~ | Done 2026-04-29 — schema + fixture landed; cap parseAnnulusOutput validates schema/version consts and degrades soft; validate-all 60/60 |
 | ~~F1.1+F1.2+F1.3~~ | ~~[Cross-Project: C7 CLI Coupling Table Refresh](cross-project/c7-cli-coupling-table-refresh.md)~~ | ~~Medium~~ | Done 2026-04-29 — added stipe→hyphae and stipe→lamella rows; reworded stipe→annulus row from `--version` to `validate-hooks --json` |
 | ~~Lane3~~ | ~~[Cross-Project: Dashboard Low Queue Cleanup](cross-project/dashboard-low-queue-cleanup.md)~~ | ~~Medium~~ | Done 2026-04-29 — 7 stale umbrellas archived; misfiled cap row moved from Canopy to Cap section; Low queue 36→29 |
-| F3.1 | [Cross-Project: Spore Rev Pin Decision](cross-project/spore-rev-pin-decision.md) | Tier B blocker | 8 of 9 consumers ahead of `ecosystem-versions.toml` spore rev — **Decision Required before starting** |
-| F3.2-F3.7 | [Cross-Project: Tier B Pin Alignment Sweep](cross-project/tier-b-pin-alignment-sweep.md) | Tier B mixed | volva rusqlite/thiserror, hymenium which, cortina toml, ecosystem-versions.toml clap_complete + 1.1 alignment |
-| F2.14+F2.15 | [Cross-Project: canopy-task-detail additionalProperties Decision](cross-project/canopy-task-detail-additional-properties-decision.md) | Tier C blocker | Schema declares `additionalProperties:false` but producer emits ~24 extra fields — **Decision Required before starting** |
+| ~~F3.1~~ | ~~[Cross-Project: Spore Rev Pin Decision](cross-project/spore-rev-pin-decision.md)~~ | ~~Tier B blocker~~ | Done 2026-04-30 — Option A applied: `ecosystem-versions.toml` rev bumped to `0bc2e878…`; hymenium held at `a3c7f5bf…` pending its capability API migration |
+| ~~F3.2-F3.7~~ | ~~[Cross-Project: Tier B Pin Alignment Sweep](cross-project/tier-b-pin-alignment-sweep.md)~~ | ~~Tier B mixed~~ | Done 2026-04-30 — rusqlite/thiserror/which/toml aligned across volva/hymenium/cortina/mycelium/hyphae/rhizome/stipe/spore; clap_complete documented |
+| ~~F2.14+F2.15~~ | ~~[Cross-Project: canopy-task-detail additionalProperties Decision](cross-project/canopy-task-detail-additional-properties-decision.md)~~ | ~~Tier C blocker~~ | Done 2026-04-30 — Option C applied: TaskDetailWire enforces 22 schema-declared fields, 6 internal fields dropped; schema extended with consumer-facing fields (events, heartbeats, ownership, etc.); additionalProperties:false now genuinely enforced |
 | ~~F4.3+F4.4~~ | ~~[Cross-Project: Workspace CLAUDE.md MCP Tool Coverage](cross-project/workspace-claude-md-mcp-tool-coverage.md)~~ | ~~Tier D concern~~ | Done 2026-04-30 — workspace CLAUDE.md groups 23 hyphae + 21 rhizome MCP tools; per-repo files list all 40+40 callable surfaces |
 | ~~Lane1~~ | ~~[Cross-Project: Hyphae recall→search Doc Fix](cross-project/hyphae-recall-vs-search-doc-fix.md)~~ | ~~Tier D concern~~ | Done 2026-04-30 — `hyphae memory recall` (nonexistent) replaced with `hyphae search --query …` across handoffs/templates/archives |
