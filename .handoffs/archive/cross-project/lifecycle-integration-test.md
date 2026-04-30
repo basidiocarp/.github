@@ -119,7 +119,7 @@ Add checks that exercise the signal chain:
    ```bash
    check "hyphae session start" "hyphae session start --project test-lc"
    check "hyphae memory store" "hyphae memory store --topic 'test/lc' --content 'lifecycle test' --importance low"
-   check "hyphae memory recall" "hyphae memory recall 'lifecycle test' | grep -q lifecycle"
+   check "hyphae search" "hyphae search --query 'lifecycle test' | grep -q lifecycle"
    check "hyphae session end" "hyphae session end"
    ```
 

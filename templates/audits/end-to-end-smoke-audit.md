@@ -36,12 +36,12 @@ cortina adapter claude-code --help 2>&1 | head -10
 hyphae session list --limit 5
 ```
 
-### Flow 2 — Hyphae memory recall
+### Flow 2 — Hyphae search
 
 ```bash
 hyphae --version
 hyphae stats --json
-hyphae memory recall --query "test" --limit 3
+hyphae search --query "test" --limit 3
 ```
 
 ### Flow 3 — Mycelium gain → Cap rendering surface

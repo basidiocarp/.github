@@ -90,32 +90,81 @@ basidiocarp/
 The ecosystem tools are globally available. Use them instead of native fallbacks
 when the task fits:
 
-### Rhizome (code navigation)
+### Rhizome (code navigation and structural editing)
 
-Prefer `mcp__rhizome__search_symbols` over `Grep` when:
-- Finding all callers of a function or all uses of a type
-- Navigating to a definition you can't locate by filename
-- Checking what imports a module or struct
+**Structural reads** — use when you need code intelligence beyond text search:
 
-Prefer `mcp__rhizome__get_structure` or `mcp__rhizome__summarize_file` over
-`Read` when you need to understand a file's shape without reading every line.
+- `mcp__rhizome__search_symbols`: find all definitions and uses of a symbol
+- `mcp__rhizome__find_references`: find all places a symbol is referenced
+- `mcp__rhizome__get_definition`: jump to a symbol's definition
+- `mcp__rhizome__get_structure`: understand a file's class/function tree
+- `mcp__rhizome__summarize_file`: get a high-level overview without reading every line
+- `mcp__rhizome__get_call_sites`: see where a function is called
+- `mcp__rhizome__analyze_impact`: predict the blast radius of a change
+- `mcp__rhizome__get_diagnostics`: check for syntax/type errors
 
-Use `Grep` when: searching for a string pattern across files, or when the search
-is purely textual (not structural). Rhizome does not replace text search.
+Prefer these over `Grep` when: finding callers or references, navigating definitions, understanding scope and dependencies, or checking impact before refactoring.
 
-### Hyphae (memory and recall)
+**Structural edits** — use for safe, multi-file refactoring:
 
-Call `mcp__hyphae__hyphae_memory_recall` before starting work in any area you
-haven't touched in this session if you want prior-session decisions, errors
-resolved, or relevant context loaded.
+- `mcp__rhizome__rename_symbol`: rename a symbol across its entire scope
+- `mcp__rhizome__move_symbol`: move a symbol to a different file
+- `mcp__rhizome__copy_symbol`: duplicate a symbol
+- `mcp__rhizome__replace_symbol_body`: rewrite a function's body
+- `mcp__rhizome__insert_before_symbol`, `mcp__rhizome__insert_after_symbol`: add code around a symbol
+- `mcp__rhizome__insert_at_line`, `mcp__rhizome__replace_lines`, `mcp__rhizome__delete_lines`: surgical line-level edits
+- `mcp__rhizome__create_file`: create a new file with proper structure
 
-Call `mcp__hyphae__hyphae_memory_store` after resolving a non-obvious error,
-making an architecture decision, or discovering a non-obvious constraint. Use
-topic `"errors/resolved"` for error fixes, `"decisions/{project}"` for
-architecture choices.
+**What-if analysis**:
 
-Do NOT recall at every step. One recall at the start of a task is usually
-enough. Hyphae is for prior-session continuity, not in-session notes.
+- `mcp__rhizome__rhizome_simulate_change`: predict the effect of a change without committing it
+
+**Export**:
+
+- `mcp__rhizome__export_repo_understanding`: generate a code-graph summary for long-term analysis
+- `mcp__rhizome__export_to_hyphae`: send code structure to Hyphae for memoir-backed recall
+
+Use `Grep` when searching for a string pattern across files or when the search is purely textual (not structural). Rhizome does not replace text search.
+
+### Hyphae (persistent memory, memoirs, and session management)
+
+**Memory (episodic recall)**:
+
+- `mcp__hyphae__hyphae_memory_recall`: search prior-session decisions, errors, and context
+- `mcp__hyphae__hyphae_memory_store`: save a decision, error fix, or learning for later
+- `mcp__hyphae__hyphae_memory_consolidate`: merge redundant memories when a topic grows
+- `mcp__hyphae__hyphae_memory_invalidate`: mark a memory obsolete
+- `mcp__hyphae__hyphae_memory_health`: check storage health and decay status
+- `mcp__hyphae__hyphae_memory_stats`: view memory count and topic distribution
+
+Call `mcp__hyphae__hyphae_memory_recall` before starting work in any area you haven't touched in this session if you want prior-session decisions, errors resolved, or relevant context loaded. Call `mcp__hyphae__hyphae_memory_store` after resolving a non-obvious error, making an architecture decision, or discovering a non-obvious constraint. Use topic `"errors/resolved"` for error fixes, `"decisions/{project}"` for architecture choices. Do NOT recall at every step — one recall at the start of a task is usually enough.
+
+**Memoir (structural knowledge graphs)**:
+
+- `mcp__hyphae__hyphae_memoir_create`: start a persistent knowledge graph on system architecture, domain models, or patterns
+- `mcp__hyphae__hyphae_memoir_add_concept`: add a named node to a memoir
+- `mcp__hyphae__hyphae_memoir_link`: connect concepts with labeled relationships
+- `mcp__hyphae__hyphae_memoir_refine`: deepen concept definitions as understanding grows
+- `mcp__hyphae__hyphae_memoir_search`: query a memoir by concept or relationship
+- `mcp__hyphae__hyphae_memoir_inspect`: explore a memoir's graph structure
+- `mcp__hyphae__hyphae_memoir_show`: display a memoir or its concepts
+
+Use memoirs to capture system architecture, recurring patterns, and domain models that persist across sessions.
+
+**Session management**:
+
+- `mcp__hyphae__hyphae_session_start`: open a session context (automatically called; manual invoke rare)
+- `mcp__hyphae__hyphae_session_end`: close a session and write its context to storage
+- `mcp__hyphae__hyphae_session_context`: retrieve the current session's metadata
+
+**Cross-project and utility functions**:
+
+- `mcp__hyphae__hyphae_recall_global`: search memories across all projects when local recall is empty
+- `mcp__hyphae__hyphae_extract_lessons`: extract patterns and lessons from accumulated error fixes and corrections
+- `mcp__hyphae__hyphae_artifact_query`, `mcp__hyphae__hyphae_artifact_store`: store and retrieve large structured outputs (code, specs, analysis) for long-term reuse
+- `mcp__hyphae__hyphae_gather_context`: assemble ambient context (file, project, user state) for a focused task
+- `mcp__hyphae__hyphae_onboard`: initialize Hyphae with your preferences and project baseline
+- `mcp__hyphae__hyphae_ingest_file`: bulk-ingest a file or transcript into memory
 
 ### Mycelium (command output compression)
 
@@ -154,15 +203,15 @@ and output compression (mycelium/cortina).
 
 | File | Purpose |
 |------|---------|
-| [AGENTS.md](/Users/williamnewton/projects/basidiocarp/AGENTS.md) | Workspace-wide repo guidance, build commands, and Lamella-specific authoring rules |
-| [septa/README.md](/Users/williamnewton/projects/basidiocarp/septa/README.md) | Contract ownership, versioning rules, and validation workflow |
-| [ecosystem-versions.toml](/Users/williamnewton/projects/basidiocarp/ecosystem-versions.toml) | Shared dependency pins across projects |
-| [docs/foundations/README.md](/Users/williamnewton/projects/basidiocarp/docs/foundations/README.md) | Workspace Rust architecture standards, checklist, and audit templates |
-| [.audit/external/SYNTHESIS.md](/Users/williamnewton/projects/basidiocarp/.audit/external/SYNTHESIS.md) | Fast entrypoint to the external audit corpus and current ecosystem-level conclusions |
-| [.audit/external/AUDITING.md](/Users/williamnewton/projects/basidiocarp/.audit/external/AUDITING.md) | Method for mapping external features into existing repos, `septa`, or true new-tool candidates |
-| [ECOSYSTEM-OVERVIEW.md](/Users/williamnewton/projects/basidiocarp/docs/workspace/ECOSYSTEM-OVERVIEW.md) | Thin ecosystem map, repo responsibilities, and cross-tool boundaries |
-| [ECOSYSTEM-INTERACTIONS.md](/Users/williamnewton/projects/basidiocarp/docs/workspace/ECOSYSTEM-INTERACTIONS.md) | Lower-level prompt, memory, handoff, operator, and orchestration flows |
-| [ECOSYSTEM-REVIEW.md](/Users/williamnewton/projects/basidiocarp/docs/workspace/ECOSYSTEM-REVIEW.md) | Detailed ecosystem state, gap analysis, and near-term review surface |
+| [AGENTS.md](/Users/williamnewton/projects/personal/basidiocarp/AGENTS.md) | Workspace-wide repo guidance, build commands, and Lamella-specific authoring rules |
+| [septa/README.md](/Users/williamnewton/projects/personal/basidiocarp/septa/README.md) | Contract ownership, versioning rules, and validation workflow |
+| [ecosystem-versions.toml](/Users/williamnewton/projects/personal/basidiocarp/ecosystem-versions.toml) | Shared dependency pins across projects |
+| [docs/foundations/README.md](/Users/williamnewton/projects/personal/basidiocarp/docs/foundations/README.md) | Workspace Rust architecture standards, checklist, and audit templates |
+| [.audit/external/SYNTHESIS.md](/Users/williamnewton/projects/personal/basidiocarp/.audit/external/SYNTHESIS.md) | Fast entrypoint to the external audit corpus and current ecosystem-level conclusions |
+| [.audit/external/AUDITING.md](/Users/williamnewton/projects/personal/basidiocarp/.audit/external/AUDITING.md) | Method for mapping external features into existing repos, `septa`, or true new-tool candidates |
+| [ECOSYSTEM-OVERVIEW.md](/Users/williamnewton/projects/personal/basidiocarp/docs/workspace/ECOSYSTEM-OVERVIEW.md) | Thin ecosystem map, repo responsibilities, and cross-tool boundaries |
+| [ECOSYSTEM-INTERACTIONS.md](/Users/williamnewton/projects/personal/basidiocarp/docs/workspace/ECOSYSTEM-INTERACTIONS.md) | Lower-level prompt, memory, handoff, operator, and orchestration flows |
+| [ECOSYSTEM-REVIEW.md](/Users/williamnewton/projects/personal/basidiocarp/docs/workspace/ECOSYSTEM-REVIEW.md) | Detailed ecosystem state, gap analysis, and near-term review surface |
 
 ---
 

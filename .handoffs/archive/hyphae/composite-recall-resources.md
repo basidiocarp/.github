@@ -30,7 +30,7 @@ packaging doesn't.
 
 - **`hyphae session context`**: returns session context as structured output; not
   token-budget-aware
-- **`hyphae memory recall`**: semantic search across all memories; no budget
+- **`hyphae search`**: semantic search across all memories; no budget
   capping
 - **Memory types**: episodic (with decay), memoir (permanent knowledge graph);
   both available for bundling

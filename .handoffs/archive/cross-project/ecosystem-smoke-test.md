@@ -56,8 +56,8 @@ Before writing the script, determine the cheapest observable signal per seam:
 
 | Seam | Tool | Check | Expected Signal |
 |------|------|-------|-----------------|
-| 1 | cortina→hyphae | `hyphae memory store` then `hyphae memory recall` | recall returns the stored value |
-| 2 | hyphae standalone | `hyphae memory recall --project smoke-test` | exits 0 (even if no results) |
+| 1 | cortina→hyphae | `hyphae memory store` then `hyphae search` | recall returns the stored value |
+| 2 | hyphae standalone | `hyphae search --query "smoke" --project smoke-test` | exits 0 (even if no results) |
 | 3 | canopy | `curl -s http://localhost:<port>/health` | 200 OK |
 | 4 | cap→canopy | `cap canopy snapshot` or equivalent CLI | exits 0 with JSON |
 | 5 | rhizome | rhizome MCP handshake or `rhizome ping` | exits 0 |
@@ -121,7 +121,7 @@ if ! command -v hyphae &>/dev/null; then
 else
   SMOKE_KEY="smoke-test-$(date +%s)"
   if hyphae memory store --topic "smoke/test" --content "smoke-$SMOKE_KEY" --project smoke-test &>/dev/null 2>&1; then
-    RECALL=$(hyphae memory recall --project smoke-test --topic "smoke/test" 2>/dev/null || true)
+    RECALL=$(hyphae search --query "$SMOKE_KEY" --project smoke-test --topic "smoke/test" 2>/dev/null || true)
     if echo "$RECALL" | grep -q "smoke-$SMOKE_KEY"; then
       pass "hyphae store+recall"
     else
@@ -137,7 +137,7 @@ echo "[2/5] hyphae baseline recall"
 if ! command -v hyphae &>/dev/null; then
   skip "hyphae" "binary not found"
 else
-  if hyphae memory recall --project basidiocarp &>/dev/null 2>&1; then
+  if hyphae search --query "." --project basidiocarp &>/dev/null 2>&1; then
     pass "hyphae recall basidiocarp"
   else
     fail "hyphae recall" "non-zero exit for project recall"

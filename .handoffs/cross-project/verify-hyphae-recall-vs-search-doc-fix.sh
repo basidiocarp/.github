@@ -10,17 +10,24 @@ echo "=== Hyphae recall→search Doc Fix — verify ==="
 echo ""
 
 echo "[Check 1] No 'hyphae memory recall' in workspace handoffs/templates/CLAUDE.md"
+# Exclude self-references that legitimately describe the bug:
+#  - the handoff file (describes what we're fixing)
+#  - this verify script (greps for the wrong pattern)
+#  - the HANDOFFS.md dashboard row (parent updates after completion)
 HITS=$(grep -rnE "hyphae memory recall" \
   "$REPO_ROOT/.handoffs/" \
   "$REPO_ROOT/templates/" \
   "$REPO_ROOT/CLAUDE.md" \
   "$REPO_ROOT/AGENTS.md" \
-  2>/dev/null | wc -l | tr -d ' ')
+  2>/dev/null \
+  | grep -vE "hyphae-recall-vs-search-doc-fix\.(md|sh)|HANDOFFS\.md:.*Hyphae recall.*search Doc Fix" \
+  | wc -l | tr -d ' ')
 if [ "$HITS" = "0" ]; then
   echo "  ✓"; PASS=$((PASS+1))
 else
   echo "  ✗ $HITS occurrences still present"
-  grep -rnE "hyphae memory recall" "$REPO_ROOT/.handoffs/" "$REPO_ROOT/templates/" "$REPO_ROOT/CLAUDE.md" "$REPO_ROOT/AGENTS.md" 2>/dev/null | head -5
+  grep -rnE "hyphae memory recall" "$REPO_ROOT/.handoffs/" "$REPO_ROOT/templates/" "$REPO_ROOT/CLAUDE.md" "$REPO_ROOT/AGENTS.md" 2>/dev/null \
+    | grep -vE "hyphae-recall-vs-search-doc-fix\.(md|sh)|HANDOFFS\.md:.*Hyphae recall.*search Doc Fix" | head -5
   FAIL=$((FAIL+1))
 fi
 echo ""

@@ -12,8 +12,11 @@ echo ""
 
 echo "[Check 1] No remaining tier: \"manual\" in init-plan call sites"
 # Allow it elsewhere (doctor uses \"manual\"); restrict to init plan/repair files.
-if grep -rnE 'tier:\s*"manual"' "$STIPE/src/commands/init/" 2>/dev/null | head -3; then
+# Capture grep output directly — pipe to head loses grep's exit status.
+MANUAL_HITS=$(grep -rnE 'tier:\s*"manual"' "$STIPE/src/commands/init/" 2>/dev/null || true)
+if [ -n "$MANUAL_HITS" ]; then
   echo "  ✗ tier: \"manual\" still present in init"
+  echo "$MANUAL_HITS" | head -3
   FAIL=$((FAIL+1))
 else
   echo "  ✓ no tier: \"manual\" in init"
@@ -22,8 +25,8 @@ fi
 echo ""
 
 echo "[Check 2] action_key referenced in RepairAction::manual context"
-# Look for action_key in the same files where RepairAction::manual is invoked.
-if grep -rnE 'action_key' "$STIPE/src/commands/init/" 2>/dev/null | head -1 >/dev/null; then
+# Direct grep -q check; head was masking the exit status.
+if grep -rqE 'action_key' "$STIPE/src/commands/init/" 2>/dev/null; then
   echo "  ✓ action_key references present"
   PASS=$((PASS+1))
 else
