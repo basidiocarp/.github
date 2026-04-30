@@ -161,8 +161,8 @@ Consumer contracts, stale cache, supply chain, docs drift, and feature work.
 |---|---------|----------|-------|
 | ~~C5~~ | ~~[Septa: Local Service Endpoint Contracts](septa/local-service-endpoint-contracts.md)~~ | ~~Medium~~ | Done 2026-04-29 — schema, fixtures, CLI classification, foundation doc |
 | ~~F2.10~~ | ~~[Septa: Orphan Schema Triage](septa/orphan-schema-triage.md)~~ | ~~Medium~~ | Done 2026-04-29 — 9 schemas moved to `septa/draft/`, 2 deleted, 1 kept (host-identifier-v1, `$ref` target); validate-all 60→48 |
-| #11 | [Septa: Hyphae Protocol Schema](septa/hyphae-protocol-schema.md) | Medium | MemoryProtocolSurface is unseamed — hyphae emits it, volva consumes it, no septa schema |
-| #13 | [Septa: Hook Envelope Schema](septa/hook-envelope-schema.md) | Low | Claude Code hook envelope format not schema-backed; low urgency |
+| ~~#11~~ | ~~[Septa: Hyphae Protocol Schema](septa/hyphae-protocol-schema.md)~~ | ~~Medium~~ | Done 2026-04-30 — hyphae-protocol-v1 schema + fixture; volva schema_version guard added |
+| ~~#13~~ | ~~[Septa: Hook Envelope Schema](septa/hook-envelope-schema.md)~~ | ~~Low~~ | Done 2026-04-30 — claude-code-hook-envelope-v1 schema + fixture (renamed from hook-execution-v1 to avoid draft collision) |
 | — | [Septa: Contract Governance Enforcement](septa/contract-governance-enforcement.md) | Low | Tooling to enforce contract ownership rules — **Decision Required before starting** |
 
 ---

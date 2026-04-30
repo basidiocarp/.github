@@ -1,7 +1,7 @@
 # Ecosystem Health Audit Fix Campaign — 2026-04-30
 
 **Started:** 2026-04-30
-**Status:** In Progress
+**Status:** Complete
 
 ## Purpose
 
@@ -30,13 +30,12 @@ Before creating handoffs, each open issue was verified against current code.
 
 ## Active Handoffs
 
-| Handoff | Repos | Priority | Status |
-|---------|-------|----------|--------|
-| [Septa: Hyphae Protocol Schema](../../septa/hyphae-protocol-schema.md) | septa | Medium | Open |
-| [Septa: Hook Envelope Schema](../../septa/hook-envelope-schema.md) | septa | Low | Open |
+All handoffs complete.
 
 ## Done
 
 | Handoff | Done | Notes |
 |---------|------|-------|
 | [Cortina: Session Resilience — Timeout and Cleanup](../../cortina/session-resilience-timeout-and-cleanup.md) | 2026-04-30 | State file removed on both failure paths; run_with_timeout (5s) wired into end_scoped_hyphae_session |
+| [Septa: Hyphae Protocol Schema](../../septa/hyphae-protocol-schema.md) | 2026-04-30 | hyphae-protocol-v1 schema + fixture; volva schema_version guard |
+| [Septa: Hook Envelope Schema](../../septa/hook-envelope-schema.md) | 2026-04-30 | claude-code-hook-envelope-v1 schema + fixture |
