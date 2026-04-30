@@ -12,9 +12,9 @@
 version = "0.4.11"
 rev = "0bc2e878010e75e30e26fa517d747e97d59628b0"
 git = "https://github.com/basidiocarp/spore"
-consumers = ["mycelium", "hyphae", "rhizome", "stipe", "cortina", "canopy", "volva", "annulus"]
-pending = ["hymenium"]
-note = "All consumers must pin using rev= (immutable) not tag= (mutable). hymenium is held at the prior rev (a3c7f5bf) because its dispatch/capability_client.rs uses spore::capability and spore::paths::{capability_registry_path,capability_lease_dir}, which were removed in the rev bump. A follow-up handoff migrates hymenium to the post-bump spore API."
+consumers = ["mycelium", "hyphae", "rhizome", "stipe", "cortina", "canopy", "volva", "annulus", "hymenium"]
+pending = []
+note = "All consumers must pin using rev= (immutable) not tag= (mutable)."
 
 [datetime]
 crate = "chrono"
