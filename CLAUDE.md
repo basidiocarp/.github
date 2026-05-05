@@ -75,7 +75,7 @@ basidiocarp/
 - **cap**: Reads ecosystem data, renders operator views, and brokers explicit write-through actions where the UI needs them.
 - **rhizome**: Provides structure-aware code intelligence and export.
 - **spore**: Supplies shared discovery, transport, config, and path primitives.
-- **stipe**: Handles install, init, update, and doctor flows.
+- **stipe**: Handles install, setup, init, update, and doctor flows.
 - **cortina**: Captures hook events and writes structured signals.
 - **lamella**: Packages shared content for Claude and Codex.
 - **canopy**: Tracks task ownership, handoffs, and evidence.
@@ -187,6 +187,31 @@ hyphae chunked storage if needed.
 Native tools are fine when the task is bounded. The ecosystem tools add value
 for cross-session continuity (hyphae), structural code navigation (rhizome),
 and output compression (mycelium/cortina).
+
+---
+
+## Tool Priority
+
+Code search, symbol lookup, reference finding, call graphs, file structure:
+ALWAYS use Rhizome tools. Do not use ripgrep, grep, or find for code intelligence.
+Rhizome exists specifically to replace these. If a Rhizome tool fails, report it
+explicitly — do not silently substitute bash tooling.
+
+Command output:
+Mycelium handles compression automatically. Run commands normally. Do not
+pre-filter or summarize output before running it — Mycelium does that.
+
+Memory:
+NEVER derive context from scratch that Hyphae might already have.
+Always check Hyphae before treating something as unknown.
+
+---
+
+## Fallback Reporting
+
+If any ecosystem tool is unavailable or returns an error, you MUST state it
+explicitly: "Rhizome unavailable, falling back to bash because [reason]."
+Silent fallbacks are bugs. Reporting them is how they get fixed.
 
 ---
 
