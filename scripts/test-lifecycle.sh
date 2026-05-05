@@ -100,9 +100,50 @@ fi
 
 # ─────────────────────────────────────────────────────────────────────────────
 echo ""
+echo "=== Cortina signal chain ==="
+# ─────────────────────────────────────────────────────────────────────────────
+skip_if_missing cortina "cortina post-tool-use (Write adapter)" \
+  bash -c "echo '{}' | cortina adapter claude-code post-tool-use"
+
+skip_if_missing cortina "cortina session-end (session summary)" \
+  bash -c "echo '{}' | cortina adapter claude-code session-end"
+
+# ─────────────────────────────────────────────────────────────────────────────
+echo ""
+echo "=== Canopy evidence bridge ==="
+# ─────────────────────────────────────────────────────────────────────────────
+if command -v canopy >/dev/null 2>&1 && [ -n "$TASK_ID" ]; then
+  check "canopy evidence add" canopy evidence add \
+    --task-id "$TASK_ID" \
+    --source-kind "cortina_event" \
+    --source-ref "lc-test-evt-$(date +%s)" \
+    --label "Lifecycle test evidence attachment"
+
+  check "canopy evidence list" canopy evidence list --task-id "$TASK_ID"
+else
+  printf "${YELLOW}SKIP${NC}: canopy evidence tests (canopy not available or no task ID)\n"
+  SKIP=$((SKIP + 1))
+fi
+
+# ─────────────────────────────────────────────────────────────────────────────
+echo ""
+echo "=== Cap API connectivity ==="
+# ─────────────────────────────────────────────────────────────────────────────
+CAP_URL="${CAP_URL:-http://localhost:3001}"
+if curl -sf --max-time 2 "$CAP_URL/api/status" >/dev/null 2>&1; then
+  check "cap status endpoint" curl -sf --max-time 5 "$CAP_URL/api/status"
+  check "cap canopy snapshot" curl -sf --max-time 5 "$CAP_URL/api/canopy/snapshot"
+  check "cap canopy facts" curl -sf --max-time 5 "$CAP_URL/api/canopy/facts"
+else
+  printf "${YELLOW}SKIP${NC}: cap connectivity (cap server not running at $CAP_URL)\n"
+  SKIP=$((SKIP + 1))
+fi
+
+# ─────────────────────────────────────────────────────────────────────────────
+echo ""
 echo "=== Septa contract validation ==="
 # ─────────────────────────────────────────────────────────────────────────────
-check "septa validate passes" bash /Users/williamnewton/projects/basidiocarp/septa/validate-all.sh
+check "septa validate passes" bash /Users/williamnewton/projects/personal/basidiocarp/septa/validate-all.sh
 
 # ─────────────────────────────────────────────────────────────────────────────
 echo ""
@@ -111,5 +152,10 @@ echo "Results: $PASS passed, $FAIL failed, $SKIP skipped"
 
 # Cleanup test memories (best-effort)
 hyphae prune --project lc-test >/dev/null 2>&1 || true
+
+# Cleanup canopy test task (best-effort)
+if command -v canopy >/dev/null 2>&1 && [ -n "$TASK_ID" ]; then
+  canopy task complete "$TASK_ID" 2>/dev/null || true
+fi
 
 exit $FAIL
