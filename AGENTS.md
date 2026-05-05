@@ -44,6 +44,13 @@ rg <pattern> <path>                     # fast text search
 fd <name> <path>                        # fast file and directory discovery
 ```
 
+For setup and new-machine bootstrap:
+
+```bash
+stipe setup                             # new-machine bootstrap entry point
+./install.sh                            # POSIX curl bootstrap script
+```
+
 For targeted work:
 
 ```bash
@@ -82,7 +89,7 @@ CLIs are human and operator surfaces. Do not use them as system-to-system APIs.
 New cross-tool calls must go through one of:
 
 1. **Library/crate dependency** — compile-time link via `spore` or `ecosystem-versions.toml` pins (preferred)
-2. **Local service endpoint** — Unix socket, loopback TCP, or HTTP typed via `septa/local-service-endpoint-v1.schema.json`
+2. **Local service endpoint** — Unix socket, loopback TCP, or HTTP typed via `septa/draft/local-service-endpoint-v1.schema.json` (draft schema, pending promotion)
 3. **CLI fallback** — temporary compatibility adapter only; must emit a visible warning at runtime and be documented in `septa/integration-patterns.md` with a replacement handoff noted
 
 If you are about to shell out to a sibling tool, read `docs/foundations/inter-app-communication.md` first and use the appropriate integration path instead.
