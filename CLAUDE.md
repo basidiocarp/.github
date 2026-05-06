@@ -24,6 +24,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Contract drift**: One tool changes a payload and another breaks later. Check `septa/README.md`, update the schema and fixture first, then update every producer and consumer in the same change.
 - **Version drift**: Shared libraries, especially `spore`, move out of sync across projects. Check `ecosystem-versions.toml` before changing shared dependencies.
 - **Workspace-level git assumptions**: The root is a small workspace meta-repo. Nested project repos still own their own code history. Use root git for workspace docs, shared config, and coordination assets; use git inside the specific subproject for code changes.
+- **Committing local-only directories**: `.handoffs/` and `.audit/` are local working directories in `.gitignore` and must never be committed or pushed. Do not stage them under any circumstance.
 
 ---
 

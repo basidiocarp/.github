@@ -105,6 +105,7 @@ If you are about to shell out to a sibling tool, read `docs/foundations/inter-ap
 - When a task crosses tool boundaries, update schemas, fixtures, and all affected producers or consumers in the same change.
 - When a task changes Rust repo structure or maintainer guidance, keep `docs/foundations/` as the standards source of truth.
 - If validation was skipped in a touched repo, say so clearly in the final response.
+- **Never stage or commit `.handoffs/` or `.audit/`.** Both are local-only working directories listed in `.gitignore`. They must never appear in `git add`, `git commit`, or force-pushed history.
 
 ---
 
