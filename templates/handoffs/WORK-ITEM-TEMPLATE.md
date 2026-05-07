@@ -11,6 +11,7 @@
 - **Allowed write scope:** `[repo]/...`
 - **Cross-repo edits:** `none` | `[allowed repo paths only]`
 - **Non-goals:** [1 short sentence stating what this handoff does not include]
+- **Graph:** `optional` — path to a `HandoffGraph` JSON file declaring dependencies between steps (e.g. `.handoffs/graphs/my-release.json`)
 - **Verification contract:** run the repo-local commands below and `bash .handoffs/<project>/verify-<topic>.sh`
 - **Completion update:** once audit is clean and verification is green, update `.handoffs/HANDOFFS.md` and archive or remove this handoff if the dashboard tracks active work only
 
