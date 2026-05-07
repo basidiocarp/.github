@@ -12,6 +12,9 @@
 - **Cross-repo edits:** `none` | `[allowed repo paths only]`
 - **Non-goals:** [1 short sentence stating what this handoff does not include]
 - **Graph:** `optional` — path to a `HandoffGraph` JSON file declaring dependencies between steps (e.g. `.handoffs/graphs/my-release.json`)
+- **Wave:** `optional` — which wave this handoff belongs to (e.g. `1`, `2`); handoffs in the same wave may run in parallel if scopes are disjoint
+- **Depends-on:** `optional` — comma-separated slugs of handoffs that must complete before this one starts (e.g. `septa-heartbeat-schema, canopy-dag-topology`)
+- **Produces:** `optional` — artifacts other handoffs may consume (e.g. `septa/agent-heartbeat-v1.schema.json`, `cortina/src/signals.rs`)
 - **Verification contract:** run the repo-local commands below and `bash .handoffs/<project>/verify-<topic>.sh`
 - **Completion update:** once audit is clean and verification is green, update `.handoffs/HANDOFFS.md` and archive or remove this handoff if the dashboard tracks active work only
 

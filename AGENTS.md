@@ -153,7 +153,10 @@ When the user asks for the implementer/auditor pattern, follow this protocol exa
 9. Do not leave completed or stalled agents open.
 10. Status-only replies do not count as progress. If an agent returns orchestration chatter without code changes or verification evidence, close it and relaunch with a narrower scope or take the work locally.
 
-Parallel strict workflows are allowed when they own different concrete handoffs and their write scopes are disjoint. For example, one workflow in `mycelium` and another in `hyphae` is fine. Two implementers on the same handoff, or overlapping write ownership inside one repo, is not.
+Parallel strict workflows follow the Wave → Checkpoint → Wave model documented in
+`canopy/docs/dispatch.md`. The key rule: batch handoffs in a wave only when they write to
+disjoint file sets, neither consumes the other's output, and no shared septa schema or test
+suite connects them. Use a checkpoint between waves when those conditions are not met.
 
 #### Workflow Naming
 
