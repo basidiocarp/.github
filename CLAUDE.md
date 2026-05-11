@@ -277,9 +277,13 @@ Run a `code-reviewer` agent against the uncommitted diff. It checks for spec com
 **Stage 2 — Pre-signoff review (after fixes, before marking Done):**
 Run a second review agent against the final state. Confirms Stage 1 findings were addressed, checks the complete change holistically, and gives a final PASS or FAIL verdict. Only commit and update the dashboard after Stage 2 passes.
 
-Do not collapse both stages into one agent. Do not run either stage after committing. The sequence is: implement → Stage 1 review → fix → Stage 2 review → commit → mark Done.
+Do not collapse both stages into one agent. Do not run either stage after committing. The sequence is: implement → Stage 1 review → fix → Stage 2 review → **residual work gate** → commit → mark Done.
 
-If the auditor finds issues, fix them and rerun the relevant verification before treating the work as complete. Close the implementer when implementation is accepted. Close both review agents when Stage 2 passes. Once the review is clean and verification is green, commit, update the handoff dashboard, and archive or remove the entry if the dashboard tracks active work only. Do not leave stalled or completed agents open.
+**Residual Work Gate (after Stage 2, before committing):** Any finding from Stage 1 or Stage 2 that was accepted rather than fixed must have a durable disposition logged in the handoff's `## Residual Work` section — a follow-up handoff, a filed ticket, or an accepted-with-note codebase comment. An empty Residual Work section is only valid when both review stages confirmed zero open findings. Findings that exist only in conversation history evaporate; they must be in a durable sink.
+
+**Execution freeze:** The plan body (Problem, Scope, Non-goals, Allowed files) is read-only once an implementer is dispatched. If the plan turns out to be wrong, the implementer raises a flag — they do not rewrite scope to fit the diff. The orchestrator updates the plan and re-dispatches if needed.
+
+If the auditor finds issues, fix them and rerun the relevant verification before treating the work as complete. Close the implementer when implementation is accepted. Close both review agents when Stage 2 passes. Once the review is clean, residual work is logged, and verification is green, commit, update the handoff dashboard, and archive or remove the entry if the dashboard tracks active work only. Do not leave stalled or completed agents open.
 
 Parallel strict workflows are allowed when they target different concrete handoffs with disjoint write scopes. Parallel implementers for the same handoff, or overlapping ownership inside one repo, are not allowed.
 

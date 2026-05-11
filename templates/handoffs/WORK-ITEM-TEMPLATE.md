@@ -11,6 +11,8 @@
 - **Allowed write scope:** `[repo]/...`
 - **Cross-repo edits:** `none` | `[allowed repo paths only]`
 - **Non-goals:** [1 short sentence stating what this handoff does not include]
+- **Assignee type:** `unassigned` | `human` | `agent` | `subagent`
+- **Assignee id:** optional — stable identifier for the assigned agent or person
 - **Graph:** `optional` — path to a `HandoffGraph` JSON file declaring dependencies between steps (e.g. `.handoffs/graphs/my-release.json`)
 - **Wave:** `optional` — which wave this handoff belongs to (e.g. `1`, `2`); handoffs in the same wave may run in parallel if scopes are disjoint
 - **Depends-on:** `optional` — comma-separated slugs of handoffs that must complete before this one starts (e.g. `septa-heartbeat-schema, canopy-dag-topology`)
@@ -24,6 +26,7 @@
 - **Likely files/modules:** [name the most likely files or modules to change; if exact files are not known yet, name the owning seam and tighten this before spawning an implementer]
 - **Reference seams:** [existing files, commands, or surfaces to imitate rather than parallel implementations]
 - **Spawn gate:** do not launch an implementer until the parent agent can name the likely file set and exact repo-local verification commands
+- **Clarification gate:** resolve all `[NEEDS CLARIFICATION]`, `[TBD]`, and `[OPEN QUESTION]` markers in this document before dispatching — unresolved markers block dispatch
 
 ## Problem
 
@@ -43,6 +46,8 @@
 - **Primary seam:** [the one subsystem or boundary this handoff owns]
 - **Allowed files:** [specific paths or path prefixes]
 - **Explicit non-goals:** [bullets for nearby work that should not be folded into this handoff]
+
+> **Execution freeze:** once this handoff is dispatched, the sections above (Problem, What exists, What needs doing, Scope, Allowed files, Non-goals) are read-only. If the plan turns out to be wrong during implementation, raise a flag to the orchestrator — do not silently rewrite scope to fit the diff. Only status, verification output blocks, and Completion fields are mutable during execution.
 
 ---
 
@@ -91,6 +96,24 @@ When running from the workspace root, use subshells to ensure correct working di
 
 ---
 
+## Residual Work
+
+Any review finding that was not fixed in this handoff must be logged here before signoff. Leaving this section empty is valid only when every finding from Stage 1 and Stage 2 review was fixed. If findings were accepted as-is, each needs an entry with a durable disposition.
+
+| Finding | Disposition | Link / Note |
+|---------|-------------|-------------|
+| _(example: unused import in foo.rs)_ | Follow-up handoff | `.handoffs/canopy/cleanup-foo-imports.md` |
+
+**Allowed dispositions:** Fixed (no entry needed) · Follow-up handoff (link it) · Filed ticket (link it) · Accepted with note (permanent codebase comment or doc)
+
+---
+
+## Completion
+
+- **Disposition:** keep | discard | crash
+- **Disposition reason:** _(required for discard or crash; empty for keep)_
+- **Commit:** _(git short hash if keep)_
+
 ## Completion Protocol
 
 **This handoff is NOT complete until ALL of the following are true:**
@@ -98,8 +121,9 @@ When running from the workspace root, use subshells to ensure correct working di
 1. Every step above has verification output pasted between the markers
 2. The verification script passes: `bash .handoffs/<project>/verify-<topic>.sh`
 3. All checklist items are checked
-4. The active handoff dashboard is updated to reflect completion
-5. If `.handoffs/HANDOFFS.md` tracks active work only, this handoff is archived or removed from the active queue in the same close-out flow
+4. The Residual Work section is filled or confirmed empty (only valid when Stage 2 reports zero open findings)
+5. The active handoff dashboard is updated to reflect completion
+6. If `.handoffs/HANDOFFS.md` tracks active work only, this handoff is archived or removed from the active queue in the same close-out flow
 
 ### Final Verification
 
