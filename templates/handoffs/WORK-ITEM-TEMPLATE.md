@@ -16,6 +16,7 @@
 - **Graph:** `optional` — path to a `HandoffGraph` JSON file declaring dependencies between steps (e.g. `.handoffs/graphs/my-release.json`)
 - **Wave:** `optional` — which wave this handoff belongs to (e.g. `1`, `2`); handoffs in the same wave may run in parallel if scopes are disjoint
 - **Depends-on:** `optional` — comma-separated slugs of handoffs that must complete before this one starts (e.g. `septa-heartbeat-schema, canopy-dag-topology`)
+- **Step parallelism:** Tag independent steps with `[P: <group>]` in the step header (e.g. `### Step 2: Build widget [P: build-phase]`). Steps sharing the same group name can run in parallel. Steps without a tag are sequential. A group boundary (different group names) implies a checkpoint — all steps in the earlier group must complete before the later group starts.
 - **Branch of:** — (task ID if this is a branch exploration; leave empty for main tasks)
 - **Branch outcome:** — (merged | discarded; only filled after parallel exploration resolves)
 - **Produces:** `optional` — artifacts other handoffs may consume (e.g. `septa/agent-heartbeat-v1.schema.json`, `cortina/src/signals.rs`)
@@ -53,7 +54,11 @@
 
 ---
 
-### Step 1: [Step Title]
+### Step 1: [Step Title] `[P: group-name]` _(optional — tag only if this step is independent)_
+
+> **Parallel group:** `group-name` — steps sharing the same group name can run concurrently.
+> Steps without a `[P: ...]` tag are sequential. A group boundary (different group names)
+> implies a checkpoint — all steps in the earlier group must complete before the later group starts.
 
 **Project:** `[directory/]`
 **Effort:** [estimate]
