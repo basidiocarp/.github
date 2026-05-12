@@ -47,6 +47,9 @@ cd volva && cargo check && cargo test
 cd cap && npm run dev:all
 cd cap && npm run build && npm test
 
+cd pileus && npm run dev
+cd pileus && npm run build
+
 cd lamella && make validate
 cd lamella && make build-marketplace
 ```
@@ -57,20 +60,22 @@ cd lamella && make build-marketplace
 
 ```text
 basidiocarp/
-├── mycelium/   token-optimized CLI proxy
-├── hyphae/     persistent memory and RAG
-├── cap/        dashboard and operator UI
-├── rhizome/    code intelligence MCP server
-├── spore/      shared Rust infrastructure
-├── stipe/      installer and manager
-├── cortina/    lifecycle signal runner
-├── lamella/    skills, hooks, and plugin packaging
-├── canopy/     multi-agent coordination runtime
-├── annulus/    operator utilities and statusline tooling
-├── hymenium/   workflow orchestration engine
-├── volva/      execution-host runtime layer
-├── septa/      shared schemas and fixtures
-└── docs/       workspace-level notes
+├── mycelium/       token-optimized CLI proxy
+├── hyphae/         persistent memory and RAG
+├── cap/            dashboard and operator UI
+├── rhizome/        code intelligence MCP server
+├── spore/          shared Rust infrastructure
+├── stipe/          installer and manager
+├── cortina/        lifecycle signal runner
+├── lamella/        skills, hooks, and plugin packaging
+├── lamella-skills/ future standalone content root for lamella (not yet active)
+├── canopy/         multi-agent coordination runtime
+├── annulus/        operator utilities and statusline tooling
+├── hymenium/       workflow orchestration engine
+├── volva/          execution-host runtime layer
+├── pileus/         ecosystem marketing and documentation website
+├── septa/          shared schemas and fixtures
+└── docs/           workspace-level notes
 ```
 
 - **mycelium**: Filters command output before it reaches the model.
@@ -81,10 +86,12 @@ basidiocarp/
 - **stipe**: Handles install, setup, init, update, and doctor flows.
 - **cortina**: Captures hook events and writes structured signals.
 - **lamella**: Packages shared content for Claude and Codex.
+- **lamella-skills**: Planned standalone content root for lamella once content and packaging ownership diverges; README-only placeholder until activation criteria are met.
 - **canopy**: Tracks task ownership, handoffs, and evidence.
 - **annulus**: Renders terminal operator surfaces such as the statusline and related utilities.
 - **hymenium**: Orchestrates workflow dispatch, phase gating, and retry/recovery.
 - **volva**: Hosts backend orchestration at the runtime seam.
+- **pileus**: Public-facing marketing and documentation website for the ecosystem (React + Mantine).
 
 ---
 

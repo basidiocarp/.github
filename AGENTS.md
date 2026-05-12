@@ -70,8 +70,10 @@ Key boundaries:
 - `septa/`: owns cross-tool schemas and fixtures; do not treat payloads as informal.
 - `docs/`: workspace-level notes, not a substitute for project-local docs.
 - `lamella/`: packages shared content; generated output is not the source of truth.
+- `lamella-skills/`: future content root for the lamella content/packaging split; README-only placeholder, not yet wired into the build pipeline.
 - `hymenium/`: owns workflow orchestration, dispatch, phase gating, and retry and recovery.
 - `annulus/`: owns cross-ecosystem operator utilities and statusline tooling.
+- `pileus/`: public-facing marketing and documentation website; React + Mantine, not an operator tool.
 - top-level project dirs: build, test, and commit inside the repo you touched.
 
 Current direction:

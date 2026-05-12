@@ -41,7 +41,7 @@ which = "7"
 # Stipe doctor pins must match these values.
 # Update this file when a tool is released, then update Stipe pins to match.
 mycelium = "0.11.0"
-hyphae = "0.14.0"       # 5-crate workspace; cli tracks tag, core/store/mcp/ingest at 0.12.0
+hyphae = "0.14.2"       # 5-crate workspace; cli tracks tag, core/store/mcp/ingest at 0.12.0
 rhizome = "0.8.0"       # 5-crate workspace, version per crate
 canopy = "0.8.0"
 cortina = "0.5.0"
@@ -111,3 +111,7 @@ task-packet = "1.0"
 workflow-outcome = "1.0"
 capability-registry = "1.0"
 capability-runtime-lease = "1.0"
+agent-heartbeat = "1.0"
+handoff-graph = "1.0"
+provider-model-cost = "1.0"
+session-envelope = "1.0"
