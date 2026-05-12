@@ -40,15 +40,15 @@ which = "7"
 # Tool versions: ecosystem-versions.toml is the single authority.
 # Stipe doctor pins must match these values.
 # Update this file when a tool is released, then update Stipe pins to match.
-mycelium = "0.11.0"
+mycelium = "0.11.1"
 hyphae = "0.14.2"       # 5-crate workspace; cli tracks tag, core/store/mcp/ingest at 0.12.0
 rhizome = "0.8.0"       # 5-crate workspace, version per crate
-canopy = "0.8.0"
+canopy = "0.8.1"
 cortina = "0.5.0"
-stipe = "0.8.1"
+stipe = "0.8.2"
 volva = "0.3.1"
-hymenium = "0.8.0"
-annulus = "0.7.0"
+hymenium = "0.8.1"
+annulus = "0.7.1"
 cap = "0.13.0"
 lamella = "0.5.15"
 spore = "0.6.0"
