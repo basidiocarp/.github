@@ -26,6 +26,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Workspace-level git assumptions**: The root is a small workspace meta-repo. Nested project repos still own their own code history. Use root git for workspace docs, shared config, and coordination assets; use git inside the specific subproject for code changes.
 - **Committing local-only directories**: `.handoffs/` and `.audit/` are local working directories in `.gitignore` and must never be committed or pushed. Do not stage them under any circumstance.
 
+**Handoff envelope format**: For complex handoffs that accumulate evidence, verify scripts, or contract snapshots, use the optional directory envelope format at `.handoffs/<project>/<slug>/handoff.md`. See `templates/handoffs/ENVELOPE-TEMPLATE/README.md` for structure and guidance. Simple handoffs stay as flat `.md` files.
+
 ---
 
 ## Build & Test Commands

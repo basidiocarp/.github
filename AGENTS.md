@@ -106,6 +106,7 @@ If you are about to shell out to a sibling tool, read `docs/foundations/inter-ap
 - When a task changes Rust repo structure or maintainer guidance, keep `docs/foundations/` as the standards source of truth.
 - If validation was skipped in a touched repo, say so clearly in the final response.
 - **Never stage or commit `.handoffs/` or `.audit/`.** Both are local-only working directories listed in `.gitignore`. They must never appear in `git add`, `git commit`, or force-pushed history.
+- **Handoff envelope format**: For complex handoffs that accumulate evidence, verify scripts, or contract snapshots, use the optional directory envelope format at `.handoffs/<project>/<slug>/handoff.md`. See `templates/handoffs/ENVELOPE-TEMPLATE/README.md` for structure and guidance. Simple handoffs stay as flat `.md` files.
 
 ---
 
