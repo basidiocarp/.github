@@ -10,7 +10,7 @@
 
 [spore]
 version = "0.6.0"
-rev = "0bc2e878010e75e30e26fa517d747e97d59628b0"
+rev = "967e10c43a1052c9e57e226227621a83e6ac20e4"
 git = "https://github.com/basidiocarp/spore"
 consumers = ["mycelium", "hyphae", "rhizome", "stipe", "cortina", "canopy", "volva", "annulus", "hymenium"]
 pending = []
