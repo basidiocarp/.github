@@ -33,13 +33,12 @@ file shape, severity calibration, and a paired verify script.
    .handoffs/campaigns/<campaign-name>-<YYYY-MM-DD>/verify-<lane-name>.sh
    ```
    The "Verify Script" section in each template lists the required checks. Copy the
-   working examples from the most recent live campaign at
-   [`.handoffs/campaigns/ecosystem-drift-followup-audit-2026-04-30/`](/Users/williamnewton/projects/personal/basidiocarp/.handoffs/campaigns/ecosystem-drift-followup-audit-2026-04-30/)
+   working examples from the most recent live campaign at `.handoffs/campaigns/`
    as a structural starting point — they all follow the same pattern (section presence,
    table presence, baseline verifier still green, scope-discipline checks).
 3. Add the campaign to `.handoffs/HANDOFFS.md` with status `Active`.
 4. Dispatch a read-only audit agent against the handoff per the
-   [delegation contract](/Users/williamnewton/projects/personal/basidiocarp/CLAUDE.md).
+   [delegation contract](../../CLAUDE.md).
 5. When the findings file is written and the verify script exits 0,
    the audit is complete. The findings file becomes input to a
    fix-phase pass that opens specific implementation handoffs.
@@ -67,6 +66,6 @@ template extraction.
 
 ## See Also
 
-- [Work Item Template](/Users/williamnewton/projects/personal/basidiocarp/templates/handoffs/WORK-ITEM-TEMPLATE.md) — the underlying handoff template each audit specializes.
-- [Campaign README Template](/Users/williamnewton/projects/personal/basidiocarp/templates/handoffs/CAMPAIGN-README-TEMPLATE.md) — wraps multi-lane audit campaigns.
-- [F1 Freeze Roadmap](/Users/williamnewton/projects/personal/basidiocarp/docs/foundations/core-hardening-freeze-roadmap.md) — the exit criteria audits validate against.
+- [Work Item Template](../handoffs/WORK-ITEM-TEMPLATE.md) — the underlying handoff template each audit specializes.
+- [Campaign README Template](../handoffs/CAMPAIGN-README-TEMPLATE.md) — wraps multi-lane audit campaigns.
+- [F1 Freeze Roadmap](../../docs/foundations/core-hardening-freeze-roadmap.md) — the exit criteria audits validate against.
