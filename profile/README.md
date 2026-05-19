@@ -55,6 +55,8 @@ land.
 | [Stipe](https://github.com/basidiocarp/stipe)       | Ecosystem manager. Multi-host, platform-aware install, init, doctor, and update.                                                                                                    |
 | [Cortina](https://github.com/basidiocarp/cortina)   | Adapter-first lifecycle runner. Captures errors, corrections, code changes, and session summaries in Rust.                                                                          |
 | [Canopy](https://github.com/basidiocarp/canopy)     | Coordination runtime. Tracks active agents, task ownership, handoffs, and operator attention for multi-agent work.                                                                  |
+| [Hymenium](https://github.com/basidiocarp/hymenium) | Workflow orchestration engine. Reads handoff documents, runs workflow templates, dispatches agents, and manages phase gating, retry, and recovery.                                  |
+| [Annulus](https://github.com/basidiocarp/annulus)   | Operator utilities. Terminal statusline, segment registry, context bar, and runtime operator surfaces for the ecosystem.                                                            |
 | [Lamella](https://github.com/basidiocarp/lamella)   | Packaging layer. Skills, agents, hooks, commands, wrappers, and templates for supported hosts. [Docs](https://github.com/basidiocarp/lamella/blob/main/docs)                        |
 | [Septa](https://github.com/basidiocarp/septa)       | Cross-tool contract layer. Shared payload shapes, fixtures, and schema governance across the ecosystem.                                                                             |
 

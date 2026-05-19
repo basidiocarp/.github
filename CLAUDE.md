@@ -204,7 +204,7 @@ and output compression (mycelium/cortina).
 
 Before any other action in a new session:
 1. Call `hyphae_session_start` with the current project name and task.
-2. If this is a multi-agent session: call `canopy_get_task_context` for current task state.
+2. If this is a multi-agent session: run `canopy situation` for current task state.
 3. Only then begin work.
 
 ---

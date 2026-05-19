@@ -16,7 +16,7 @@ flowchart LR
     Classify -->|"no filter"| Passthrough["Passthrough"] --> Track
 ```
 
-The registry maps commands to filters. `git status` hits `filters/git.rs`; `cargo test` hits `filters/cargo.rs`.
+The registry maps commands to filters. `git status` hits `vcs/git_filters/`; `cargo test` hits `cargo_filters/`.
 Unrecognized commands pass through unchanged. Runtime invocation and shell dispatch now go through a shared
 platform-aware layer instead of assuming one POSIX shell.
 
