@@ -9,7 +9,7 @@
 #   grep -r 'rusqlite' */Cargo.toml
 
 [spore]
-version = "0.6.0"
+version = "0.6.1"
 rev = "960f5aeb1d479149b3cdbeb2f850912c52521214"
 git = "https://github.com/basidiocarp/spore"
 consumers = ["mycelium", "hyphae", "rhizome", "stipe", "cortina", "canopy", "volva", "annulus", "hymenium"]
@@ -41,17 +41,17 @@ which = "7"
 # Stipe doctor pins must match these values.
 # Update this file when a tool is released, then update Stipe pins to match.
 mycelium = "0.11.1"
-hyphae = "0.15.1"       # 5-crate workspace; cli tracks tag, core/store/mcp/ingest at 0.13.1
-rhizome = "0.11.2"      # 5-crate workspace, version per crate
-canopy = "0.9.1"
+hyphae = "0.15.2"       # 5-crate workspace; cli tracks tag, core/store/mcp/ingest at 0.13.2
+rhizome = "0.11.3"      # 5-crate workspace, version per crate
+canopy = "0.9.2"
 cortina = "0.7.1"
 stipe = "0.8.8"
 volva = "0.3.2"
-hymenium = "0.9.0"
+hymenium = "0.9.1"
 annulus = "0.7.2"
 cap = "0.14.0"
 lamella = "0.7.1"
-spore = "0.6.0"
+spore = "0.6.1"
 
 [contracts]
 # Active Septa contract generations mirrored from `septa/`.
