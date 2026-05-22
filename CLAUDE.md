@@ -235,6 +235,8 @@ the parent (orchestrator) session. For hyphae/rhizome operations that must
 happen inside a subagent, use the CLI equivalents (`hyphae store`,
 `hyphae search`, `rhizome` CLI) instead.
 
+**CLI vs MCP behavioral gap**: `hyphae search` (CLI) is a lower-fidelity fallback. It skips auto-decay, shared-project memory merging, context-aware ranking, and recall event logging. Use `mcp__hyphae__hyphae_memory_recall` when MCP tools are available. Treat `hyphae search` as a debugging and offline aid only — expect lower-quality results compared to the MCP tool.
+
 ---
 
 ## Fallback Reporting
