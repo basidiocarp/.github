@@ -228,7 +228,8 @@ Agent delegation:
 MCP tools (`mcp__hyphae__*`, `mcp__rhizome__*`) are only available in the
 session where those MCP servers connected at startup. Subagents spawned via
 the Agent tool start a fresh session with no inherited MCP connections — those
-tools will not appear in the subagent's registry.
+tools will not appear in the subagent's registry. Both `mcp__hyphae__*` and
+`mcp__rhizome__*` tools are unavailable in subagent sessions.
 **Rule**: never delegate MCP tool calls to subagents. Keep all MCP calls in
 the parent (orchestrator) session. For hyphae/rhizome operations that must
 happen inside a subagent, use the CLI equivalents (`hyphae store`,
@@ -321,7 +322,7 @@ If a human nickname is available, keep it secondary:
 
 Triage strict workflows actively. Check early for a real repo diff. If a lane is still empty, treat it as at risk. If it produces an off-scope diff, close it immediately. Only lanes with an on-scope diff and repo-local verification output should advance to audit. Workflow summaries, relaunch notes, or other meta-status replies without a repo diff count as failure and should be closed immediately.
 
-Do not spawn an implementation agent until the parent has already done a short seam-finding pass. That means the parent has identified the owning repo, the most likely files or modules to change, and the exact repo-local verification commands. If those are still unknown, keep the work local until the seam is concrete enough for a code-only worker.
+Do not spawn an implementation agent until the parent has done a short seam-finding pass and recorded the findings. That means the parent has read the target files, identified exact insertion points, confirmed available dependencies, and written all of it into the handoff's `## Implementation Seam` confirmed-seam table. An empty seam table means the pass has not been done — keep the work local. An implementer dispatched without a populated seam table is a protocol violation; close it and complete the seam pass first.
 
 ---
 
