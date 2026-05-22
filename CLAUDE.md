@@ -68,7 +68,7 @@ basidiocarp/
 ├── stipe/          installer and manager
 ├── cortina/        lifecycle signal runner
 ├── lamella/        skills, hooks, and plugin packaging
-├── lamella-skills/ future standalone content root for lamella (not yet active)
+├── lamella-skills/ consumable content root for lamella (skills, hooks, rules, commands, subagents)
 ├── canopy/         multi-agent coordination runtime
 ├── annulus/        operator utilities and statusline tooling
 ├── hymenium/       workflow orchestration engine
@@ -86,7 +86,7 @@ basidiocarp/
 - **stipe**: Handles install, setup, init, update, and doctor flows.
 - **cortina**: Captures hook events and writes structured signals.
 - **lamella**: Packages shared content for Claude and Codex.
-- **lamella-skills**: Planned standalone content root for lamella once content and packaging ownership diverges; README-only placeholder until activation criteria are met.
+- **lamella-skills**: Standalone content root for lamella. Owns all consumable resources (skills, hooks, commands, rules, subagents, templates, workflows, etc.). Lamella references it via `LAMELLA_CONTENT_ROOT`; install.sh auto-clones it from GitHub if absent as a sibling directory.
 - **canopy**: Tracks task ownership, handoffs, and evidence.
 - **annulus**: Renders terminal operator surfaces such as the statusline and related utilities.
 - **hymenium**: Orchestrates workflow dispatch, phase gating, and retry/recovery.
@@ -223,6 +223,16 @@ pre-filter or summarize output before running it — Mycelium does that.
 Memory:
 NEVER derive context from scratch that Hyphae might already have.
 Always check Hyphae before treating something as unknown.
+
+Agent delegation:
+MCP tools (`mcp__hyphae__*`, `mcp__rhizome__*`) are only available in the
+session where those MCP servers connected at startup. Subagents spawned via
+the Agent tool start a fresh session with no inherited MCP connections — those
+tools will not appear in the subagent's registry.
+**Rule**: never delegate MCP tool calls to subagents. Keep all MCP calls in
+the parent (orchestrator) session. For hyphae/rhizome operations that must
+happen inside a subagent, use the CLI equivalents (`hyphae store`,
+`hyphae search`, `rhizome` CLI) instead.
 
 ---
 
