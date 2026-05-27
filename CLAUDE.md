@@ -326,6 +326,8 @@ Triage strict workflows actively. Check early for a real repo diff. If a lane is
 
 Do not spawn an implementation agent until the parent has done a short seam-finding pass and recorded the findings. That means the parent has read the target files, identified exact insertion points, confirmed available dependencies, and written all of it into the handoff's `## Implementation Seam` confirmed-seam table. An empty seam table means the pass has not been done — keep the work local. An implementer dispatched without a populated seam table is a protocol violation; close it and complete the seam pass first.
 
+**Pre-dispatch existence check — required before every implementer dispatch:** After the seam-finding pass confirms the insertion point, re-read the exact file and function/line identified in the seam table and verify the problem is still present in the current code. Do not rely on the handoff's problem description alone — handoffs are point-in-time snapshots and a subsequent broad fix commit may have already resolved the issue. If the fix is already in the code, mark the handoff `Disposition: pre-existing`, record the commit that contains the fix in the `## Completion` section, and do not spawn an implementer. Spawning an implementer for an already-fixed problem is wasted work and a protocol violation.
+
 ---
 
 ## CI and Release Gates

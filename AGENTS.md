@@ -235,6 +235,19 @@ Use a short local seam-finding pass first:
 
 If the parent agent cannot name likely files yet, the task is still too ambiguous for a spawned implementer and should stay local until the seam is clear.
 
+#### Pre-Dispatch Existence Check
+
+After the seam-finding pass confirms the insertion point, re-read the exact file and function or line identified in the seam table and verify the problem is still present in the current code.
+
+Do not rely on the handoff's problem description alone — handoffs are point-in-time snapshots and a subsequent broad fix commit may have already resolved the issue.
+
+If the fix is already in the code:
+- Mark the handoff `Disposition: pre-existing`
+- Record the commit that contains the fix in the handoff's `## Completion` section
+- Do not spawn an implementer
+
+Spawning an implementer for an already-fixed problem is wasted work and a protocol violation.
+
 ---
 
 ## Skills to Load
