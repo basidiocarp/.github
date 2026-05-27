@@ -152,7 +152,11 @@ When the user asks for the implementer/auditor pattern, follow this protocol exa
 5. If the auditor finds issues, fix them, rerun the relevant verification, and do not treat the work as complete until the fixes are reviewed.
 6. Close the implementer agent after the implementation is accepted.
 7. Close the auditor agent after the audit is accepted.
-8. Once the audit is clean and verification is green, update the handoff dashboard to reflect completion. If the dashboard tracks active work only, archive or remove the completed handoff entry in the same close-out flow.
+8. Once the audit is clean and verification is green, update the handoff dashboard to reflect completion, then immediately archive the completed handoff file:
+   ```bash
+   bash .handoffs/scripts/archive-completed.sh --execute
+   ```
+   Do not leave completed handoff files sitting in the active repo directories. The script is safe to run after every wave — it only moves files whose `## Completion` section contains a real commit hash.
 9. Do not leave completed or stalled agents open.
 10. Status-only replies do not count as progress. If an agent returns orchestration chatter without code changes or verification evidence, close it and relaunch with a narrower scope or take the work locally.
 
