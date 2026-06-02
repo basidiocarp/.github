@@ -21,38 +21,36 @@ check_pair() {
     fi
 }
 
-# Read ledger values
-ledger_annulus=$(grep '^annulus\s*=' "$ROOT/ecosystem-versions.toml" | grep -o '"[^"]*"' | tr -d '"')
-ledger_cap=$(grep '^cap\s*=' "$ROOT/ecosystem-versions.toml" | grep -o '"[^"]*"' | tr -d '"')
-ledger_lamella=$(grep '^lamella\s*=' "$ROOT/ecosystem-versions.toml" | grep -o '"[^"]*"' | tr -d '"')
-ledger_hyphae=$(grep '^hyphae\s*=' "$ROOT/ecosystem-versions.toml" | grep -o '"[^"]*"' | tr -d '"')
-ledger_canopy=$(grep '^canopy\s*=' "$ROOT/ecosystem-versions.toml" | grep -o '"[^"]*"' | tr -d '"')
-ledger_stipe=$(grep '^stipe\s*=' "$ROOT/ecosystem-versions.toml" | grep -o '"[^"]*"' | tr -d '"')
-ledger_spore=$(grep '^spore\s*=' "$ROOT/ecosystem-versions.toml" | grep -o '"[^"]*"' | tr -d '"' | head -1)
+# Read ledger values (|| true so a no-match yields empty -> visible FAIL, not a set -e abort)
+ledger_annulus=$(grep '^annulus\s*=' "$ROOT/ecosystem-versions.toml" | grep -o '"[^"]*"' | tr -d '"' || true)
+ledger_cap=$(grep '^cap\s*=' "$ROOT/ecosystem-versions.toml" | grep -o '"[^"]*"' | tr -d '"' || true)
+ledger_lamella=$(grep '^lamella\s*=' "$ROOT/ecosystem-versions.toml" | grep -o '"[^"]*"' | tr -d '"' || true)
 
 # Compare manifests against ledger
-manifest_annulus=$(grep '^version\s*=' "$ROOT/annulus/Cargo.toml" | head -1 | grep -o '"[^"]*"' | tr -d '"')
-manifest_cap=$(python3 -c "import json,sys; print(json.load(open('$ROOT/cap/package.json'))['version'])" 2>/dev/null || grep '"version"' "$ROOT/cap/package.json" | head -1 | grep -o '"[0-9][^"]*"' | tr -d '"')
-manifest_lamella=$(cat "$ROOT/lamella/VERSION" | tr -d '[:space:]')
+manifest_annulus=$(grep '^version\s*=' "$ROOT/annulus/Cargo.toml" | head -1 | grep -o '"[^"]*"' | tr -d '"' || true)
+manifest_cap=$(python3 -c "import json,sys; print(json.load(open('$ROOT/cap/package.json'))['version'])" 2>/dev/null || grep '"version"' "$ROOT/cap/package.json" | head -1 | grep -o '"[0-9][^"]*"' | tr -d '"' || true)
+manifest_lamella=$(tr -d '[:space:]' < "$ROOT/lamella/VERSION" 2>/dev/null || true)
 
 check_pair "annulus Cargo.toml matches ledger" "$ledger_annulus" "$manifest_annulus"
 check_pair "cap package.json matches ledger" "$ledger_cap" "$manifest_cap"
 check_pair "lamella VERSION matches ledger" "$ledger_lamella" "$manifest_lamella"
 
-# Compare Stipe doctor pins against ledger
-stipe_hyphae=$(grep 'pins.insert("hyphae"' "$ROOT/stipe/src/commands/doctor/plugin_inventory_checks.rs" | head -1 | grep -o '"[0-9][^"]*"' | tail -1 | tr -d '"')
-stipe_canopy=$(grep 'pins.insert("canopy"' "$ROOT/stipe/src/commands/doctor/plugin_inventory_checks.rs" | head -1 | grep -o '"[0-9][^"]*"' | tail -1 | tr -d '"')
-stipe_stipe=$(grep 'pins.insert("stipe"' "$ROOT/stipe/src/commands/doctor/plugin_inventory_checks.rs" | head -1 | grep -o '"[0-9][^"]*"' | tail -1 | tr -d '"')
-stipe_spore=$(grep 'pins.insert("spore"' "$ROOT/stipe/src/commands/doctor/plugin_inventory_checks.rs" | head -1 | grep -o '"[0-9][^"]*"' | tail -1 | tr -d '"')
-stipe_annulus=$(grep 'pins.insert("annulus"' "$ROOT/stipe/src/commands/doctor/plugin_inventory_checks.rs" | head -1 | grep -o '"[0-9][^"]*"' | tail -1 | tr -d '"')
-stipe_cap=$(grep 'pins.insert("cap"' "$ROOT/stipe/src/commands/doctor/plugin_inventory_checks.rs" | head -1 | grep -o '"[0-9][^"]*"' | tail -1 | tr -d '"')
-
-check_pair "stipe doctor hyphae pin matches ledger" "$ledger_hyphae" "$stipe_hyphae"
-check_pair "stipe doctor canopy pin matches ledger" "$ledger_canopy" "$stipe_canopy"
-check_pair "stipe doctor stipe pin matches ledger" "$ledger_stipe" "$stipe_stipe"
-check_pair "stipe doctor spore pin matches ledger" "$ledger_spore" "$stipe_spore"
-check_pair "stipe doctor annulus pin matches ledger" "$ledger_annulus" "$stipe_annulus"
-check_pair "stipe doctor cap pin matches ledger" "$ledger_cap" "$stipe_cap"
+# Stipe doctor pins are GENERATED from ecosystem-versions.toml [tools] via build.rs
+# (stipe/src/commands/doctor/version_pins.rs is an @generated include). Ledger<->doctor
+# drift is therefore impossible by construction — we verify the generation wiring is intact
+# rather than diffing a hand-maintained pin table that no longer exists.
+pins_file="$ROOT/stipe/src/commands/doctor/version_pins.rs"
+build_file="$ROOT/stipe/build.rs"
+if grep -q '@generated' "$pins_file" 2>/dev/null \
+   && grep -q 'pinned_ecosystem_versions' "$pins_file" 2>/dev/null \
+   && grep -q 'ecosystem-versions.toml' "$build_file" 2>/dev/null \
+   && grep -q '"tools"' "$build_file" 2>/dev/null; then
+    echo "PASS: stipe doctor pins generated from ledger [tools] (build.rs wiring intact)"
+    PASS=$((PASS+1))
+else
+    echo "FAIL: stipe version-pin generation wiring missing (build.rs / version_pins.rs)"
+    FAIL=$((FAIL+1))
+fi
 
 # Check hyphae release script includes hyphae-ingest
 if grep -q 'hyphae-ingest' "$ROOT/hyphae/scripts/release.sh"; then
@@ -60,6 +58,15 @@ if grep -q 'hyphae-ingest' "$ROOT/hyphae/scripts/release.sh"; then
     PASS=$((PASS+1))
 else
     echo "FAIL: hyphae release script missing hyphae-ingest"
+    FAIL=$((FAIL+1))
+fi
+
+# Check the [contracts] mirror is in sync with septa's enforced registry
+if bash "$ROOT/scripts/sync-contracts.sh" --check >/dev/null 2>&1; then
+    echo "PASS: [contracts] mirror in sync with septa/CROSS-TOOL-PAYLOADS.md"
+    PASS=$((PASS+1))
+else
+    echo "FAIL: [contracts] mirror stale — run 'bash scripts/sync-contracts.sh'"
     FAIL=$((FAIL+1))
 fi
 
