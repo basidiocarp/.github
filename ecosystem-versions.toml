@@ -50,7 +50,7 @@ volva = "0.3.3"
 hymenium = "0.9.2"
 annulus = "0.7.5"
 cap = "0.15.1"
-lamella = "0.7.1"
+lamella = "0.7.0"
 spore = "0.6.1"
 
 [contracts]
