@@ -267,6 +267,7 @@ activemq-data/
 /.archive/
 /.audit/
 /.notes/
+/.reports/
 /.playwright-mcp/
 /.scratch-pad/
 /.worktrees/
