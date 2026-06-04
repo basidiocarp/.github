@@ -15,7 +15,7 @@ For simple handoffs, the flat `<slug>.md` format is still preferred.
 ## Structure
 
 ```
-.handoffs/<project>/<slug>/
+.handoffs/work-items/<project>/<slug>/
 ├── handoff.md      # main handoff body (required)
 ├── verify.sh       # verify script (required)
 ├── evidence/       # verification output, screenshots, test results
@@ -29,4 +29,4 @@ Name evidence files `step-N-<command>.txt` by convention, e.g. `step-1-cargo-tes
 
 ## Backward compatibility
 
-Flat `.handoffs/<project>/<slug>.md` files remain valid and take priority if both formats exist.
+Flat `.handoffs/work-items/<project>/<slug>.md` files remain valid and take priority if both formats exist.

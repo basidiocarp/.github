@@ -22,8 +22,8 @@ Validates that the C7 CLI Coupling Classification table in `septa/integration-pa
 ### Step 1 — Re-run existing C7 + C8 verifiers
 
 ```bash
-bash .handoffs/cross-project/verify-cli-coupling-exemption-audit.sh
-bash .handoffs/cross-project/verify-system-to-system-communication-boundary.sh
+bash .handoffs/work-items/cross-project/verify-cli-coupling-exemption-audit.sh
+bash .handoffs/work-items/cross-project/verify-system-to-system-communication-boundary.sh
 ```
 
 Both should exit 0. If either fails, **that is the first finding** and must be addressed before proceeding (the audit's foundation has drifted).

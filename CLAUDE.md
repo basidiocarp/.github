@@ -26,7 +26,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Workspace-level git assumptions**: The root is a small workspace meta-repo. Nested project repos still own their own code history. Use root git for workspace docs, shared config, and coordination assets; use git inside the specific subproject for code changes.
 - **Committing local-only directories**: `.handoffs/` and `.audit/` are local working directories in `.gitignore` and must never be committed or pushed. Do not stage them under any circumstance.
 
-**Handoff envelope format**: For complex handoffs that accumulate evidence, verify scripts, or contract snapshots, use the optional directory envelope format at `.handoffs/<project>/<slug>/handoff.md`. See `templates/handoffs/ENVELOPE-TEMPLATE/README.md` for structure and guidance. Simple handoffs stay as flat `.md` files.
+**Handoff layout**: Active handoffs live under `.handoffs/work-items/<project>/`. The three lifecycle states are sibling buckets — `proposals/<project>/` (idea, decision pending), `work-items/<project>/` (decided/active), `archive/<project>/` (done) — and a file's folder is its state. For complex handoffs that accumulate evidence, verify scripts, or contract snapshots, use the optional directory envelope format at `.handoffs/work-items/<project>/<slug>/handoff.md`. See `templates/handoffs/ENVELOPE-TEMPLATE/README.md` for structure and guidance. Simple handoffs stay as flat `.md` files.
 
 ---
 
@@ -291,23 +291,41 @@ Start with one implementation agent on one concrete handoff or child handoff. Th
 
 ### Two-stage review — required before signoff
 
-Every handoff implementation goes through two review stages before it is committed and marked Done:
+Every handoff implementation goes through two review stages before it is committed and marked Done. The two stages must use **different lenses** — running the same review twice buys correlated findings, not independent signal. Stage 1 reads the code as written; Stage 2 attacks it.
+
+**Reviewer context isolation (both stages):** Give each reviewer only the **uncommitted diff, the frozen plan body (Problem/Scope/Non-goals/Allowed files), and the verification command** — NOT the implementer's self-report of what it did or why. A reviewer handed the implementer's narrative anchors on it and rubber-stamps. Force the reviewer to reconstruct intent from the diff against the spec.
 
 **Stage 1 — Code review (after implementation, before committing):**
-Run a `code-reviewer` agent against the uncommitted diff. It checks for spec compliance, correctness bugs, regressions in existing behavior, and security issues. Do not commit until Stage 1 findings are resolved. Fix all blockers and concerns before proceeding.
+Run a `code-reviewer` agent against the uncommitted diff. Lens: spec compliance, correctness bugs, and security issues — does the code do what the plan says, correctly and safely. Do not commit until Stage 1 findings are resolved. Fix all blockers and concerns before proceeding.
 
-**Stage 2 — Pre-signoff review (after fixes, before marking Done):**
-Run a second review agent against the final state. Confirms Stage 1 findings were addressed, checks the complete change holistically, and gives a final PASS or FAIL verdict. Only commit and update the dashboard after Stage 2 passes.
+**Stage 2 — Adversarial pre-signoff review (after fixes, before marking Done):**
+Run a second review agent against the final state, on a **different model from Stage 1 where available**. Lens: adversarial — explicitly tasked to find what Stage 1 missed, with focus on regressions and blast radius (every caller of every changed symbol — see the caller census in the seam pass). It confirms Stage 1 findings were addressed and gives a final PASS or FAIL verdict.
 
-Do not collapse both stages into one agent. Do not run either stage after committing. The sequence is: implement → Stage 1 review → fix → Stage 2 review → **residual work gate** → commit → mark Done.
+**Stage 2 re-runs the verification itself — it does not read the implementer's paste.** The implementer's pasted output is an unverified claim; a false or stale paste is the single failure mode that makes a Done handoff lie. Stage 2 (or the parent) executes the exact verification command fresh against the final diff and confirms the real exit status matches. The handoff records the exact command and its raw exit code, not a prose summary. Only commit and update the dashboard after Stage 2 passes on a re-run it performed.
 
-**Residual Work Gate (after Stage 2, before committing):** Any finding from Stage 1 or Stage 2 that was accepted rather than fixed must have a durable disposition logged in the handoff's `## Residual Work` section — a follow-up handoff, a filed ticket, or an accepted-with-note codebase comment. An empty Residual Work section is only valid when both review stages confirmed zero open findings. Findings that exist only in conversation history evaporate; they must be in a durable sink.
+Do not collapse both stages into one agent. Do not run either stage after committing. The sequence is: implement → Stage 1 review → fix → Stage 2 review (re-runs verification) → **residual work gate** → commit → mark Done.
+
+**Residual Work Gate (after Stage 2, before committing):** Any finding from Stage 1 or Stage 2 that was accepted rather than fixed must have a durable disposition logged in the handoff's `## Residual Work` section — a follow-up handoff, a filed ticket, or an accepted-with-note codebase comment. An empty Residual Work section is only valid when both review stages confirmed zero open findings. Findings that exist only in conversation history evaporate; they must be in a durable sink. **Recurring-finding feedback:** when a review finding is an instance of a class already seen in prior handoffs (same bug pattern, same omission), promote it out of this one handoff — add it to the seam-pass checklist or a lamella rule, and capture it with `hyphae_extract_lessons` — so the Nth handoff does not re-make the first's mistake.
 
 **Execution freeze:** The plan body (Problem, Scope, Non-goals, Allowed files) is read-only once an implementer is dispatched. If the plan turns out to be wrong, the implementer raises a flag — they do not rewrite scope to fit the diff. The orchestrator updates the plan and re-dispatches if needed.
 
 If the auditor finds issues, fix them and rerun the relevant verification before treating the work as complete. Close the implementer when implementation is accepted. Close both review agents when Stage 2 passes. Once the review is clean, residual work is logged, and verification is green, commit, update the handoff dashboard, and archive or remove the entry if the dashboard tracks active work only. Do not leave stalled or completed agents open.
 
 Parallel strict workflows are allowed when they target different concrete handoffs with disjoint write scopes. Parallel implementers for the same handoff, or overlapping ownership inside one repo, are not allowed.
+
+**Enforce disjoint scopes — do not merely declare them.** "Disjoint write scopes" by file *prefix* is not enough: two lanes in the same repo still collide on shared manifests — `Cargo.toml`, `ecosystem-versions.toml`, lockfiles, `mod.rs`, and shared `septa` fixtures. Declared scope alone risks silent manifest corruption when both lanes write the same file. Enforce one of two ways:
+
+- **Worktree isolation** — run parallel implementers in separate git worktrees (Agent `isolation: "worktree"`), so concurrent edits cannot corrupt each other; reconcile at merge time.
+- **Hot-shared-file lock list** — maintain an explicit list of files that force serialization (`Cargo.toml`, `Cargo.lock`, `ecosystem-versions.toml`, `mod.rs`/`lib.rs` re-export hubs, `septa/**` fixtures). If two queued lanes both touch a file on the list, they do not run in parallel — sequence them behind a checkpoint. Each handoff declares the hot-shared files it touches in its write-scope metadata.
+
+### Contract-wave barrier (§septa sequencing)
+
+The `septa/` rule — "update the schema and fixture first, then every producer and consumer in the same change" — collides with the one-implementer-one-handoff-one-repo model: a contract spanning `septa` plus three consumer repos cannot be a single commit across separate git histories. Resolve it with a **barrier**, not just a priority. A contract change is a *wave* with two tiers:
+
+1. **Contract definition (P0, in `septa/`)** — the schema + fixture. Dispatchable immediately; it is the unblocker.
+2. **Consumers (blocked-§septa, in the producing/consuming repos)** — each keeps its own merit priority but carries a **blocked-§septa** status and names, in its metadata, the contract handoff it waits on.
+
+A consumer handoff **cannot be marked Done** until: (a) its contract-definition handoff is committed, **and** (b) `cd septa && bash validate-all.sh` passes, **and** (c) `./scripts/test-integration.sh` passes for the boundary it crosses. The contract handoff is committed first; the consumers fan out to parallel implementers only after it lands. This is the workflow form of the P0/blocked-§septa ranking — sequencing enforced at signoff, not just suggested by tier order.
 
 Use this naming convention for strict-workflow agents:
 
@@ -326,7 +344,13 @@ Triage strict workflows actively. Check early for a real repo diff. If a lane is
 
 **Failure breadcrumb — required before relaunch:** If an implementer is closed without a committed diff and the handoff will be relaunched, the orchestrator must fill the `## Failure Breadcrumb` table in the handoff file before dispatching a new agent. Each row records: which attempt it was, what approach was tried, the root cause of failure, and the carry-forward context the next agent needs. A relaunch without a filled breadcrumb table is a protocol violation — the next agent starts blind. After filling the breadcrumb, a fresh seam-finding pass is still required before dispatching the next agent.
 
+**Relaunch cap — escalate, don't churn.** Cap relaunches at **2** (attempts 1, 2, 3). When the third attempt fails, stop re-dispatching at the implementation level: the repeated failure is evidence the problem is in the design or requirements, not the execution (this is `debugging.md`'s "three fixes at one level → escalate" bound to lane management). Escalate the handoff — revisit the plan, the seam, or the spec — rather than throwing a fourth blind agent at it. Record the escalation in the breadcrumb table's carry-forward column.
+
 Do not spawn an implementation agent until the parent has done a short seam-finding pass and recorded the findings. That means the parent has read the target files, identified exact insertion points (function or symbol names — not bare line numbers; use `mcp__rhizome__search_symbols` or `mcp__rhizome__get_definition` to locate them), confirmed available dependencies, extracted 2-3 behavioral invariants from the target scope (observable conditions the change must not violate — stated as concrete statements, not as test code), and written all of it into the handoff's `## Implementation Seam` confirmed-seam table. An empty seam table means the pass has not been done — keep the work local. An implementer dispatched without a populated seam table is a protocol violation; close it and complete the seam pass first. A seam table filled with bare line numbers — with no enclosing symbol name — is not considered confirmed and does not satisfy the dispatch gate. A seam table without a populated Behavioral invariants field is not considered confirmed unless the scope has zero callers and no existing tests (both conditions must hold — write "none — no callers and no tests" when they do).
+
+**Caller census — required in the seam pass.** Local invariants protect the changed symbol; regressions live at its call sites. For each symbol in the seam table, run `mcp__rhizome__find_references` / `mcp__rhizome__get_call_sites` and record the caller count. When a symbol has more than a handful of callers (rule of thumb: > 5, or any cross-repo caller), at least one behavioral invariant must cover cross-call behavior, and the verification must include the callers' tests — not only the changed module's. `mcp__rhizome__analyze_impact` gives the blast radius in one call. A seam pass that changes a widely-called symbol but lists only module-local tests is not confirmed.
+
+**Seam staleness — stamp it, don't just check existence.** A seam table is written once and rots as later waves land. The pre-dispatch existence check catches a *deleted* symbol but not a *changed* one with the same name. So at seam-write time, record the commit the seam was captured against for each target file: `git -C <repo> log -1 --format=%h -- <file>`. At dispatch, if the file's latest commit differs, the symbol may have moved underneath the seam — re-verify the whole seam (anchor + invariants + caller census), not just that the problem still exists.
 
 **Pre-dispatch existence check — required before every implementer dispatch:** After the seam-finding pass confirms the insertion point, re-read the exact file and function/line identified in the seam table and verify the problem is still present in the current code. Do not rely on the handoff's problem description alone — handoffs are point-in-time snapshots and a subsequent broad fix commit may have already resolved the issue. If the fix is already in the code, mark the handoff `Disposition: pre-existing`, record the commit that contains the fix in the `## Completion` section, and do not spawn an implementer. Spawning an implementer for an already-fixed problem is wasted work and a protocol violation.
 

@@ -108,7 +108,7 @@ If you are about to shell out to a sibling tool, read `docs/foundations/inter-ap
 - When a task changes Rust repo structure or maintainer guidance, keep `docs/foundations/` as the standards source of truth.
 - If validation was skipped in a touched repo, say so clearly in the final response.
 - **Never stage or commit `.handoffs/` or `.audit/`.** Both are local-only working directories listed in `.gitignore`. They must never appear in `git add`, `git commit`, or force-pushed history.
-- **Handoff envelope format**: For complex handoffs that accumulate evidence, verify scripts, or contract snapshots, use the optional directory envelope format at `.handoffs/<project>/<slug>/handoff.md`. See `templates/handoffs/ENVELOPE-TEMPLATE/README.md` for structure and guidance. Simple handoffs stay as flat `.md` files.
+- **Handoff layout**: Active handoffs live under `.handoffs/work-items/<project>/`. The three lifecycle states are sibling buckets: `proposals/<project>/` (idea, decision pending), `work-items/<project>/` (decided/active), `archive/<project>/` (done). For complex handoffs that accumulate evidence, verify scripts, or contract snapshots, use the optional directory envelope format at `.handoffs/work-items/<project>/<slug>/handoff.md`. See `templates/handoffs/ENVELOPE-TEMPLATE/README.md` for structure and guidance. Simple handoffs stay as flat `.md` files.
 
 ---
 
@@ -143,13 +143,12 @@ When the user asks for the implementer/auditor pattern, follow this protocol exa
    - send occasional progress updates back to the parent agent
    - return changed files, verification output, and any blockers
 3. Do not spawn the auditor until there is a real code diff in the target repo and the implementer has reported verification results.
-4. The auditor must be a separate agent and must:
-   - review the changed code
-   - review the handoff against the requested scope
-   - check for regressions, incomplete work, and newly introduced bugs
-   - report findings first, not summaries
-   - send occasional progress updates back to the parent agent
-5. If the auditor finds issues, fix them, rerun the relevant verification, and do not treat the work as complete until the fixes are reviewed.
+4. Review runs in **two stages with different lenses** — running the same review twice yields correlated findings, not independent signal. Each reviewer is a separate agent and gets **only the uncommitted diff, the frozen plan body, and the verification command** — not the implementer's self-report of what it did (a narrative anchors the reviewer and produces rubber-stamps; make it reconstruct intent from the diff against the spec).
+   - **Stage 1 (`code-reviewer`):** lens is spec compliance, correctness, and security. Review the changed code, review the handoff against the requested scope, check for incomplete work and newly introduced bugs. Report findings first, not summaries.
+   - **Stage 2 (adversarial, different model where available):** explicitly tasked to find what Stage 1 missed; focus on regressions and blast radius across every caller of every changed symbol. Confirms Stage 1 findings were addressed; gives a final PASS or FAIL.
+   - **Stage 2 re-runs the verification itself** rather than trusting the implementer's pasted output — a stale or false paste is the one failure that makes a Done handoff lie. It executes the exact command fresh against the final diff and confirms the real exit code. The handoff records the exact command + raw exit code, not prose.
+   - **Recurring-finding feedback:** if a finding repeats a class seen in prior handoffs, promote it into the seam-pass checklist or a lamella rule (and `hyphae extract-lessons`) so it stops recurring.
+5. If a reviewer finds issues, fix them, re-run the relevant verification, and do not treat the work as complete until the fixes are reviewed. Do not collapse the two stages into one agent; do not run either stage after committing.
 6. Close the implementer agent after the implementation is accepted.
 7. Close the auditor agent after the audit is accepted.
 8. Once the audit is clean and verification is green, update the handoff dashboard to reflect completion, then immediately archive the completed handoff file:
@@ -164,6 +163,10 @@ Parallel strict workflows follow the Wave → Checkpoint → Wave model document
 `canopy/docs/dispatch.md`. The key rule: batch handoffs in a wave only when they write to
 disjoint file sets, neither consumes the other's output, and no shared septa schema or test
 suite connects them. Use a checkpoint between waves when those conditions are not met.
+
+**Enforce disjoint scopes — do not just declare them.** File-prefix disjointness is not enough: two lanes in one repo still collide on shared manifests (`Cargo.toml`, `Cargo.lock`, `ecosystem-versions.toml`, `mod.rs`/`lib.rs` re-export hubs, `septa/**` fixtures), which corrupts silently. Enforce with either (a) **worktree isolation** — run parallel implementers in separate git worktrees and reconcile at merge — or (b) a **hot-shared-file lock list**: each handoff declares the shared files it touches, and two lanes touching the same listed file are serialized behind a checkpoint, never run in parallel.
+
+**Contract-wave barrier (§septa).** A contract change spanning `septa` plus consumer repos cannot be one commit across separate histories, so it is a *wave with a barrier*: the **contract definition** (schema + fixture, in `septa/`) is its own handoff, dispatchable now; each **consumer** handoff carries a `blocked-§septa` status, names the contract handoff it waits on, and **cannot be marked Done** until that contract handoff is committed and both `cd septa && bash validate-all.sh` and `./scripts/test-integration.sh` pass. Land the contract first, then fan the consumers out in parallel. This is the workflow form of the P0/blocked-§septa ranking — enforced at signoff, not just suggested by tier.
 
 #### Workflow Naming
 
@@ -208,6 +211,8 @@ Use this cadence:
 
 The goal is not to keep every lane alive. The goal is to keep only the lanes that are producing trustworthy progress.
 
+**Relaunch cap.** Cap relaunches at 2 (attempts 1, 2, 3). When the third attempt fails, do not re-dispatch a fourth implementer — repeated failure at the same level is evidence the problem is in the design, seam, or spec, not the execution. Escalate the handoff for re-planning and record the escalation in the `## Failure Breadcrumb` carry-forward column.
+
 #### Code-Only Worker Rule
 
 Keep orchestration and implementation separate.
@@ -234,8 +239,10 @@ Use a short local seam-finding pass first:
 
 1. confirm the owning repo
 2. identify the most likely files or modules to change
-3. identify the exact repo-local verification commands
-4. then launch the implementer with only that narrowed context
+3. **caller census** — for each target symbol, run `mcp__rhizome__find_references` / `get_call_sites` (or `analyze_impact`) and record the caller count. If a symbol has more than a handful of callers (> 5, or any cross-repo caller), an invariant must cover cross-call behavior and the verification must include the callers' tests, not only the changed module's.
+4. **stamp seam staleness** — record the commit each target file was captured against (`git -C <repo> log -1 --format=%h -- <file>`). At dispatch, if the file's latest commit differs, the symbol may have moved under the seam — re-verify the whole seam, not just that the problem still exists.
+5. identify the exact repo-local verification commands
+6. then launch the implementer with only that narrowed context
 
 If the parent agent cannot name likely files yet, the task is still too ambiguous for a spawned implementer and should stay local until the seam is clear.
 

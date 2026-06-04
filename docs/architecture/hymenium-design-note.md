@@ -111,7 +111,7 @@ Hymenium exposes its own MCP surface for the parent agent:
 It also exposes a CLI for operator use:
 
 ```bash
-hymenium dispatch .handoffs/spore/otel-foundation.md --workflow impl-audit
+hymenium dispatch .handoffs/work-items/spore/otel-foundation.md --workflow impl-audit
 hymenium status
 hymenium decompose .handoffs/large-handoff.md --max-effort 4h
 ```
