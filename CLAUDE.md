@@ -311,6 +311,14 @@ Do not collapse both stages into one agent. Do not run either stage after commit
 
 If the auditor finds issues, fix them and rerun the relevant verification before treating the work as complete. Close the implementer when implementation is accepted. Close both review agents when Stage 2 passes. Once the review is clean, residual work is logged, and verification is green, commit, update the handoff dashboard, and archive or remove the entry if the dashboard tracks active work only. Do not leave stalled or completed agents open.
 
+**Emit the CodeDiff evidence ref after each implementer commit.** Once an implementer's diff is committed, the orchestrator records the commit on the task as a first-class code-diff reference, so `has_code_diff` on the canopy task-detail read model reflects a real committed change rather than the legacy rhizome-export/related-file proxy:
+
+```bash
+canopy evidence add --task-id <id> --source-kind code_diff --source-ref <commit-sha> --label <handoff-slug>
+```
+
+This is the producer for the `code_diff` `EvidenceSourceKind`; without it the signal stays proxy-derived. Emit one per commit that lands handoff scope (skip pre-existing/no-diff dispositions, which have no commit to reference).
+
 Parallel strict workflows are allowed when they target different concrete handoffs with disjoint write scopes. Parallel implementers for the same handoff, or overlapping ownership inside one repo, are not allowed.
 
 **Enforce disjoint scopes — do not merely declare them.** "Disjoint write scopes" by file *prefix* is not enough: two lanes in the same repo still collide on shared manifests — `Cargo.toml`, `ecosystem-versions.toml`, lockfiles, `mod.rs`, and shared `septa` fixtures. Declared scope alone risks silent manifest corruption when both lanes write the same file. Enforce one of two ways:
