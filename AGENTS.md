@@ -147,7 +147,8 @@ When the user asks for the implementer/auditor pattern, follow this protocol exa
    - **Stage 1 (`code-reviewer`):** lens is spec compliance, correctness, and security. Review the changed code, review the handoff against the requested scope, check for incomplete work and newly introduced bugs. Report findings first, not summaries.
    - **Stage 2 (adversarial, different model where available):** explicitly tasked to find what Stage 1 missed; focus on regressions and blast radius across every caller of every changed symbol. Confirms Stage 1 findings were addressed; gives a final PASS or FAIL.
    - **Stage 2 re-runs the verification itself** rather than trusting the implementer's pasted output — a stale or false paste is the one failure that makes a Done handoff lie. It executes the exact command fresh against the final diff and confirms the real exit code. The handoff records the exact command + raw exit code, not prose.
-   - **Recurring-finding feedback:** if a finding repeats a class seen in prior handoffs, promote it into the seam-pass checklist or a lamella rule (and `hyphae extract-lessons`) so it stops recurring.
+   - **Disputed findings:** if the orchestrator believes a Stage 2 FAIL (or any finding) is wrong, resolve it with a **fresh same-stage review on a different model from both prior reviewers** — never unilateral overrule. The fresh reviewer gets the isolated context plus the disputed finding and counter-argument; its verdict is final. Record the dispute in the handoff's `## Review Record`.
+   - **Recurring-finding feedback:** if a finding repeats a class seen in prior handoffs, promote it into `templates/handoffs/SEAM-PASS-CHECKLIST.md` or a lamella rule (and `hyphae extract-lessons`) so it stops recurring.
 5. If a reviewer finds issues, fix them, re-run the relevant verification, and do not treat the work as complete until the fixes are reviewed. Do not collapse the two stages into one agent; do not run either stage after committing.
 6. Close the implementer agent after the implementation is accepted.
 7. Close the auditor agent after the audit is accepted.
@@ -241,8 +242,9 @@ Use a short local seam-finding pass first:
 2. identify the most likely files or modules to change
 3. **caller census** — for each target symbol, run `mcp__rhizome__find_references` / `get_call_sites` (or `analyze_impact`) and record the caller count. If a symbol has more than a handful of callers (> 5, or any cross-repo caller), an invariant must cover cross-call behavior and the verification must include the callers' tests, not only the changed module's.
 4. **stamp seam staleness** — record the commit each target file was captured against (`git -C <repo> log -1 --format=%h -- <file>`). At dispatch, if the file's latest commit differs, the symbol may have moved under the seam — re-verify the whole seam, not just that the problem still exists.
-5. identify the exact repo-local verification commands
-6. then launch the implementer with only that narrowed context
+5. **run the seam-pass checklist** — work through `templates/handoffs/SEAM-PASS-CHECKLIST.md` (the durable sink for recurring-finding classes: CI OS matrix, Rust four-pack, wildcard-free matches, packaging-by-filename, borrow checks, consumer reachability) and check the handoff's checklist gate, marking inapplicable items n/a
+6. identify the exact repo-local verification commands
+7. then launch the implementer with only that narrowed context
 
 If the parent agent cannot name likely files yet, the task is still too ambiguous for a spawned implementer and should stay local until the seam is clear.
 

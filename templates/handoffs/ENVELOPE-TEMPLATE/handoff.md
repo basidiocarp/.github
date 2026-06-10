@@ -61,6 +61,15 @@ _Completed by the parent during the seam-finding pass — required before dispat
 
 ---
 
+## Review Record
+
+_Reviewers get only the diff, the frozen plan body, and the verification command — never the implementer's self-report. Stage 2 model must differ from Stage 1._
+
+- **Stage 1** (`review/<repo>/<slug>/<run>`, model `[model]`): `PASS` | `FAIL` — [findings or "none"]
+- **Stage 2** (`audit/<repo>/<slug>/<run>`, model `[different model]`, adversarial): `PASS` | `FAIL` — [findings or "none"]
+- **Disputed findings:** [none | resolved by fresh same-stage review on a different model — never unilateral overrule]
+- **Verification re-run by Stage 2:** `bash .handoffs/work-items/<project>/<slug>/verify.sh` → exit `[0]`
+
 ## Residual Work
 
 | Finding | Disposition | Link / Note |
@@ -70,4 +79,6 @@ _Completed by the parent during the seam-finding pass — required before dispat
 ## Completion
 
 - **Contract barrier (only if `Contract dependency` is set):** the named contract handoff is committed and `cd septa && bash validate-all.sh` + `./scripts/test-integration.sh` both pass
-- **Commit:** _(git short hash when done)_
+- **Disposition:** `keep` | `discard` | `crash` | `pre-existing` | `design-invalid` | `deferred` — reason required for anything but `keep` (see WORK-ITEM-TEMPLATE for meanings)
+- **Commit:** _(git short hash when done; for `pre-existing`, the commit that already contains the fix)_
+- **Evidence ref:** _(canopy `evidence add --source-kind code_diff` id, or the commit + binary-version fallback note)_
