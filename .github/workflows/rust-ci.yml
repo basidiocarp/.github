@@ -38,10 +38,17 @@ jobs:
           toolchain: ${{ inputs.rust-toolchain }}
       - uses: actions/cache@v5.0.4
         with:
+          # The ort.pyke.io entries cache the onnxruntime lib that ort-sys
+          # (fastembed ort-download-binaries) downloads outside target/, so a
+          # profile/fingerprint change can't relink against a missing lib. No-op
+          # for repos that don't use ort. Per-OS roots = dirs::cache_dir()/ort.pyke.io.
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             target
+            ~/.cache/ort.pyke.io
+            ~/Library/Caches/ort.pyke.io
+            ~/AppData/Local/ort.pyke.io
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-cargo-

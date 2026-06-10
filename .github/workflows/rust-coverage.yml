@@ -27,10 +27,16 @@ jobs:
           components: llvm-tools-preview
       - uses: actions/cache@v5.0.4
         with:
+          # ~/.cache/ort.pyke.io caches the onnxruntime lib that ort-sys
+          # (fastembed ort-download-binaries) downloads outside target/, so a
+          # profile/fingerprint change can't relink against a missing lib. No-op
+          # for repos that don't use ort. This job is ubuntu-only, so only the
+          # Linux pyke root (dirs::cache_dir() = ~/.cache) is needed.
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             target
+            ~/.cache/ort.pyke.io
           key: ${{ runner.os }}-coverage-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-coverage-
