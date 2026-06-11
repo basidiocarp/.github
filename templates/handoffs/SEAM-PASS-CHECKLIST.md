@@ -12,7 +12,7 @@ This file is the **durable sink** for recurring findings (Delegation Contract �
 
 ## Rust verification
 
-- [ ] **Four-pack, each standalone:** `cargo build`, `cargo test`, `cargo clippy --all-targets`, `cargo fmt --check`. Run clippy **un-chained** — `&&`-chained clippy through mycelium can report a false exit code; only a standalone run gives a true exit. `fmt --check` is a separate CI gate from clippy; don't infer one from the other. _(mycelium clippy argv, stipe fmt gate)_
+- [ ] **Four-pack, each standalone:** `cargo build`, `cargo test`, `cargo clippy --all-targets -- -D warnings`, `cargo fmt --check`. **Match the CI gate exactly: clippy MUST include `-- -D warnings`.** Plain `cargo clippy --all-targets` exits 0 on warnings (incl. `clippy::pedantic` like `too_many_lines`), so it green-lights changes that CI's `-D warnings` reds — and a warning surfaced by a diff is *not* "pre-existing" unless it also fires on clean HEAD (`git stash` and re-run to confirm). Run clippy **un-chained** — `&&`-chained clippy through mycelium can report a false exit code; only a standalone run gives a true exit. `fmt --check` is a separate CI gate from clippy; don't infer one from the other. _(mycelium clippy argv, stipe fmt gate, stipe #132 too_many_lines mislabel)_
 - [ ] **Env-var tests:** locks serializing env mutation must be **crate-wide** (`#[cfg(test)] pub(crate)` static), not per-module — per-module locks don't compose and race across modules. Make them poison-tolerant. _(stipe BACKUP_DIR)_
 
 ## SQLite
