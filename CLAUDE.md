@@ -394,6 +394,16 @@ This rule exists because red pipelines have blocked releases. A handoff marked D
 2. No open handoffs in the release scope should be marked Done with known failing tests.
 3. Confirm with `gh run list` before tagging or publishing.
 
+### When bumping root `ecosystem-versions.toml [tools]` (release wave)
+
+`stipe/build.rs` prefers the root SSOT and **panics on drift** (Lane #117: prefer-root + drift-fail). So any commit that bumps `[tools]` in root `ecosystem-versions.toml` **must, in the same commit**:
+
+1. Mirror the same `[tools]` edits into `stipe/ecosystem-versions.toml` so the two tables stay byte-identical — otherwise the next stipe touch reds the build with a `build.rs:54` drift panic (this has recurred 3×: #108, #117, `626d23a`).
+2. If the **hyphae** pin moved, also bump the hardcoded expected version in `stipe/src/commands/doctor/tool_checks.rs` (`check_version_drift_*` tests) to match — those tests assert the generated pin.
+3. Re-run `cd stipe && cargo build --release && cargo test` to confirm no drift panic and green tests before committing.
+
+> Until the duplicate `[tools]` table is eliminated (proposed: make `build.rs` root-only, or delete the stipe-local copy — needs its own lane), syncing both copies in one commit is the standing mitigation.
+
 ### Failure mode
 
 If CI is red and you cannot determine why from local output, stop and surface the failure explicitly rather than proceeding. Do not mark work complete to make the dashboard look clean while pipelines are broken.
