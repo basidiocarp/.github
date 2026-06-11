@@ -23,6 +23,12 @@ This file is the **durable sink** for recurring findings (Delegation Contract �
 ## Packaging / distribution
 
 - [ ] **Prove packaging by filename**, never content-grep: `find dist -name '<artifact>'` — `grep -rl <slug> dist/` false-FAILs, and dist-placement is what proves manifest registration. A skill passing `make validate` can still ship in **no** plugin (forward-only validator); grep `dist/` to prove it landed. _(lamella #76, unregistered-skill trap)_
+- [ ] **Two-repo split-push:** when a manifest/registration in repo A names a construct that lives in repo B (e.g. lamella manifest → lamella-skills SKILL.md), pushing A without B reds A's CI — CI clones B **fresh from its remote HEAD**, so a locally-committed-but-unpushed B is invisible. Before signoff: `git -C <B> branch -r --contains <commit>` must show `origin/...` for the construct's commit. _(lamella #129 split-push)_
+
+## CI workflows / generated artifacts
+
+- [ ] **A CI workflow cannot `git push` to a protected `main`** (GH013 / "changes must be made through a pull request"). For a generated artifact that must stay current, use a **drift check** (regenerate in place, `git diff --exit-code`, fail loudly telling the author to regenerate + commit in their PR) — not auto-commit-and-push. Drop `permissions:` to `contents: read`. _(lamella #126 GH013)_
+- [ ] **A committed + drift-checked artifact must be byte-reproducible across machines.** Absolute paths (`$HOME` vs `/home/runner/work`), timestamps, `Date.now()`, or unsorted `find`/glob output baked into the file make it drift on every CI run even with no content change. Embed basenames/relative paths only; sort all enumerations. **Verify by regenerating from a *different* absolute path with the same basename and diffing — a local regen from the same path is a false green.** _(lamella #126 content_root absolute path)_
 
 ## Borrow handoffs (idea imported from an external/source repo)
 
