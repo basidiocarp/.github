@@ -15,6 +15,11 @@ This file is the **durable sink** for recurring findings (Delegation Contract �
 - [ ] **Four-pack, each standalone:** `cargo build`, `cargo test`, `cargo clippy --all-targets`, `cargo fmt --check`. Run clippy **un-chained** — `&&`-chained clippy through mycelium can report a false exit code; only a standalone run gives a true exit. `fmt --check` is a separate CI gate from clippy; don't infer one from the other. _(mycelium clippy argv, stipe fmt gate)_
 - [ ] **Env-var tests:** locks serializing env mutation must be **crate-wide** (`#[cfg(test)] pub(crate)` static), not per-module — per-module locks don't compose and race across modules. Make them poison-tolerant. _(stipe BACKUP_DIR)_
 
+## SQLite
+
+- [ ] **Dynamic `IN (...)` clauses hit `SQLITE_LIMIT_VARIABLE_NUMBER` (default 999).** A `WHERE id IN (?1, …, ?N)` built one-bind-per-value fails at scale with "too many SQL variables". For unbounded id sets, chunk into batches of ≤900 and merge, or use a temp-table JOIN. Grep the crate for an existing temp-table pattern before inventing one — hyphae-store already did this in `prune_concepts`. _(hyphae prune_concepts, hyphae #128 infer_cooccurrence_links)_
+- [ ] **Counting over a `json_each` self-join:** `COUNT(*)` counts join rows, which inflate when an array holds duplicate values within a single row. Use `COUNT(DISTINCT <parent-row-id>)` when you mean "distinct parent rows". _(hyphae #128)_
+
 ## Exhaustiveness / blast radius
 
 - [ ] **New enum or clap variant:** audit **every wildcard-free `match`** on that type across the crate — the compiler errors are the map; list the sites in the seam table. A new `Commands` variant typically also needs a `mod.rs` export. _(hyphae #113: 3 match sites)_
