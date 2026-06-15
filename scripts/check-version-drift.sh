@@ -70,6 +70,15 @@ else
     FAIL=$((FAIL+1))
 fi
 
+# Check the stipe-local [tools] block is in sync with the root SSOT
+if bash "$ROOT/scripts/sync-stipe-tools.sh" --check >/dev/null 2>&1; then
+    echo "PASS: stipe-local [tools] in sync with root ecosystem-versions.toml"
+    PASS=$((PASS+1))
+else
+    echo "FAIL: stipe-local [tools] stale — run 'bash scripts/sync-stipe-tools.sh'"
+    FAIL=$((FAIL+1))
+fi
+
 echo ""
 echo "Results: $PASS passed, $FAIL failed"
 [ "$FAIL" -eq 0 ]
