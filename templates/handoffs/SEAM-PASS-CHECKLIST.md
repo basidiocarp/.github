@@ -25,6 +25,10 @@ This file is the **durable sink** for recurring findings (Delegation Contract �
 - [ ] **New enum or clap variant:** audit **every wildcard-free `match`** on that type across the crate — the compiler errors are the map; list the sites in the seam table. A new `Commands` variant typically also needs a `mod.rs` export. _(hyphae #113: 3 match sites)_
 - [ ] **Caller census done** (`find_references` / `get_call_sites` / `analyze_impact`); > 5 callers or any cross-repo caller ⇒ cross-call invariant + callers' tests in verification.
 
+## Cache / index coherence
+
+- [ ] **Adding a cache or derived side-table over a row keyed by id:** enumerate **every** write path that mutates or deletes that row and invalidate on each — known-id writes `pop(id)`, bulk/unenumerable writes `clear()`. Grep the *whole crate* for writes to the backing table (`rg 'UPDATE|DELETE|INSERT' … <table>`), not just the obvious mutator methods. The path that gets missed is the **inverse/restore operation** — a rollback/un-invalidate/undo arm that reverses a forward op but lives in a different module (e.g. `audit_rollback`'s Invalidate arm reversing `invalidate`). A miss on a delete/un-invalidate path is a **correctness bug** (phantom or stale-state serve), not mere staleness — especially if the read path doesn't itself filter the toggled column (e.g. a `get` with no `invalidated_at IS NULL` filter caches invalidated rows). Lock discipline: never hold the cache lock across a DB call; invalidate **only after the write commits**. _(hyphae #133 audit_rollback Invalidate-arm miss)_
+
 ## Packaging / distribution
 
 - [ ] **Prove packaging by filename**, never content-grep: `find dist -name '<artifact>'` — `grep -rl <slug> dist/` false-FAILs, and dist-placement is what proves manifest registration. A skill passing `make validate` can still ship in **no** plugin (forward-only validator); grep `dist/` to prove it landed. _(lamella #76, unregistered-skill trap)_
