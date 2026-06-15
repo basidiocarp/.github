@@ -404,6 +404,16 @@ This rule exists because red pipelines have blocked releases. A handoff marked D
 
 > Until the duplicate `[tools]` table is eliminated (proposed: make `build.rs` root-only, or delete the stipe-local copy — needs its own lane), syncing both copies in one commit is the standing mitigation.
 
+### When releasing `lamella` (three-file version bump)
+
+A lamella release is a **three-file** change, not one. Missing any of them reds a workflow:
+
+1. `lamella/VERSION` — the version string.
+2. `lamella/.claude-plugin/marketplace.json` — **all** version fields (`catalog.metadata.version` at 4-space indent **plus** every plugin's `version` at 6-space indent — ~54 fields). The catalog validator (`scripts/ci/validate-marketplace-catalog.js`) fails Validate + Publish Marketplace on `main` if any field ≠ `VERSION`.
+3. `lamella/CHANGELOG.md` — a `## [X.Y.Z] - YYYY-MM-DD` entry **at the tagged commit**. The `Release` workflow's "Extract release notes from changelog" step (`scripts/release/extract-changelog-entry.sh`) exits non-zero with no matching entry, failing the GitHub Release publish. The tag must point at the commit containing the entry — bumping VERSION/marketplace without a changelog entry publishes nothing.
+
+> This recurred silently: lamella GitHub Releases for v0.8.0 and v0.9.0 never published (their tags lack changelog entries); the last published was v0.7.0 until v0.10.0. The marketplace workflows are independent of the changelog step, so a green marketplace does not prove the GitHub Release published — check `gh release view vX.Y.Z`.
+
 ### Failure mode
 
 If CI is red and you cannot determine why from local output, stop and surface the failure explicitly rather than proceeding. Do not mark work complete to make the dashboard look clean while pipelines are broken.
